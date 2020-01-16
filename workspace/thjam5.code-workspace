@@ -1,0 +1,17 @@
+{
+    "folders": [
+        {
+            "path": "../thjam5"
+        },
+	{
+            "path": "../assets"
+        },
+	{
+            "path": "../atelier"
+        },
+	{
+            "path": "../grimoire"
+        }
+    ],
+    "settings": {}
+}

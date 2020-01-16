@@ -1,0 +1,60 @@
+{
+	"name": "thjam5",
+	"description": "Touhou Fan GameJam 5",
+	"copyright": "Copyright © 2020, Enalye JonathKane Automn Archivist",
+	"authors": ["Enalye", "JonathKane", "Automn", "Archivist"],
+	"dependencies": {
+		"grimoire": {
+            "version": "~master",
+            "path": "../grimoire"
+		},
+		"atelier": {
+            "version": "~master",
+            "path": "../atelier"
+		}
+	},
+	"targetName": "thjam5",
+	"targetType": "executable",
+	"workingDirectory": "..",
+	"buildTypes": {
+		"unittest": {
+			"buildOptions": ["unittests", "debugMode", "debugInfo"]
+		},
+		"debug": {
+			"buildOptions": ["debugMode", "debugInfo"]
+		},
+		"release": {
+			"buildOptions": ["releaseMode", "optimize", "inline", "noBoundsCheck"]
+		}
+	},
+	"configurations": [
+		{
+			"name": "linux-build",
+			"platforms": ["linux"],
+			"targetPath": "../bin",
+			"postBuildCommands": [
+				"cp ../lib$ARCH/*.dll ../bin"
+			]
+		},
+		{
+			"name": "windows-build",
+			"platforms": ["windows"],
+			"targetPath": "../bin",
+			"postBuildCommands": [
+				"copy ..\\lib$ARCH\\*.dll ..\\bin"
+			]
+		},
+		{
+			"name": "windows-release",
+			"platforms": ["windows"],
+			"targetPath": "../release$ARCH",
+			"lflags":[
+				"-subsystem:windows",
+				"-entry:mainCRTStartup"
+			],
+			"postBuildCommands": [
+				"copy ..\\lib$ARCH\\*.dll ..\\release$ARCH"
+			]
+		}
+	]
+}
