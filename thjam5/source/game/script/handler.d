@@ -3,7 +3,7 @@ module game.script.handler;
 import std.conv: to;
 import std.stdio: writeln;
 import grimoire;
-import game.script.math, game.script.tween;
+import game.script.math, game.script.tween, game.script.wall;
 
 private {
     GrData _data;
@@ -15,6 +15,7 @@ private {
 private void loadScriptDefinitions(GrData data) {
     loadMath(data);
     loadTween(data);
+    loadWall(data);
 }
 
 /// Compile and run a script file.
@@ -26,8 +27,9 @@ void loadScript(string filePath) {
     if(!compiler.compileFile(_bytecode, filePath)) {
         _error = compiler.getError();
         printError(_error);
-        return;
+        throw new Exception("Compilation aborted...");
     }
+    writeln(grDump(_data, _bytecode));
     _engine = new GrEngine;
     _engine.load(_data, _bytecode);
     _engine.spawn();
@@ -96,7 +98,7 @@ void printError(GrError error) {
 
     foreach(x; 1 .. lineNumber.length)
         report ~= " ";
-    report ~= "\033[0;36m|\033[0m\nCompilation aborted...";
+    report ~= "\033[0;36m|\033[0m\n";
     
     writeln(report);
 }

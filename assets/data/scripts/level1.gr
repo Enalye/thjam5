@@ -1,3 +1,16 @@
 main {
-    print("Hello World !");
+    movingPlatformExample(-120, 60);
+    movingPlatformExample(250, 90);
+}
+
+task movingPlatformExample(int x, int y) {
+    let wall = createWall(x, y, 60, 60);
+
+    int t = 0;
+    loop {
+        let f = sin(t / 100f);
+        wall::move(f, f);
+        t ++;
+        yield
+    }
 }

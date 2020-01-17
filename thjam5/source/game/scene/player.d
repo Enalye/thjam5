@@ -188,7 +188,7 @@ final class Player: Actor {
     override void squish(CollisionData data) {
         // Squish means we got crushed between 2 solids.
         // We'll most likely respawn here.
-        position = Vec2i(0, 0);
+        position = Vec2i(0, 1000);
         writeln("squished");
     }
 }

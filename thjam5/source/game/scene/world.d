@@ -94,6 +94,14 @@ private void drawWorld() {
         actor.drawHitbox();*/
 }
 
+void spawnSolid(Solid solid) {
+    _solids.push(solid);
+}
+
+void spawnActor(Actor actor) {
+    _actors.push(actor);
+}
+
 /// Is there any solid there ?
 Solid collideAt(Vec2i point, Vec2i halfSize) {
     foreach(Solid solid; _solids) {
