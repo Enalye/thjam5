@@ -113,6 +113,8 @@ void loadTextures() {
         }
     }
 
+    if(!exists(buildNormalizedPath("assets", "data", "images")))
+        return;
 	auto files = dirEntries(buildNormalizedPath("assets", "data", "images"), "{*.json}", SpanMode.depth);
     foreach(file; files) {
         JSONValue json = parseJSON(readText(file));
@@ -217,6 +219,8 @@ void loadFonts() {
     auto fontCache = new ResourceCache!TrueTypeFont;
 	setResourceCache!TrueTypeFont(fontCache);
 
+    if(!exists(buildNormalizedPath("assets", "media", "font")))
+        return;
     auto files = dirEntries(buildNormalizedPath("assets", "media", "font"), "{*.ttf}", SpanMode.depth);
     foreach(file; files) {
         fontCache.set(new TrueTypeFont(file, 12u), baseName(file, ".ttf"));
@@ -227,7 +231,8 @@ void loadSound() {
     auto soundCache = new ResourceCache!Sound;
 	setResourceCache!Sound(soundCache);
 
-
+    if(!exists(buildNormalizedPath("assets", "media", "sound")))
+        return;
     auto files = dirEntries(buildNormalizedPath("assets", "media", "sound"), "{*.wav}", SpanMode.depth);
     foreach(file; files) {
         soundCache.set(new Sound(file), baseName(file, ".wav"));
@@ -238,7 +243,8 @@ void loadBgm() {
     auto musicCache = new ResourceCache!Music;
 	setResourceCache!Music(musicCache);
 
-
+    if(!exists(buildNormalizedPath("assets", "media", "bgm")))
+        return;
     auto files = dirEntries(buildNormalizedPath("assets", "media", "bgm"), "{*.ogg}", SpanMode.depth);
     foreach(file; files) {
         musicCache.set(new Music(file), baseName(file, ".ogg"));
