@@ -36,7 +36,7 @@ private void _cos(GrCall call) {
 }
 
 private void _sin(GrCall call) {
-    call.setFloat(cos(call.getFloat("v")));
+    call.setFloat(sin(call.getFloat("v")));
 }
 
 private void _lerp(GrCall call) {
