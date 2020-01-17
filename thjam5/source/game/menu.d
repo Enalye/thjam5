@@ -7,10 +7,10 @@ import game.loader, game.gui;
 
 /// Game startup
 void startGame(string[] args) {
-	createApplication(Vec2u(640u, 360u), "thjam5");
+	createApplication(Vec2u(1280u, 720u), "thjam5");
 
-	setWindowMinSize(Vec2u(640u, 360u));
-	setWindowMaxSize(Vec2u(640u, 360u));
+	setWindowMinSize(Vec2u(1280u, 720u));
+	setWindowMaxSize(Vec2u(1280u, 720u));
 	setWindowClearColor(Color.white);
 
 	const string iconPath = buildNormalizedPath("assets", "media", "gui", "logo.png");

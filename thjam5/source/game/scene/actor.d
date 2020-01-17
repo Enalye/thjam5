@@ -5,14 +5,13 @@ import atelier;
 import game.scene.world, game.scene.solid;
 
 alias ActorArray = IndexedArray!(Actor, 5000u);
-alias Action = void delegate();
+alias Action = void delegate(Solid);
 
 /// Any physical object.
 abstract class Actor {
     private {
         Vec2f _moveRemaining = Vec2f.zero;
         Vec2i _position = Vec2i.zero, _hitbox = Vec2i.zero;
-        Solid _solidRiding;
     }
 
     @property {
@@ -64,9 +63,10 @@ abstract class Actor {
             int dir = move > 0 ? 1 : -1;
 
             while(move) {
-                if(collideAt(_position + Vec2i(dir, 0), _hitbox)) {
+                Solid solid = collideAt(_position + Vec2i(dir, 0), _hitbox);
+                if(solid) {
                     if(onCollide)
-                        onCollide();
+                        onCollide(solid);
                     break;
                 }
                 else {
@@ -87,9 +87,10 @@ abstract class Actor {
             int dir = move > 0 ? 1 : -1;
 
             while(move) {
-                if(collideAt(_position + Vec2i(0, dir), _hitbox)) {
+                Solid solid = collideAt(_position + Vec2i(0, dir), _hitbox);
+                if(solid) {
                     if(onCollide)
-                        onCollide();
+                        onCollide(solid);
                     break;
                 }
                 else {
@@ -101,8 +102,9 @@ abstract class Actor {
     }
 
     /// Is the actor riding this solid ?
-    final bool isRiding(Solid solid) {
-        return (solid == _solidRiding);
+    bool isRiding(Solid solid) {
+        return (solid.left < right) && (solid.up < up) &&
+            (solid.right > left) && ((solid.up + 1) > down);
     }
 
     /// Actor logic.
@@ -110,7 +112,7 @@ abstract class Actor {
     /// Render the actor.
     abstract void draw();
     /// When squished between solids.
-    abstract void squish();
+    abstract void squish(Solid);
 
     /// Display the collider of the actor.
     final void drawHitbox() {

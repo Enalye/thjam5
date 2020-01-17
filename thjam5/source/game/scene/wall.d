@@ -5,8 +5,8 @@ import game.scene.solid;
 
 final class Wall: Solid {
     this() {
-        position = Vec2i(50, 50);
-        hitbox = Vec2i(40, 10);
+        position = Vec2i(0, -50);
+        hitbox = Vec2i(200, 10);
     }
 
     override void update(float deltaTime) {

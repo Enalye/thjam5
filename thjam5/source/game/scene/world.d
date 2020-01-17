@@ -49,7 +49,7 @@ private void updateWorld(Canvas canvas, float deltaTime) {
     foreach(Actor actor; _actors)
         actor.update(deltaTime);
 
-    canvas.size = screenSize / 2f;
+    canvas.size = screenSize;
     canvas.position = _player.getPosition2d();
 }
 
@@ -80,10 +80,10 @@ private void drawWorld() {
         actor.drawHitbox();
 }
 
-bool collideAt(Vec2i point, Vec2i halfSize) {
+Solid collideAt(Vec2i point, Vec2i halfSize) {
     foreach(Solid solid; _solids) {
         if(solid.collideWith(point, halfSize))
-            return true;
+            return solid;
     }
-    return false;
+    return null;
 }
