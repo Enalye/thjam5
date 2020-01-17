@@ -1,7 +1,12 @@
 module game.scene.world;
 
+import std.file, std.path;
 import atelier;
 import game.scene.actor, game.scene.solid, game.scene.player, game.scene.wall, game.scene.projectile;
+import game.script;
+
+/// Levels
+immutable string[] levelsName = ["level1.gr"];
 
 /// The entire world.
 final class World: GuiElementCanvas {
@@ -42,6 +47,11 @@ private void initWorld() {
     _actors.push(_player = new Player);
     _solids.push(new Wall(Vec2i(0, -50), Vec2i(300, 50)));
     _solids.push(new Wall(Vec2i(-40, 80), Vec2i(30, 200)));
+
+	const string filePath = buildNormalizedPath("assets", "data", "scripts", levelsName[0]);
+    if(!exists(filePath))
+        throw new Exception(filePath ~ " do not exist.");
+    loadScript(filePath);
 }
 
 private void updateWorld(Canvas canvas, float deltaTime) {
@@ -53,6 +63,8 @@ private void updateWorld(Canvas canvas, float deltaTime) {
 
     canvas.size = screenSize;
     canvas.position = _player.getPosition2d();
+
+    runScript();
 }
 
 private void drawWorld() {
