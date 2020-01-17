@@ -3,7 +3,7 @@ module game.scene.player;
 import std.stdio;
 import std.math, std.algorithm.comparison;
 import atelier;
-import game.scene.actor, game.scene.solid;
+import game.scene.world, game.scene.actor, game.scene.solid;
 
 /// Player controlled actor.
 final class Player: Actor {
@@ -11,11 +11,16 @@ final class Player: Actor {
         enum gravity = .9f;
         enum maxFall = -16f;
 
-        enum jumpSpeed = 18f;
+        enum jumpSpeed = 17f;
+        enum doubleJumpSpeed = 14f;
+        enum wallJumpSpeed = 14f;
+        enum jumpTime = .2f;
 
         enum maxRun = 5f;
         enum runAccel = 1f;
         enum runDeccel = .4f;
+
+        enum grabTime = .2f;
     }
 
     float approach(float value, float target, float step) {
@@ -27,10 +32,13 @@ final class Player: Actor {
     }
 
     private {
-        int _direction = 0;
+        int _direction = 0, _facing = 0;
         Vec2f _speed = Vec2f.zero;
         bool _onGround = false, _canDoubleJump = true;
+        bool _isWallGrabbing = false;
         Solid _solidRiding;
+
+        Timer _jumpTimer, _grabTimer;
     }
 
     /// Ctor
@@ -40,6 +48,12 @@ final class Player: Actor {
     }
 
     override void update(float deltaTime) {
+        _jumpTimer.update(deltaTime);
+        _grabTimer.update(deltaTime);
+        
+        if(position.y < -1000)
+            position = Vec2i(position.x, 1000);
+
         if(_solidRiding && _onGround) {
             if(!isRiding(_solidRiding))
                 _onGround = false;
@@ -54,7 +68,7 @@ final class Player: Actor {
             _direction ++;
         }
 
-        {
+        if(!_isWallGrabbing) {
             float mult = _onGround ? 1f : .65f;
             if(abs(_speed.x) > maxRun && _direction == sign(_speed.x))
                 _speed.x = approach(_speed.x, maxRun * _direction, runDeccel * mult);
@@ -62,11 +76,52 @@ final class Player: Actor {
                 _speed.x = approach(_speed.x, maxRun * _direction, runAccel * mult);
         }
 
-        if(getButtonDown(KeyButton.c)) {
-            jump();
+        //-- Wall grab
+        if(!_isWallGrabbing) {
+            if(!_grabTimer.isRunning) {
+                if(isButtonDown(KeyButton.z)) {
+                    Solid solid = collideAt(position + Vec2i(_direction, 0), Vec2i(hitbox.x, hitbox.y / 2));
+                    if(solid) {
+                        _solidRiding = solid;
+                        _isWallGrabbing = true;
+                        _speed.y = 0f;
+                        _facing = _direction;
+                    }
+                    else {
+                        _isWallGrabbing = false;
+                    }
+                }
+            }
+        }
+        else {
+            if(isButtonDown(KeyButton.z)) {
+                Solid solid = collideAt(position + Vec2i(_facing, 0), Vec2i(hitbox.x, hitbox.y / 2));
+                if(solid) {
+                    _solidRiding = solid;
+                    _isWallGrabbing = true;
+                    _speed.y = 0f;
+                }
+                else {
+                    _isWallGrabbing = false;
+                }
+            }
+            else {
+                _grabTimer.start(grabTime);
+                _isWallGrabbing = false;
+            }
         }
 
-        if(!_onGround) {
+        //-- Jump
+        if(getButtonDown(KeyButton.c) && !_jumpTimer.isRunning) {
+            if(_isWallGrabbing && _canDoubleJump)
+                wallJump();
+            else if(_onGround)
+                jump();
+            else if(_canDoubleJump)
+                doubleJump();
+        }
+
+        if(!_onGround && !_isWallGrabbing) {
             _speed.y = approach(_speed.y, maxFall, gravity * deltaTime);
         }
 
@@ -76,7 +131,6 @@ final class Player: Actor {
             moveY(_speed.y, &onHitGround);
         else
             moveY(_speed.y, null);
-
     }
 
     /// We touch a wall left or right.
@@ -92,19 +146,38 @@ final class Player: Actor {
         _speed.y = 0f;
     }
 
+    void wallJump() {
+        if(isButtonDown(KeyButton.up)) {
+            if((isButtonDown(KeyButton.right) && _facing != 1) ||
+                (isButtonDown(KeyButton.left) && _facing != -1))
+                _speed += Vec2f(-_facing * wallJumpSpeed, wallJumpSpeed);
+            else
+                _speed += Vec2f(0, wallJumpSpeed);
+        }
+        else
+            _speed += Vec2f(-_facing * wallJumpSpeed, wallJumpSpeed);
+        _isWallGrabbing = false;
+        _onGround = false;
+        _canDoubleJump = false;
+        _jumpTimer.start(jumpTime);
+        _grabTimer.start(grabTime);
+    }
+
     void jump() {
-        if(_onGround) {
-            _speed.y = jumpSpeed;
-            _onGround = false;
-        }
-        else if(_canDoubleJump) {
-            _canDoubleJump = false;
-            _speed.y = jumpSpeed;
-        }
+        _speed.y = jumpSpeed;
+        _onGround = false;
+        _jumpTimer.start(jumpTime);
+    }
+
+    void doubleJump() {
+        _canDoubleJump = false;
+        _speed.y = doubleJumpSpeed;
+        _jumpTimer.start(jumpTime);
     }
 
     override bool isRiding(Solid solid) {
-        // Add edge cases (wall-grab, etc)
+        if(_isWallGrabbing)
+            return solid == _solidRiding;
         return super.isRiding(solid);
     }
 
