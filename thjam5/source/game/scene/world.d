@@ -39,7 +39,8 @@ private void initWorld() {
     _solids = new SolidArray;
 
     _actors.push(_player = new Player);
-    _solids.push(new Wall);
+    _solids.push(new Wall(Vec2i(0, -50), Vec2i(300, 50)));
+    _solids.push(new Wall(Vec2i(-40, 80), Vec2i(30, 200)));
 }
 
 private void updateWorld(Canvas canvas, float deltaTime) {
@@ -73,13 +74,14 @@ private void drawWorld() {
     foreach(Actor actor; _actors)
         actor.draw();
 
-    foreach(Solid solid; _solids)
+    /*foreach(Solid solid; _solids)
         solid.drawHitbox();
 
     foreach(Actor actor; _actors)
-        actor.drawHitbox();
+        actor.drawHitbox();*/
 }
 
+/// Is there any solid there ?
 Solid collideAt(Vec2i point, Vec2i halfSize) {
     foreach(Solid solid; _solids) {
         if(solid.collideWith(point, halfSize))

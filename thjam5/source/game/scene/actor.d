@@ -5,7 +5,15 @@ import atelier;
 import game.scene.world, game.scene.solid;
 
 alias ActorArray = IndexedArray!(Actor, 5000u);
-alias Action = void delegate(Solid);
+alias Action = void delegate(CollisionData);
+
+/// Collision information
+struct CollisionData {
+    /// What the actor hit.
+    Solid solid;
+    /// Direction the actor was going to.
+    Vec2i direction;
+}
 
 /// Any physical object.
 abstract class Actor {
@@ -65,8 +73,12 @@ abstract class Actor {
             while(move) {
                 Solid solid = collideAt(_position + Vec2i(dir, 0), _hitbox);
                 if(solid) {
-                    if(onCollide)
-                        onCollide(solid);
+                    if(onCollide) {
+                        CollisionData data;
+                        data.solid = solid;
+                        data.direction = Vec2i(dir, 0);
+                        onCollide(data);
+                    }
                     break;
                 }
                 else {
@@ -89,8 +101,12 @@ abstract class Actor {
             while(move) {
                 Solid solid = collideAt(_position + Vec2i(0, dir), _hitbox);
                 if(solid) {
-                    if(onCollide)
-                        onCollide(solid);
+                    if(onCollide) {
+                        CollisionData data;
+                        data.solid = solid;
+                        data.direction = Vec2i(0, dir);
+                        onCollide(data);
+                    }
                     break;
                 }
                 else {
@@ -112,7 +128,7 @@ abstract class Actor {
     /// Render the actor.
     abstract void draw();
     /// When squished between solids.
-    abstract void squish(Solid);
+    abstract void squish(CollisionData data);
 
     /// Display the collider of the actor.
     final void drawHitbox() {

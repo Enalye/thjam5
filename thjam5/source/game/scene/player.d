@@ -9,7 +9,7 @@ import game.scene.actor, game.scene.solid;
 final class Player: Actor {
     private {
         enum gravity = .9f;
-        enum maxFall = -90f;
+        enum maxFall = -16f;
 
         enum jumpSpeed = 18f;
 
@@ -35,8 +35,8 @@ final class Player: Actor {
 
     /// Ctor
     this() {
-        position = Vec2i(0, 0);
-        hitbox = Vec2i(16, 32);
+        position = Vec2i(0, 20);
+        hitbox = Vec2i(10, 16);
     }
 
     override void update(float deltaTime) {
@@ -47,10 +47,10 @@ final class Player: Actor {
 
         // Horizontal movement
         _direction = 0;
-        if(isButtonDown(KeyButton.a)) {
+        if(isButtonDown(KeyButton.left)) {
             _direction --;
         }
-        if(isButtonDown(KeyButton.d)) {
+        if(isButtonDown(KeyButton.right)) {
             _direction ++;
         }
 
@@ -62,7 +62,7 @@ final class Player: Actor {
                 _speed.x = approach(_speed.x, maxRun * _direction, runAccel * mult);
         }
 
-        if(getButtonDown(KeyButton.space)) {
+        if(getButtonDown(KeyButton.c)) {
             jump();
         }
 
@@ -80,15 +80,15 @@ final class Player: Actor {
     }
 
     /// We touch a wall left or right.
-    void onHitWall(Solid solid) {
+    void onHitWall(CollisionData data) {
 
     }
 
     /// We touch a platform below us.
-    void onHitGround(Solid solid) {
+    void onHitGround(CollisionData data) {
         _onGround = true;
         _canDoubleJump = true;
-        _solidRiding = solid;
+        _solidRiding = data.solid;
         _speed.y = 0f;
     }
 
@@ -112,7 +112,7 @@ final class Player: Actor {
         drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.red);
     }
 
-    override void squish(Solid solid) {
+    override void squish(CollisionData data) {
         // Squish means we got crushed between 2 solids.
         // We'll most likely respawn here.
         position = Vec2i(0, 0);

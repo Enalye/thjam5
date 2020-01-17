@@ -3,28 +3,18 @@ module game.scene.wall;
 import atelier;
 import game.scene.solid;
 
+/// Basic wall, do nothing.
 final class Wall: Solid {
-    this() {
-        position = Vec2i(0, -50);
-        hitbox = Vec2i(200, 10);
+    /// Ctor
+    this(Vec2i position_, Vec2i hitbox_) {
+        position = position_;
+        hitbox = hitbox_;
     }
 
     override void update(float deltaTime) {
-
-        if(isButtonDown(KeyButton.left))
-            moveX(-5f * deltaTime);
-
-        if(isButtonDown(KeyButton.right))
-            moveX(5f * deltaTime);
-
-        if(isButtonDown(KeyButton.up))
-            moveY(5f * deltaTime);
-
-        if(isButtonDown(KeyButton.down))
-            moveY(-5f * deltaTime);
     }
 
     override void draw() {
-        //drawFilledRect(cast(Vec2f) box2d.xy, cast(Vec2f) size2d, Color.green);
+        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.gray);
     }
 }
