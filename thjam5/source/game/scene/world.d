@@ -1,7 +1,7 @@
 module game.scene.world;
 
 import atelier;
-import game.scene.actor, game.scene.solid, game.scene.player, game.scene.wall;
+import game.scene.actor, game.scene.solid, game.scene.player, game.scene.wall, game.scene.projectile;
 
 /// The entire world.
 final class World: GuiElementCanvas {
@@ -23,6 +23,7 @@ final class World: GuiElementCanvas {
 private {
     ActorArray _actors;
     SolidArray _solids;
+    ProjectileArray _projectiles;
     Player _player;
 }
 
