@@ -19,6 +19,7 @@ package void loadWall(GrData data) {
     data.addPrimitive(&_getWallHitboxY, "getHitboxY", ["wall"], [defWall], [grInt]);
 
     data.addPrimitive(&_moveWall, "move", ["wall", "x", "y"], [defWall, grFloat, grFloat]);
+    data.addPrimitive(&_moveWallTo, "moveTo", ["wall", "x", "y"], [defWall, grFloat, grFloat]);
 
 }
 
@@ -73,4 +74,9 @@ private void _getWallHitboxY(GrCall call) {
 private void _moveWall(GrCall call) {
     Wall wall = call.getUserData!Wall("wall");
     wall.move(call.getFloat("x"), call.getFloat("y"));
+}
+
+private void _moveWallTo(GrCall call) {
+    Wall wall = call.getUserData!Wall("wall");
+    wall.move(call.getFloat("x")-wall.position.x, call.getFloat("y")-wall.position.y);
 }

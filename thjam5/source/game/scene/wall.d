@@ -15,6 +15,6 @@ final class Wall: Solid {
     }
 
     override void draw() {
-        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.gray);
+        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.maroon);
     }
 }

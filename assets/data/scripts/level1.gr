@@ -1,6 +1,11 @@
 main {
     movingPlatformExample(-120, 60);
     movingPlatformExample(250, 90);
+	for(i, [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300,330])
+	{
+		rotatingPlatform(i as float*3.1415f/180f, 150, 15, 0.03);
+		rotatingPlatform((i+20) as float*3.1415f/180f, 280, 15, -0.01);
+	}
 }
 
 task movingPlatformExample(int x, int y) {
@@ -11,6 +16,17 @@ task movingPlatformExample(int x, int y) {
         let f = sin(t / 100f);
         wall::move(f, f);
         t ++;
+        yield
+    }
+}
+
+task rotatingPlatform(float angle, int radius, int size, float speed) {
+    let wall = createWall(((radius as float)*cos(angle)-size/2) as int, ((radius as float)*sin(angle)-size/2) as int, size, size);
+
+    float t = 0;
+    loop {
+        wall::moveTo(((radius as float)*cos(angle+t*speed)-size/2), ((radius as float)*sin(angle+t*speed)-size/2));
+        t+=0.5;
         yield
     }
 }
