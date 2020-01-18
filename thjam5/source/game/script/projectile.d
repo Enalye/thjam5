@@ -8,7 +8,7 @@ import game.scene;
 package void loadProjectile(GrData data) {
     auto defProjectile = data.addUserType("Projectile");
 	grProjectile = defProjectile;
-    data.addPrimitive(&_createProjectile, "createProjectile", ["x", "y", "hx", "hy", "evPlayer"], [grInt, grInt, grInt, grInt, grString], [defProjectile]);
+    data.addPrimitive(&_createProjectile, "createProjectile", ["x", "y", "hx", "hy", "colmode","evPlayer"], [grInt, grInt, grInt, grInt, grInt, grString], [defProjectile]);
     /*
     data.addPrimitive(&_setWallPosition, "setPosition", ["wall", "x", "y"], [defWall, grInt, grInt]);
     data.addPrimitive(&_getWallPosition, "getPosition", ["wall"], [defWall], [grInt, grInt]);
@@ -34,6 +34,7 @@ private void _createProjectile(GrCall call) {
     auto proj = new Projectile(
 		Vec2i(call.getInt("x"), call.getInt("y")), 
 		Vec2i(call.getInt("hx"), call.getInt("hy")),
+		call.getInt("colmode") == 0 ? CollisionModel.Hitbox: CollisionModel.Radius,
 		"", call.getString("evPlayer"), ""
 	);
     spawnProjectile(proj);

@@ -36,7 +36,7 @@ task rotatingPlatform(float angle, int radius, int size, float speed) {
 }
 
 task rotatingProjectile(float angle, int radius, int size, float speed) {
-    let wall = createProjectile(((radius as float)*cos(angle)-size/2) as int, ((radius as float)*cos(angle)-size/2) as int, size, size,"killPlayer");
+    let wall = createProjectile(((radius as float)*cos(angle)-size/2) as int, ((radius as float)*cos(angle)-size/2) as int, size, size, 0,"killPlayer");
 
 	int t_o = time();
     loop {
