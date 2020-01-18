@@ -33,6 +33,7 @@ private void _grSpawnEnemy(GrCall call) {
 
 	Enemy enemy = new Enemy(name, Vec2i(x, y));
     spawnEnemy(enemy);
+    spawnActor(enemy);
 	call.setUserData!Enemy(enemy);
 }
 

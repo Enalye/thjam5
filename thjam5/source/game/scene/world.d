@@ -73,8 +73,7 @@ private void updateWorld(Canvas canvas, float deltaTime) {
     foreach(Solid solid; _solids)
         solid.update(deltaTime);
 
-    foreach(Actor actor; _actors)
-        actor.update(deltaTime);
+    _player.update(deltaTime);
 
     foreach(Enemy enemy, uint enemyIdx; _enemies) {
         enemy.update(deltaTime);
@@ -82,6 +81,7 @@ private void updateWorld(Canvas canvas, float deltaTime) {
             _enemies.markForRemoval(enemyIdx);
         }
     }
+    _enemies.sweepMarkedData();
 
     foreach(Projectile proj, uint pos; _projectiles)
     {
@@ -117,9 +117,6 @@ private void drawWorld() {
 
     foreach(Actor actor; _actors)
         actor.draw();
-
-    foreach(Enemy enemy; _enemies)
-        enemy.draw();
 
     foreach(Projectile projectile; _projectiles)
         projectile.draw();

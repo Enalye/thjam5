@@ -12,9 +12,13 @@ final class Enemy: Actor {
         enum gravity  = .9f;
         enum maxFall  = -16f;
         enum maxRun   = 5f;
-        enum runAccel = .4f;
+        enum runAccel = 1f;
+        enum runDeccel = .4f;
 
         int _direction = 0;
+
+        Solid _solidRiding = null;
+        bool  _onGround    = false;
     }
 
     public {
@@ -28,9 +32,15 @@ final class Enemy: Actor {
         hitbox   = Vec2i(10, 16);
     }
 
-    bool _onGround;
-
     override void update(float deltaTime) {
+        if(_solidRiding && _onGround) {
+            if(!isRiding(_solidRiding)) {
+                _onGround = false;
+            }
+        }
+
+        writeln(_onGround);
+
         slowDown(deltaTime);
         moveX(speed.x, &onHitWall);
 
@@ -57,13 +67,14 @@ final class Enemy: Actor {
     }
 
     void onHitGround(CollisionData data) {
-        _onGround = true;
+        _onGround    = true;
+        _solidRiding = data.solid;
     }
 
     void slowDown(float deltaTime) {
         const float mult = _onGround ? 1f : .65f;
         if(abs(speed.x) > maxRun && _direction == sign(speed.x))
-            speed.x = approach(speed.x, maxRun * _direction, runAccel * mult);
+            speed.x = approach(speed.x, maxRun * _direction, runDeccel * mult);
         else
             speed.x = approach(speed.x, maxRun * _direction, runAccel * mult);
 
@@ -73,8 +84,8 @@ final class Enemy: Actor {
     }
 
     void jump(Vec2f jumpSpeed, float angle) {
-        speed.x  = cos(jumpSpeed.x * (PI / 180)) * angle;
-        speed.y  = sin(jumpSpeed.y * (PI / 180)) * angle;
+        speed.x   = cos(jumpSpeed.x * (PI / 180)) * angle;
+        speed.y   = sin(jumpSpeed.y * (PI / 180)) * angle;
         _onGround = false;
     }
 }
