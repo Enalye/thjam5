@@ -61,8 +61,6 @@ private void initWorld() {
     _rythmHandler = new RythmHandler;
 
     _actors.push(_player = new Player);
-    _solids.push(new Wall(Vec2i(0, -50), Vec2i(300, 50)));
-    _solids.push(new Wall(Vec2i(-40, 80), Vec2i(30, 200)));
 
 	const string filePath = buildNormalizedPath("assets", "data", "scripts", levelsName[0]);
     if(!exists(filePath))

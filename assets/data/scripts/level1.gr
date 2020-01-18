@@ -3,11 +3,15 @@ use "rythm.gr"
 
 int CollisionHitbox = 0;
 int CollisionRadius = 1;
+float away = 0;
+int bias = 0;
+
 
 main {
     beatHandling();
-    movingPlatformExample(-120, 60);
-    movingPlatformExample(250, 90);
+    //movingPlatformExample(-120, 60);
+    //movingPlatformExample(250, 90);
+	let floor = createWall(0, -760, 500, 750);
 
 	for(i, [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330])
 	{
@@ -15,6 +19,81 @@ main {
 		rotatingPlatform((i+20) as float*3.1415f / 180f, 280, 15, -2f);
 		rotatingProjectile((i+40) as float*3.1415f/180f, 320, 15, -5f);
 		int size = 10;
+	}
+	managePlatforms();
+}
+
+func between(int ref, int begin, int end) bool {
+	int now = time()-ref;
+	/*print(begin);print("<");
+	print(now);print("<");
+	printl(end);*/
+	return (begin < now) and (now < end);
+}
+
+task jumperWave(int duration, int interval) {
+	int t_o = time();
+	int t_e = duration+t_o;
+	loop {
+		spawnJumper(-230, 15);
+		spawnJumper(230, 15);
+		waitUSeconds(interval);
+		if(time()>t_e) return;
+	}
+}
+
+task spawnJumper(int x, int y) {
+	let enemy = spawnEnemy("jumper", x, y);
+	enemy::jumpTowards(60, 10f, 5f);
+}
+
+task managePlatforms() {
+	int t_o = time();
+	int second = 1_000_000;
+	bool flag01 = false;
+	bool flag02 = false;
+	bool flag03 = false;
+	bool flag04 = false;
+	bool flag05 = false;
+	loop {
+		int now = time()-t_o;
+		if(between(t_o, 37*second, 46*second)) {
+			away = lerp(0.0, 500.0, (now-37*second)/(second*(9f)) );
+		}
+		if(now > 42*second and !flag02) {
+			flag02 = true;
+			jumperWave(22*second, 1_500_000);
+		}
+		if(now > 65*second and !flag03) {
+			flag03 = true;
+			jumperWave(22*second, 500_000);
+		}
+		if(between(t_o, 88*second, 97*second)) {
+			away = lerp(500.0, 0.0, (now-88*second)/(second*(9f)) );
+		}
+		if(between(t_o, 106*second+370_000, 115*second+370_000)) {
+			away = lerp(0.0, 500.0, (now-106*second-370_000)/(second*(9f)) );
+		}
+		if(now > 110*second and !flag04) {
+			flag04 = true;
+			jumperWave(12*second, 1_200_000);
+		}
+		if(now > 123*second and !flag05) {
+			flag05 = true;
+			jumperWave(22*second, 500_000);
+		}
+		if(between(t_o, 133*second+100_000, 142*second+100_000)) {
+			away = lerp(500.0, 0.0, (now-133*second-100_000)/(second*(9f)) );
+			if(!flag01)
+			{
+				flag01 = true;
+				for(i, [0, 60, 120, 180, 240, 300])
+				{
+					rotatingPlatform(i as float*3.1415f/180f, 360, 15, 0.7f);
+				}	
+			}
+		}
+		yield;
 	}
 }
 
@@ -38,12 +117,12 @@ func enemyOnPlatform(int x, int y) Enemy {
 }
 
 task rotatingPlatform(float angle, int radius, int size, float speed) {
-    let wall = createWall(((radius as float)*cos(angle)-size/2) as int, ((radius as float)*sin(angle)-size/2) as int, size, size);
+    let wall = createWall(((radius+away)*cos(angle)-size/2) as int, ((radius+away)*sin(angle)-size/2) as int, size, size);
 
 	int t_o = time();
     loop {
         float t = (time() - t_o) / 60_000_000f;
-        wall::moveTo(((radius as float)*cos(angle+t*speed*2*3.1415)-size/2), ((radius as float)*sin(angle+t*speed*2*3.1415)-size/2));
+        wall::moveTo(((radius+away)*cos(angle+t*speed*2*3.1415)-size/2), ((radius+away)*sin(angle+t*speed*2*3.1415)-size/2));
         yield
     }
 }

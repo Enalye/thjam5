@@ -1,6 +1,8 @@
 use "utils.gr"
 
-task jumpTowards(Enemy enemy, int delay, float speedX, float speedY) {
+task jumpTowards(Enemy enemy, int delay, float speedXb, float speedYb) {
+	float speedX = speedXb+lcg()%6;
+	float speedY = speedYb+lcg()%3;
     loop {
         wait(delay);
         bool canJump     = enemy::isGrounded();

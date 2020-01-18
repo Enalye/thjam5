@@ -1,3 +1,12 @@
+
+int lcg_state = 4;
+
+func lcg() int {
+	lcg_state *= 65793;
+	lcg_state += 4282663;
+	return lcg_state % 32768;
+}
+
 func wait(int n) {
 	loop(n) {
 		yield;
@@ -8,6 +17,18 @@ func waitSeconds(float s) {
 	int t_o = time();
 	loop {
 		float t = (time() - t_o) / 1_000_000f;
+		if(t >= s) {
+			return;
+		}
+
+		yield;
+	}
+}
+
+func waitUSeconds(int s) {
+	int t_o = time();
+	loop {
+		int t = time() - t_o;
 		if(t >= s) {
 			return;
 		}
