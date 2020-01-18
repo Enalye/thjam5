@@ -1,0 +1,60 @@
+{
+    "elements": [
+        {
+            "clip": {
+                "h": 80,
+                "w": 64,
+                "x": 0,
+                "y": 0
+            },
+            "columns": 2,
+            "flip": "none",
+            "lines": 1,
+            "margin": {
+                "x": 0,
+                "y": 0
+            },
+            "maxtiles": 0,
+            "name": "idle",
+            "type": "tileset"
+        },
+        {
+            "clip": {
+                "h": 80,
+                "w": 64,
+                "x": 124,
+                "y": 2
+            },
+            "columns": 5,
+            "flip": "none",
+            "lines": 1,
+            "margin": {
+                "x": 0,
+                "y": 0
+            },
+            "maxtiles": 0,
+            "name": "run",
+            "type": "tileset"
+        },
+        {
+            "clip": {
+                "h": 80,
+                "w": 64,
+                "x": 454,
+                "y": 2
+            },
+            "columns": 3,
+            "flip": "none",
+            "lines": 1,
+            "margin": {
+                "x": 0,
+                "y": 0
+            },
+            "maxtiles": 0,
+            "name": "jump",
+            "type": "tileset"
+        }
+    ],
+    "texture": "..\/..\/..\/..\/..\/test-images\/test.png",
+    "type": "spritesheet"
+}
