@@ -1,7 +1,6 @@
 module game.scene.player;
 
 import std.stdio;
-import std.math, std.algorithm.comparison;
 import atelier;
 import game.scene.world, game.scene.actor, game.scene.solid;
 
@@ -21,14 +20,6 @@ final class Player: Actor {
         enum runDeccel = .4f;
 
         enum grabTime = .2f;
-    }
-
-    float approach(float value, float target, float step) {
-        return value > target ? max(value - step, target) : min(value + step, target);
-    }
-
-    int sign(float value) {
-        return value > 0f ? 1 : (value < 0f ? -1 : 0);
     }
 
     private {
@@ -182,7 +173,7 @@ final class Player: Actor {
     }
 
     override void draw() {
-        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.red);
+        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.green);
     }
 
     override void squish(CollisionData data) {

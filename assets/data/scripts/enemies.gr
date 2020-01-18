@@ -1,0 +1,8 @@
+use "utils.gr"
+
+task jumpTowards(Enemy enemy, Player player, float delay, float speedX, float speedY) {
+    wait(delay);
+    bool targetRight = (enemy::getPositionX() - player::getPositionX()) > 0;
+    enemy::setSpeed(speedX, speedY);
+}
+

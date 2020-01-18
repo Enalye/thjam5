@@ -3,7 +3,15 @@ module game.script.handler;
 import std.conv: to;
 import std.stdio: writeln;
 import grimoire;
-import game.script.math, game.script.tween, game.script.wall, game.script.time, game.script.projectile, game.script.player;
+
+import
+game.script.math,
+game.script.tween,
+game.script.wall,
+game.script.time,
+game.script.projectile,
+game.script.player,
+game.script.enemy;
 
 private {
     GrData _data;
@@ -19,6 +27,7 @@ private void loadScriptDefinitions(GrData data) {
     loadWall(data);
     loadProjectile(data);
     loadPlayer(data);
+    loadEnemy(data);
 }
 
 /// Compile and run a script file.

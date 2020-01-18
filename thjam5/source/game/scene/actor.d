@@ -1,6 +1,6 @@
 module game.scene.actor;
 
-import std.math;
+import std.math, std.algorithm.comparison;;
 import atelier;
 import game.scene.world, game.scene.solid;
 
@@ -136,5 +136,15 @@ abstract class Actor {
             getHitboxOrigin2d(),
             getHitboxSize2d(),
             Color.white);
+    }
+
+    /// Linear interpolation to approach a point
+    float approach(float value, float target, float step) {
+        return value > target ? max(value - step, target) : min(value + step, target);
+    }
+
+    /// Returns the sign of value (positive = 1, negative = -1, none = 0)
+    int sign(float value) {
+        return value > 0f ? 1 : (value < 0f ? -1 : 0);
     }
 }

@@ -1,7 +1,7 @@
 module game.script.player;
 
 import atelier, grimoire;
-import std.format;
+import std.format; import std.stdio;
 import game.scene;
 
 package void loadPlayer(GrData data) {

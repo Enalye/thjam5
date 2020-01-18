@@ -2,7 +2,15 @@ module game.scene.world;
 
 import std.file, std.path, std.typecons;
 import atelier;
-import game.scene.actor, game.scene.solid, game.scene.player, game.scene.wall, game.scene.projectile;
+
+import
+game.scene.actor,
+game.scene.solid,
+game.scene.player,
+game.scene.wall,
+game.scene.projectile,
+game.scene.enemy;
+
 import game.script;
 
 /// Levels
@@ -26,10 +34,11 @@ final class World: GuiElementCanvas {
 }
 
 private {
-    ActorArray _actors;
-    SolidArray _solids;
+    ActorArray      _actors;
+    SolidArray      _solids;
     ProjectileArray _projectiles;
-    Player _player;
+    EnemyArray      _enemies;
+    Player          _player;
 }
 
 ActorArray getWorldActors() {
@@ -40,9 +49,14 @@ SolidArray getWorldSolids() {
     return _solids;
 }
 
+EnemyArray getWorldEnemies() {
+    return _enemies;
+}
+
 private void initWorld() {
-    _actors = new ActorArray;
-    _solids = new SolidArray;
+    _actors      = new ActorArray;
+    _solids      = new SolidArray;
+    _enemies     = new EnemyArray;
     _projectiles = new ProjectileArray;
 
     _actors.push(_player = new Player);
@@ -61,6 +75,13 @@ private void updateWorld(Canvas canvas, float deltaTime) {
 
     foreach(Actor actor; _actors)
         actor.update(deltaTime);
+
+    foreach(Enemy enemy, uint enemyIdx; _enemies) {
+        enemy.update(deltaTime);
+        if(enemy.toDelete) {
+            _enemies.markForRemoval(enemyIdx);
+        }
+    }
 
     foreach(Projectile proj, uint pos; _projectiles)
     {
@@ -97,6 +118,9 @@ private void drawWorld() {
     foreach(Actor actor; _actors)
         actor.draw();
 
+    foreach(Enemy enemy; _enemies)
+        enemy.draw();
+
     foreach(Projectile projectile; _projectiles)
         projectile.draw();
 
@@ -113,6 +137,10 @@ void spawnSolid(Solid solid) {
 
 void spawnActor(Actor actor) {
     _actors.push(actor);
+}
+
+void spawnEnemy(Enemy enemy) {
+    _enemies.push(enemy);
 }
 
 void spawnProjectile(Projectile projectile) {

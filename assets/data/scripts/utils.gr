@@ -1,0 +1,13 @@
+task wait(float delay) {
+    int t_o = time();
+    
+    loop {
+        float t = (time() - t_o) / 60_000_000f;
+
+        if(t >= delay) {
+            break;
+        }
+
+        yield;
+    }
+}

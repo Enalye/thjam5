@@ -1,18 +1,21 @@
+use "enemies.gr"
+
 main {
     movingPlatformExample(-120, 60);
     movingPlatformExample(250, 90);
+
 	for(i, [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330])
 	{
 		rotatingPlatform(i as float*3.1415f/180f, 150, 15, 4f);
-		rotatingPlatform((i+20) as float*3.1415f/180f, 280, 15, -2f);
+		rotatingPlatform((i+20) as float*3.1415f / 180f, 280, 15, -2f);
 		rotatingProjectile((i+40) as float*3.1415f/180f, 320, 15, -5f);
 		int size = 10;
-		int radius = 320;
 	}
 }
 
 task movingPlatformExample(int x, int y) {
     let wall = createWall(x, y, 60, 60);
+    enemyOnPlatform(x, y + 60 + 16);
 
     int t = 0;
     loop {
@@ -23,6 +26,9 @@ task movingPlatformExample(int x, int y) {
     }
 }
 
+task enemyOnPlatform(int x, int y) {
+    let enemy = spawnEnemy("", x, y);
+}
 
 task rotatingPlatform(float angle, int radius, int size, float speed) {
     let wall = createWall(((radius as float)*cos(angle)-size/2) as int, ((radius as float)*sin(angle)-size/2) as int, size, size);
