@@ -37,7 +37,6 @@ private {
     ActorArray      _actors;
     SolidArray      _solids;
     ProjectileArray _projectiles;
-    EnemyArray      _enemies;
     Player          _player;
 }
 
@@ -49,14 +48,9 @@ SolidArray getWorldSolids() {
     return _solids;
 }
 
-EnemyArray getWorldEnemies() {
-    return _enemies;
-}
-
 private void initWorld() {
     _actors      = new ActorArray;
     _solids      = new SolidArray;
-    _enemies     = new EnemyArray;
     _projectiles = new ProjectileArray;
 
     _actors.push(_player = new Player);
@@ -73,20 +67,17 @@ private void updateWorld(Canvas canvas, float deltaTime) {
     foreach(Solid solid; _solids)
         solid.update(deltaTime);
 
-    _player.update(deltaTime);
-
-    foreach(Enemy enemy, uint enemyIdx; _enemies) {
-        enemy.update(deltaTime);
-        if(enemy.toDelete) {
-            _enemies.markForRemoval(enemyIdx);
+    foreach(Actor actor, uint actorIdx; _actors) {
+        actor.update(deltaTime);
+        if(actor.toDelete) {
+            _actors.markForRemoval(actorIdx);
         }
     }
-    _enemies.sweepMarkedData();
+    _actors.sweepMarkedData();
 
-    foreach(Projectile proj, uint pos; _projectiles)
-    {
+    foreach(Projectile proj, uint pos; _projectiles) {
 		proj.collidedThisFrame = false;
-		if(proj.setForDeletion) {
+		if(proj.toDelete) {
 			_projectiles.markForRemoval(pos);
 		}
 	}
@@ -134,10 +125,6 @@ void spawnSolid(Solid solid) {
 
 void spawnActor(Actor actor) {
     _actors.push(actor);
-}
-
-void spawnEnemy(Enemy enemy) {
-    _enemies.push(enemy);
 }
 
 void spawnProjectile(Projectile projectile) {

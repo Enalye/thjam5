@@ -90,7 +90,7 @@ private void _moveProjectile(GrCall call) {
 
 private void _destroyProjectile(GrCall call) {
     Projectile projectile = call.getUserData!Projectile("projectile");
-	projectile.setForDeletion = true;
+	projectile.toDelete = true;
 }
 
 private void _moveProjectileTo(GrCall call) {

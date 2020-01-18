@@ -123,6 +123,8 @@ abstract class Actor {
             (solid.right > left) && ((solid.up + 1) > down);
     }
 
+    bool toDelete = false;
+
     /// Actor logic.
     abstract void update(float deltaTime);
     /// Render the actor.

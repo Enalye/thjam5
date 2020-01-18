@@ -32,7 +32,6 @@ private void _grSpawnEnemy(GrCall call) {
 	const int y = call.getInt("y");
 
 	Enemy enemy = new Enemy(name, Vec2i(x, y));
-    spawnEnemy(enemy);
     spawnActor(enemy);
 	call.setUserData!Enemy(enemy);
 }

@@ -5,8 +5,6 @@ import std.math, std.algorithm.comparison;
 import atelier;
 import game.scene.world, game.scene.actor, game.scene.solid;
 
-alias EnemyArray = IndexedArray!(Enemy, 5000u);
-
 final class Enemy: Actor {
     private {
         enum gravity  = .9f;
@@ -38,8 +36,6 @@ final class Enemy: Actor {
                 _onGround = false;
             }
         }
-
-        writeln(_onGround);
 
         slowDown(deltaTime);
         moveX(speed.x, &onHitWall);

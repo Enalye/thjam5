@@ -31,7 +31,7 @@ class Projectile {
 		CollisionModel collisionMode;
     }
 
-	bool setForDeletion = false;
+	bool toDelete = false;
 	bool collidedThisFrame = false;
 
     this(Vec2i position_, Vec2i hitbox_, CollisionModel mode = CollisionModel.Hitbox, dstring eventSolid = "", dstring eventPlayer = "", dstring eventActor = "") {
@@ -153,11 +153,11 @@ class Projectile {
         _moveRemaining.x += x;
         int move = cast(int) round(_moveRemaining.x);
 
-        if(move != 0 && !setForDeletion) {
+        if(move != 0 && !toDelete) {
             _moveRemaining.x -= x;
             int dir = move > 0 ? 1 : -1;
 
-            while(move && !setForDeletion) {
+            while(move && !toDelete) {
                 if(onPlayer && !collidedThisFrame) {
 					Player player = 
 						collisionMode == CollisionModel.Hitbox ? collidePlayerAt(_position + Vec2i(dir, 0), _hitbox) :
@@ -196,11 +196,11 @@ class Projectile {
         _moveRemaining.y += y;
         int move = cast(int) round(_moveRemaining.y);
 
-        if(move != 0  && !setForDeletion) {
+        if(move != 0  && !toDelete) {
             _moveRemaining.y -= y;
             int dir = move > 0 ? 1 : -1;
 
-            while(move && !setForDeletion) {
+            while(move && !toDelete) {
                 if(onPlayer && !collidedThisFrame) {
 					Player player = 
 						collisionMode == CollisionModel.Hitbox ? collidePlayerAt(_position + Vec2i(0, dir), _hitbox) :
