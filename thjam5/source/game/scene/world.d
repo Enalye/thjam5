@@ -9,7 +9,8 @@ game.scene.solid,
 game.scene.player,
 game.scene.wall,
 game.scene.projectile,
-game.scene.enemy;
+game.scene.enemy,
+game.rythm;
 
 import game.script;
 
@@ -38,6 +39,7 @@ private {
     SolidArray      _solids;
     ProjectileArray _projectiles;
     Player          _player;
+    RythmHandler    _rythmHandler;
 }
 
 ActorArray getWorldActors() {
@@ -49,9 +51,10 @@ SolidArray getWorldSolids() {
 }
 
 private void initWorld() {
-    _actors      = new ActorArray;
-    _solids      = new SolidArray;
-    _projectiles = new ProjectileArray;
+    _actors       = new ActorArray;
+    _solids       = new SolidArray;
+    _projectiles  = new ProjectileArray;
+    _rythmHandler = new RythmHandler;
 
     _actors.push(_player = new Player);
     _solids.push(new Wall(Vec2i(0, -50), Vec2i(300, 50)));
@@ -61,6 +64,8 @@ private void initWorld() {
     if(!exists(filePath))
         throw new Exception(filePath ~ " do not exist.");
     loadScript(filePath);
+
+    _rythmHandler.start("beast_of_gevaudan", 160, 199f, 1f, 10f);
 }
 
 private void updateWorld(Canvas canvas, float deltaTime) {

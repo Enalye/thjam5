@@ -1,3 +1,5 @@
+module game.rythm;
+
 import atelier;
 import std.datetime.stopwatch;
 
@@ -5,24 +7,30 @@ class RythmHandler {
     Music     _music;
     StopWatch _clock;
 
-    float _songBpm;
     float _durationSec;
     float _secPerBeat;
     float _songPositionSec;
     float _songPositionBeats;
     float _firstBeatOffset;
+    float _loopOffset;
     float _beatsPerLoop;
     float _loopPositionBeats;
     float _loopPositionRatio;
 
+    int _songBpm;
     int _completedLoops;
 
-    void start(string fileName, float bpm, float durationSec, float firstBeatOffset) {
+    void start(string fileName,
+               int    bpm,
+               float  durationSec,
+               float  firstBeatOffset,
+               float  loopOffset) {
         _music           = fetch!Music(fileName);
         _songBpm         = bpm;
         _durationSec     = durationSec;
         _secPerBeat      = 60f / _songBpm;
         _firstBeatOffset = firstBeatOffset;
+        _loopOffset      = loopOffset;
         _beatsPerLoop    = durationSec / _secPerBeat;
 
         _songPositionSec   = 0;
@@ -33,16 +41,16 @@ class RythmHandler {
         _clock.start();
     }
 
-    void update(float deltaTime) {
+    void update() {
         _songPositionSec   = _clock.peek.total!"seconds" - _firstBeatOffset;
         _songPositionBeats = _songPositionSec / _secPerBeat;
 
-        float nextLoopBeats = (_completedLoops + 1) * _beatsPerLoop;
+        const float nextLoopBeats = (_completedLoops + 1) * _beatsPerLoop;
 
         if(_songPositionBeats >= nextLoopBeats) {
             _loopPositionBeats = _songPositionBeats - nextLoopBeats;
-            ++_completedLoops;
             _clock.reset();
+            ++_completedLoops;
         }
 
         _loopPositionRatio = _loopPositionBeats / _beatsPerLoop;
