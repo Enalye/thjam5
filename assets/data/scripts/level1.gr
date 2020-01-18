@@ -5,13 +5,9 @@ main {
 	{
 		rotatingPlatform(i as float*3.1415f/180f, 150, 15, 4f);
 		rotatingPlatform((i+20) as float*3.1415f/180f, 280, 15, -2f);
+		rotatingProjectile((i+40) as float*3.1415f/180f, 320, 15, -5f);
 		int size = 10;
 		int radius = 320;
-		createProjectile(
-			((radius as float)*cos(i as float*3.1415f/180f)-size/2) as int, 
-			((radius as float)*sin(i as float*3.1415f/180f)-size/2) as int, 
-			size, size
-		);
 	}
 }
 
@@ -27,6 +23,7 @@ task movingPlatformExample(int x, int y) {
     }
 }
 
+
 task rotatingPlatform(float angle, int radius, int size, float speed) {
     let wall = createWall(((radius as float)*cos(angle)-size/2) as int, ((radius as float)*sin(angle)-size/2) as int, size, size);
 
@@ -36,4 +33,19 @@ task rotatingPlatform(float angle, int radius, int size, float speed) {
         wall::moveTo(((radius as float)*cos(angle+t*speed*2*3.1415)-size/2), ((radius as float)*sin(angle+t*speed*2*3.1415)-size/2));
         yield
     }
+}
+
+task rotatingProjectile(float angle, int radius, int size, float speed) {
+    let wall = createProjectile(((radius as float)*cos(angle)-size/2) as int, ((radius as float)*cos(angle)-size/2) as int, size, size,"killPlayer");
+
+	int t_o = time();
+    loop {
+        float t = (time() - t_o) / 60_000_000f;
+        wall::moveTo(((radius as float)*cos(angle+t*speed*2*3.1415)-size/2), ((radius as float)*sin(angle+t*speed*2*3.1415)-size/2));
+        yield
+    }
+}
+
+event killPlayer(Projectile projectile, Player player) {
+	player::killp();
 }

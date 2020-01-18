@@ -7,6 +7,8 @@ import game.scene.player;
 import game.scene.actor : CollisionData;
 import game.scene.world;
 import game.script.handler;
+import game.script.player : grPlayer;
+import game.script.projectile : grProjectile;
 
 alias ActionSolid = void delegate(Projectile, CollisionData);
 alias ActionActor = void delegate(Projectile, Actor);
@@ -39,7 +41,7 @@ class Projectile {
 			onSolid = delegate (Projectile, CollisionData) {};
 		}
 		if(eventPlayer != "") {
-			auto name = grMangleNamedFunction(eventPlayer, arr);
+			auto name = grMangleNamedFunction(eventPlayer, [grProjectile, grPlayer]);
 			assert(testEvent(name));
 			onPlayer = delegate (Projectile proj, Player data) {
 				auto ev = spawnEvent(name);
@@ -104,7 +106,10 @@ class Projectile {
     }
 
     /// Move on the horizontal axis.
-    final void move(Vec2f direction, ActionSolid onCollideSolid, ActionPlayer onCollidePlayer, ActionActor onCollideAction) {
+    final void move(Vec2f direction) {
+		ActionSolid onCollideSolid = onSolid;
+		ActionPlayer onCollidePlayer = onPlayer;
+		ActionActor onCollideAction = onActor;
 
 		const auto len = direction.length;
 		const auto scale = _hitbox.length;
@@ -120,14 +125,16 @@ class Projectile {
 			auto steps = len/scale - 1;
 			moveX(rescale.x/2, onCollideSolid,  onCollidePlayer,  onCollideAction);
 			moveY(rescale.y/2, onCollideSolid,  onCollidePlayer,  onCollideAction);
-			while(steps != 0)
+			direction -= rescale/2;
+			while(steps > 0)
 			{
 				moveX(rescale.x,onCollideSolid,  onCollidePlayer,  onCollideAction);
 				moveY(rescale.y,onCollideSolid,  onCollidePlayer,  onCollideAction);
+				direction -= rescale;
 				steps--;
 			}
-			moveX(rescale.x/2, onCollideSolid,  onCollidePlayer,  onCollideAction);
-			moveY(rescale.y/2, onCollideSolid,  onCollidePlayer,  onCollideAction);
+			moveX(direction.x, onCollideSolid,  onCollidePlayer,  onCollideAction);
+			moveY(direction.y, onCollideSolid,  onCollidePlayer,  onCollideAction);
 		}
     }
 
@@ -145,7 +152,6 @@ class Projectile {
 					Player player = collidePlayerAt(_position + Vec2i(dir, 0), _hitbox);
 					if(player) {
 						onPlayer(this, player);
-						break;
 					}
 				}
                 if(onActor) {
@@ -157,9 +163,10 @@ class Projectile {
 						data.solid = solid;
 						data.direction = Vec2i(dir, 0);
 						onSolid(this, data);
-						break;
 					}
                 }
+                _position.x += dir;
+                move -= dir;
             }
         }
     }
@@ -175,24 +182,24 @@ class Projectile {
 
             while(move) {
                 if(onPlayer) {
-					Player player = collidePlayerAt(_position + Vec2i(dir, 0), _hitbox);
+					Player player = collidePlayerAt(_position + Vec2i(0, dir), _hitbox);
 					if(player) {
 						onPlayer(this, player);
-						break;
 					}
 				}
                 if(onActor) {
 				}
                 if(onSolid) {
-					Solid solid = collideAt(_position + Vec2i(dir, 0), _hitbox);
+					Solid solid = collideAt(_position + Vec2i(0, dir), _hitbox);
 					if(solid) {
 						CollisionData data;
 						data.solid = solid;
-						data.direction = Vec2i(dir, 0);
+						data.direction = Vec2i(0, dir);
 						onSolid(this, data);
-						break;
 					}
                 }
+                _position.y += dir;
+                move -= dir;
             }
         }
     }

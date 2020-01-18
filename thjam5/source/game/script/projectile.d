@@ -7,8 +7,8 @@ import game.scene;
 
 package void loadProjectile(GrData data) {
     auto defProjectile = data.addUserType("Projectile");
-
-    data.addPrimitive(&_createProjectile, "createProjectile", ["x", "y", "hx", "hy"], [grInt, grInt, grInt, grInt], [defProjectile]);
+	grProjectile = defProjectile;
+    data.addPrimitive(&_createProjectile, "createProjectile", ["x", "y", "hx", "hy", "evPlayer"], [grInt, grInt, grInt, grInt, grString], [defProjectile]);
     /*
     data.addPrimitive(&_setWallPosition, "setPosition", ["wall", "x", "y"], [defWall, grInt, grInt]);
     data.addPrimitive(&_getWallPosition, "getPosition", ["wall"], [defWall], [grInt, grInt]);
@@ -19,14 +19,20 @@ package void loadProjectile(GrData data) {
     data.addPrimitive(&_getWallHitbox, "getHitbox", ["wall"], [defWall], [grInt, grInt]);
     data.addPrimitive(&_getWallHitboxX, "getHitboxX", ["wall"], [defWall], [grInt]);
     data.addPrimitive(&_getWallHitboxY, "getHitboxY", ["wall"], [defWall], [grInt]);
-
-    data.addPrimitive(&_moveWall, "move", ["wall", "x", "y"], [defWall, grFloat, grFloat]);
-    data.addPrimitive(&_moveWallTo, "moveTo", ["wall", "x", "y"], [defWall, grFloat, grFloat]);
 	*/
+
+    data.addPrimitive(&_moveProjectile, "move", ["projectile", "x", "y"], [defProjectile, grFloat, grFloat]);
+    data.addPrimitive(&_moveProjectileTo, "moveTo", ["projectile", "x", "y"], [defProjectile, grFloat, grFloat]);
 }
 
+GrType grProjectile;
+
 private void _createProjectile(GrCall call) {
-    auto proj = new Projectile(Vec2i(call.getInt("x"), call.getInt("y")), Vec2i(call.getInt("hx"), call.getInt("hy")));
+    auto proj = new Projectile(
+		Vec2i(call.getInt("x"), call.getInt("y")), 
+		Vec2i(call.getInt("hx"), call.getInt("hy")),
+		"", call.getString("evPlayer"), ""
+	);
     spawnProjectile(proj);
     call.setUserData!Projectile(proj);
 }
@@ -71,14 +77,14 @@ private void _getWallHitboxX(GrCall call) {
 private void _getWallHitboxY(GrCall call) {
     Wall wall = call.getUserData!Wall("wall");
     call.setInt(wall.hitbox.y);
-}
-
-private void _moveWall(GrCall call) {
-    Wall wall = call.getUserData!Wall("wall");
-    wall.move(call.getFloat("x"), call.getFloat("y"));
-}
-
-private void _moveWallTo(GrCall call) {
-    Wall wall = call.getUserData!Wall("wall");
-    wall.move(call.getFloat("x")-wall.position.x, call.getFloat("y")-wall.position.y);
 }*/
+
+private void _moveProjectile(GrCall call) {
+    Projectile projectile = call.getUserData!Projectile("projectile");
+    projectile.move(Vec2f(call.getFloat("x"), call.getFloat("y")));
+}
+
+private void _moveProjectileTo(GrCall call) {
+    Projectile projectile = call.getUserData!Projectile("projectile");
+    projectile.move(Vec2f(call.getFloat("x") - projectile.position.x, call.getFloat("y") - projectile.position.y));
+}

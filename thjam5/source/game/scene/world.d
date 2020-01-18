@@ -124,3 +124,6 @@ Player collidePlayerAt(Vec2i point, Vec2i halfSize) {
       		return _player;
     return null;
 }
+Player getPlayer() {
+	return _player;
+}
