@@ -1,10 +1,17 @@
 main {
     movingPlatformExample(-120, 60);
     movingPlatformExample(250, 90);
-	for(i, [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300,330])
+	for(i, [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330])
 	{
-		rotatingPlatform(i as float*3.1415f/180f, 150, 15, 0.03);
-		rotatingPlatform((i+20) as float*3.1415f/180f, 280, 15, -0.01);
+		rotatingPlatform(i as float*3.1415f/180f, 150, 15, 4f);
+		rotatingPlatform((i+20) as float*3.1415f/180f, 280, 15, -2f);
+		int size = 10;
+		int radius = 320;
+		createProjectile(
+			((radius as float)*cos(i as float*3.1415f/180f)-size/2) as int, 
+			((radius as float)*sin(i as float*3.1415f/180f)-size/2) as int, 
+			size, size
+		);
 	}
 }
 
@@ -23,10 +30,10 @@ task movingPlatformExample(int x, int y) {
 task rotatingPlatform(float angle, int radius, int size, float speed) {
     let wall = createWall(((radius as float)*cos(angle)-size/2) as int, ((radius as float)*sin(angle)-size/2) as int, size, size);
 
-    float t = 0;
+	int t_o = time();
     loop {
-        wall::moveTo(((radius as float)*cos(angle+t*speed)-size/2), ((radius as float)*sin(angle+t*speed)-size/2));
-        t+=0.5;
+        float t = (time() - t_o) / 60_000_000f;
+        wall::moveTo(((radius as float)*cos(angle+t*speed*2*3.1415)-size/2), ((radius as float)*sin(angle+t*speed*2*3.1415)-size/2));
         yield
     }
 }

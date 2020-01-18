@@ -1,11 +1,16 @@
 module game.scene.projectile;
 
-import atelier;
+import atelier, grimoire;
 import game.scene.solid;
+import game.scene.actor;
+import game.scene.player;
 import game.scene.actor : CollisionData;
 import game.scene.world;
+import game.script.handler;
 
-alias Action = void delegate(CollisionData);
+alias ActionSolid = void delegate(Projectile, CollisionData);
+alias ActionActor = void delegate(Projectile, Actor);
+alias ActionPlayer = void delegate(Projectile, Player);
 alias ProjectileArray = IndexedArray!(Projectile, 5000u);
 
 /// Basic wall, do nothing.
@@ -13,6 +18,50 @@ class Projectile {
     private {
         Vec2f _moveRemaining = Vec2f.zero;
         Vec2i _position = Vec2i.zero, _hitbox = Vec2i.zero;
+		ActionSolid onSolid;
+		ActionPlayer onPlayer;
+		ActionActor onActor;
+    }
+
+    this(Vec2i position_, Vec2i hitbox_, dstring eventSolid = "", dstring eventPlayer = "", dstring eventActor = "") {
+		GrType[] arr;
+        position = position_;
+        hitbox = hitbox_;
+		if(eventSolid != "") {
+			auto name = grMangleNamedFunction(eventSolid, arr);
+			assert(testEvent(name));
+			onSolid = delegate (Projectile proj, CollisionData data) {
+				auto ev = spawnEvent(name);
+				ev.setUserData!Projectile(proj);
+				ev.setUserData!Solid(data.solid);	
+			};
+		} else {
+			onSolid = delegate (Projectile, CollisionData) {};
+		}
+		if(eventPlayer != "") {
+			auto name = grMangleNamedFunction(eventPlayer, arr);
+			assert(testEvent(name));
+			onPlayer = delegate (Projectile proj, Player data) {
+				auto ev = spawnEvent(name);
+				ev.setUserData!Projectile(proj);
+				ev.setUserData!Player(data);	
+			};
+		} else {
+			onSolid = delegate (Projectile, Player) {};
+		}
+		if(eventActor != "") {
+			auto name = grMangleNamedFunction(eventActor, arr);
+			assert(testEvent(name));
+			/*onPlayer = delegate (Projectile proj, Player data) {
+				auto ev = spawnEvent(name);
+				ev.setUserData!Projectile(proj);
+				ev.setUserData!Player(data);	
+			};
+		} else {
+			*/
+			
+		}
+		onActor = delegate (Projectile, Actor) {};
     }
 
     @property {
@@ -55,35 +104,35 @@ class Projectile {
     }
 
     /// Move on the horizontal axis.
-    final void move(Vec2f direction, Action onCollide) {
+    final void move(Vec2f direction, ActionSolid onCollideSolid, ActionPlayer onCollidePlayer, ActionActor onCollideAction) {
 
 		const auto len = direction.length;
 		const auto scale = _hitbox.length;
 
 		if(len<scale)
 		{
-			moveX(direction.x, onCollide);
-			moveY(direction.y, onCollide);
+			moveX(direction.x,  onCollideSolid,  onCollidePlayer,  onCollideAction);
+			moveY(direction.y,  onCollideSolid,  onCollidePlayer,  onCollideAction);
 		}
 		else
 		{
 			auto rescale = direction/scale;
 			auto steps = len/scale - 1;
-			moveX(rescale.x/2, onCollide);
-			moveY(rescale.y/2, onCollide);
+			moveX(rescale.x/2, onCollideSolid,  onCollidePlayer,  onCollideAction);
+			moveY(rescale.y/2, onCollideSolid,  onCollidePlayer,  onCollideAction);
 			while(steps != 0)
 			{
-				moveX(rescale.x, onCollide);
-				moveY(rescale.y, onCollide);
+				moveX(rescale.x,onCollideSolid,  onCollidePlayer,  onCollideAction);
+				moveY(rescale.y,onCollideSolid,  onCollidePlayer,  onCollideAction);
 				steps--;
 			}
-			moveX(rescale.x/2, onCollide);
-			moveY(rescale.y/2, onCollide);
+			moveX(rescale.x/2, onCollideSolid,  onCollidePlayer,  onCollideAction);
+			moveY(rescale.y/2, onCollideSolid,  onCollidePlayer,  onCollideAction);
 		}
     }
 
     /// Move on the horizontal axis.
-    final void moveX(float x, Action onCollide) {
+    final void moveX(float x, ActionSolid onCollideSolid, ActionPlayer onCollidePlayer, ActionActor onCollideAction) {
         _moveRemaining.x += x;
         int move = cast(int) round(_moveRemaining.x);
 
@@ -92,26 +141,31 @@ class Projectile {
             int dir = move > 0 ? 1 : -1;
 
             while(move) {
-                Solid solid = collideAt(_position + Vec2i(dir, 0), _hitbox);
-                if(solid) {
-                    if(onCollide) {
-                        CollisionData data;
-                        data.solid = solid;
-                        data.direction = Vec2i(dir, 0);
-                        onCollide(data);
-                    }
-                    break;
-                }
-                else {
-                    _position.x += dir;
-                    move -= dir;
+                if(onPlayer) {
+					Player player = collidePlayerAt(_position + Vec2i(dir, 0), _hitbox);
+					if(player) {
+						onPlayer(this, player);
+						break;
+					}
+				}
+                if(onActor) {
+				}
+                if(onSolid) {
+					Solid solid = collideAt(_position + Vec2i(dir, 0), _hitbox);
+					if(solid) {
+						CollisionData data;
+						data.solid = solid;
+						data.direction = Vec2i(dir, 0);
+						onSolid(this, data);
+						break;
+					}
                 }
             }
         }
     }
 
     /// Move on the vertical axis.
-    final void moveY(float y, Action onCollide) {
+    final void moveY(float y, ActionSolid onCollideSolid, ActionPlayer onCollidePlayer, ActionActor onCollideAction) {
         _moveRemaining.y += y;
         int move = cast(int) round(_moveRemaining.y);
 
@@ -120,28 +174,34 @@ class Projectile {
             int dir = move > 0 ? 1 : -1;
 
             while(move) {
-                Solid solid = collideAt(_position + Vec2i(0, dir), _hitbox);
-                if(solid) {
-                    if(onCollide) {
-                        CollisionData data;
-                        data.solid = solid;
-                        data.direction = Vec2i(0, dir);
-                        onCollide(data);
-                    }
-                    break;
-                }
-                else {
-                    _position.y += dir;
-                    move -= dir;
+                if(onPlayer) {
+					Player player = collidePlayerAt(_position + Vec2i(dir, 0), _hitbox);
+					if(player) {
+						onPlayer(this, player);
+						break;
+					}
+				}
+                if(onActor) {
+				}
+                if(onSolid) {
+					Solid solid = collideAt(_position + Vec2i(dir, 0), _hitbox);
+					if(solid) {
+						CollisionData data;
+						data.solid = solid;
+						data.direction = Vec2i(dir, 0);
+						onSolid(this, data);
+						break;
+					}
                 }
             }
         }
     }
 
     void update(float deltaTime) {
+
     }
 
     void draw() {
-        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.pink);
+        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.magenta);
     }
 }

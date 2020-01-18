@@ -3,7 +3,7 @@ module game.script.handler;
 import std.conv: to;
 import std.stdio: writeln;
 import grimoire;
-import game.script.math, game.script.tween, game.script.wall;
+import game.script.math, game.script.tween, game.script.wall, game.script.time, game.script.projectile;
 
 private {
     GrData _data;
@@ -14,8 +14,10 @@ private {
 
 private void loadScriptDefinitions(GrData data) {
     loadMath(data);
+    loadTime(data);
     loadTween(data);
     loadWall(data);
+    loadProjectile(data);
 }
 
 /// Compile and run a script file.
@@ -42,6 +44,14 @@ void runScript() {
     if(_engine.isPanicking) {
         throw new Exception("Panic: " ~ to!string(_engine.panicMessage));
     }
+}
+
+bool testEvent(dstring mangledName) {
+	return _engine.hasEvent(mangledName);
+}
+
+GrContext spawnEvent(dstring mangledName) {
+	return _engine.spawnEvent(mangledName);
 }
 
 /// Format compilation problems and throw an exception with them.
