@@ -1,3 +1,6 @@
+int CollisionHitbox = 0;
+int CollisionRadius = 1;
+
 main {
     movingPlatformExample(-120, 60);
     movingPlatformExample(250, 90);
@@ -36,7 +39,7 @@ task rotatingPlatform(float angle, int radius, int size, float speed) {
 }
 
 task rotatingProjectile(float angle, int radius, int size, float speed) {
-    let wall = createProjectile(((radius as float)*cos(angle)-size/2) as int, ((radius as float)*cos(angle)-size/2) as int, size, size, 0,"killPlayer");
+    let wall = createProjectile(((radius as float)*cos(angle)-size/2) as int, ((radius as float)*cos(angle)-size/2) as int, size, size, CollisionHitbox,"killPlayer");
 
 	int t_o = time();
     loop {
