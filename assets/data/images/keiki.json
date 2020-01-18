@@ -8,11 +8,8 @@
                 "y": 0
             },
             "columns": 2,
-<<<<<<< HEAD
             "duration": 0.300000011920928955,
             "easing": "linear",
-=======
->>>>>>> master
             "flip": "none",
             "lines": 1,
             "margin": {
@@ -20,15 +17,10 @@
                 "y": 0
             },
             "maxtiles": 0,
-<<<<<<< HEAD
             "mode": "once",
             "name": "idle",
             "reverse": false,
             "type": "animation"
-=======
-            "name": "idle",
-            "type": "tileset"
->>>>>>> master
         },
         {
             "clip": {
@@ -38,11 +30,8 @@
                 "y": 2
             },
             "columns": 5,
-<<<<<<< HEAD
             "duration": 0.300000011920928955,
             "easing": "linear",
-=======
->>>>>>> master
             "flip": "none",
             "lines": 1,
             "margin": {
@@ -50,15 +39,10 @@
                 "y": 0
             },
             "maxtiles": 0,
-<<<<<<< HEAD
             "mode": "once",
             "name": "run",
             "reverse": false,
             "type": "animation"
-=======
-            "name": "run",
-            "type": "tileset"
->>>>>>> master
         },
         {
             "clip": {
@@ -68,11 +52,8 @@
                 "y": 2
             },
             "columns": 3,
-<<<<<<< HEAD
             "duration": 0.200000002980232239,
             "easing": "linear",
-=======
->>>>>>> master
             "flip": "none",
             "lines": 1,
             "margin": {
@@ -80,15 +61,10 @@
                 "y": 0
             },
             "maxtiles": 0,
-<<<<<<< HEAD
             "mode": "once",
             "name": "jump",
             "reverse": false,
             "type": "animation"
-=======
-            "name": "jump",
-            "type": "tileset"
->>>>>>> master
         }
     ],
     "texture": "..\/..\/..\/..\/..\/test-images\/test.png",
