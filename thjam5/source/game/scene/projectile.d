@@ -15,6 +15,11 @@ alias ActionActor = void delegate(Projectile, Actor);
 alias ActionPlayer = void delegate(Projectile, Player);
 alias ProjectileArray = IndexedArray!(Projectile, 5000u);
 
+enum CollisionModel {
+	Hitbox,
+	Radius
+}
+
 /// Basic wall, do nothing.
 class Projectile {
     private {
@@ -23,15 +28,17 @@ class Projectile {
 		ActionSolid onSolid;
 		ActionPlayer onPlayer;
 		ActionActor onActor;
+		CollisionModel collisionMode;
     }
 
 	bool setForDeletion = false;
 	bool collidedThisFrame = false;
 
-    this(Vec2i position_, Vec2i hitbox_, dstring eventSolid = "", dstring eventPlayer = "", dstring eventActor = "") {
+    this(Vec2i position_, Vec2i hitbox_, CollisionModel mode = CollisionModel.Hitbox, dstring eventSolid = "", dstring eventPlayer = "", dstring eventActor = "") {
 		GrType[] arr;
         position = position_;
         hitbox = hitbox_;
+		collisionMode = mode;
 		if(eventSolid != "") {
 			auto name = grMangleNamedFunction(eventSolid, arr);
 			assert(testEvent(name));
@@ -152,7 +159,11 @@ class Projectile {
 
             while(move && !setForDeletion) {
                 if(onPlayer && !collidedThisFrame) {
-					Player player = collidePlayerAt(_position + Vec2i(dir, 0), _hitbox);
+					Player player = 
+						collisionMode == CollisionModel.Hitbox ? collidePlayerAt(_position + Vec2i(dir, 0), _hitbox) :
+						collisionMode == CollisionModel.Radius ? collidePlayerAt(_position + Vec2i(dir, 0), _hitbox.x) :
+						null
+					;
 					if(player) {
 						onPlayer(this, player);
 						collidedThisFrame = true;
@@ -161,7 +172,11 @@ class Projectile {
                 if(onActor && !collidedThisFrame) {
 				}
                 if(onSolid && !collidedThisFrame) {
-					Solid solid = collideAt(_position + Vec2i(dir, 0), _hitbox);
+					Solid solid = 
+						collisionMode == CollisionModel.Hitbox ? collideAt(_position + Vec2i(dir, 0), _hitbox) :
+						collisionMode == CollisionModel.Radius ? collideAt(_position + Vec2i(dir, 0), _hitbox.x) :
+						null
+					;
 					if(solid) {
 						CollisionData data;
 						data.solid = solid;
@@ -187,7 +202,11 @@ class Projectile {
 
             while(move && !setForDeletion) {
                 if(onPlayer && !collidedThisFrame) {
-					Player player = collidePlayerAt(_position + Vec2i(0, dir), _hitbox);
+					Player player = 
+						collisionMode == CollisionModel.Hitbox ? collidePlayerAt(_position + Vec2i(0, dir), _hitbox) :
+						collisionMode == CollisionModel.Radius ? collidePlayerAt(_position + Vec2i(0, dir), _hitbox.x) :
+						null
+					;
 					if(player) {
 						onPlayer(this, player);
 						collidedThisFrame = true;
@@ -196,7 +215,11 @@ class Projectile {
                 if(onActor && !collidedThisFrame) {
 				}
                 if(onSolid && !collidedThisFrame) {
-					Solid solid = collideAt(_position + Vec2i(0, dir), _hitbox);
+					Solid solid = 
+						collisionMode == CollisionModel.Hitbox ? collideAt(_position + Vec2i(0, dir), _hitbox) :
+						collisionMode == CollisionModel.Radius ? collideAt(_position + Vec2i(0, dir), _hitbox.x) :
+						null
+					;
 					if(solid) {
 						CollisionData data;
 						data.solid = solid;

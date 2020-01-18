@@ -1,6 +1,6 @@
 module game.scene.world;
 
-import std.file, std.path, std.typecons;
+import std.file, std.path, std.typecons, std.algorithm.comparison;
 import atelier;
 
 import
@@ -161,6 +161,28 @@ Player collidePlayerAt(Vec2i point, Vec2i halfSize) {
       		return _player;
     return null;
 }
+
+private bool intersect(Vec2i center, int radius, Vec2i pos, Vec2i halfSize) {
+	auto rect = pos - halfSize;
+	auto rectSz = halfSize*2;
+	auto deltaX = center.x - max(rect.x, min(center.x, rect.x + rectSz.x));
+	auto deltaY = center.y - max(rect.y, min(center.y, rect.y + rectSz.y));
+	return (deltaX * deltaX + deltaY * deltaY) < (radius * radius);
+}
+
+Solid collideAt(Vec2i point, int radius) {
+    foreach(Solid solid; _solids) {
+        if(intersect(point, radius, solid.position, solid.hitbox))
+            return solid;
+    }
+    return null;
+}
+Player collidePlayerAt(Vec2i point, int radius) {
+    if(intersect(point, radius, _player.position, _player.hitbox))
+      	return _player;
+    return null;
+}
+
 Player getPlayer() {
 	return _player;
 }
