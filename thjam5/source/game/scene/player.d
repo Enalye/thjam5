@@ -2,7 +2,7 @@ module game.scene.player;
 
 import std.stdio;
 import atelier;
-import game.scene.world, game.scene.actor, game.scene.solid;
+import game.scene.world, game.scene.actor, game.scene.solid, game.scene.wall;
 
 /// Player controlled actor.
 final class Player: Actor {
@@ -23,7 +23,7 @@ final class Player: Actor {
     }
 
     private {
-        int _direction = 0, _facing = 0;
+        int _direction = 0, _facingWall = 0, _facing = 0;
         Vec2f _speed = Vec2f.zero;
         bool _onGround = false, _canDoubleJump = true;
         bool _isWallGrabbing = false;
@@ -53,10 +53,12 @@ final class Player: Actor {
         // Horizontal movement
         _direction = 0;
         if(isButtonDown(KeyButton.left)) {
-            _direction --;
+            _direction--;
+            _facing = -1;
         }
         if(isButtonDown(KeyButton.right)) {
-            _direction ++;
+            _direction++;
+            _facing = 1;
         }
 
         if(!_isWallGrabbing) {
@@ -76,7 +78,7 @@ final class Player: Actor {
                         _solidRiding = solid;
                         _isWallGrabbing = true;
                         _speed.y = 0f;
-                        _facing = _direction;
+                        _facingWall = _direction;
                     }
                     else {
                         _isWallGrabbing = false;
@@ -86,7 +88,7 @@ final class Player: Actor {
         }
         else {
             if(isButtonDown(KeyButton.z)) {
-                Solid solid = collideAt(position + Vec2i(_facing, 0), Vec2i(hitbox.x, hitbox.y / 2));
+                Solid solid = collideAt(position + Vec2i(_facingWall, 0), Vec2i(hitbox.x, hitbox.y / 2));
                 if(solid) {
                     _solidRiding = solid;
                     _isWallGrabbing = true;
@@ -100,6 +102,12 @@ final class Player: Actor {
                 _grabTimer.start(grabTime);
                 _isWallGrabbing = false;
             }
+        }
+
+        if(getButtonDown(KeyButton.x)) {
+            Vec2i wallSpawnPos = Vec2i(position.x + _facing * 50, position.y);
+            Wall wall = new Wall(wallSpawnPos, Vec2i(25, 10));
+            spawnSolid(wall);
         }
 
         //-- Jump
@@ -139,14 +147,14 @@ final class Player: Actor {
 
     void wallJump() {
         if(isButtonDown(KeyButton.up)) {
-            if((isButtonDown(KeyButton.right) && _facing != 1) ||
-                (isButtonDown(KeyButton.left) && _facing != -1))
-                _speed += Vec2f(-_facing * wallJumpSpeed, wallJumpSpeed);
+            if((isButtonDown(KeyButton.right) && _facingWall != 1) ||
+                (isButtonDown(KeyButton.left) && _facingWall != -1))
+                _speed += Vec2f(-_facingWall * wallJumpSpeed, wallJumpSpeed);
             else
                 _speed += Vec2f(0, wallJumpSpeed);
         }
         else
-            _speed += Vec2f(-_facing * wallJumpSpeed, wallJumpSpeed);
+            _speed += Vec2f(-_facingWall * wallJumpSpeed, wallJumpSpeed);
         _isWallGrabbing = false;
         _onGround = false;
         _canDoubleJump = false;

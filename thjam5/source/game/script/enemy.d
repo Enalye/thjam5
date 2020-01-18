@@ -21,8 +21,8 @@ package void loadEnemy(GrData data) {
     data.addPrimitive(&_getEnemyHitboxX, "getHitboxX", ["enemy"], [defEnemy], [grInt]);
     data.addPrimitive(&_getEnemyHitboxY, "getHitboxY", ["enemy"], [defEnemy], [grInt]);
     data.addPrimitive(&_isEnemyGrounded, "isGrounded", ["enemy"], [defEnemy], [grBool]);
-    data.addPrimitive(&_KillEnemy, "killp", ["enemy"], [defEnemy]);
-    data.addPrimitive(&_DamageEnemy, "damage", ["enemy", "amount"], [defEnemy, grFloat]);
+    data.addPrimitive(&_killEnemy, "kill", ["enemy"], [defEnemy]);
+    data.addPrimitive(&_damageEnemy, "damage", ["enemy", "amount"], [defEnemy, grFloat]);
 }
 
 GrType grEnemy;
@@ -89,12 +89,12 @@ private void _isEnemyGrounded(GrCall call) {
     call.setBool(enemy.onGround);
 }
 
-private void _KillEnemy(GrCall call) {
+private void _killEnemy(GrCall call) {
     Enemy enemy = call.getUserData!Enemy("enemy");
 	writeln("Enemy killed");
 }
 
-private void _DamageEnemy(GrCall call) {
+private void _damageEnemy(GrCall call) {
     Enemy enemy = call.getUserData!Enemy("enemy");
 	writeln(format!"Enemy taking %s damage"(call.getFloat("damage")));
 }
