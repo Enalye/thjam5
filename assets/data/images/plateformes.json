@@ -1,0 +1,42 @@
+{
+    "elements": [
+        {
+            "clip": {
+                "h": 32,
+                "w": 32,
+                "x": 0,
+                "y": 0
+            },
+            "columns": 6,
+            "flip": "none",
+            "lines": 2,
+            "margin": {
+                "x": 0,
+                "y": 0
+            },
+            "maxtiles": 0,
+            "name": "KAGEROU",
+            "type": "tileset"
+        },
+        {
+            "clip": {
+                "h": 32,
+                "w": 32,
+                "x": 0,
+                "y": 63
+            },
+            "columns": 6,
+            "flip": "none",
+            "lines": 2,
+            "margin": {
+                "x": 0,
+                "y": 0
+            },
+            "maxtiles": 0,
+            "name": "raiko",
+            "type": "tileset"
+        }
+    ],
+    "texture": "..\/..\/..\/..\/..\/test-images\/plateformes.png",
+    "type": "spritesheet"
+}
