@@ -1,3 +1,4 @@
+// So? sue me
 int CollisionHitbox = 0;
 int CollisionRadius = 1;
 
