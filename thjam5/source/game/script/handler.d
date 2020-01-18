@@ -11,7 +11,8 @@ game.script.wall,
 game.script.time,
 game.script.projectile,
 game.script.player,
-game.script.enemy;
+game.script.enemy,
+game.script.rythm;
 
 private {
     GrData _data;
@@ -28,6 +29,7 @@ private void loadScriptDefinitions(GrData data) {
     loadProjectile(data);
     loadPlayer(data);
     loadEnemy(data);
+    loadRythm(data);
 }
 
 /// Compile and run a script file.

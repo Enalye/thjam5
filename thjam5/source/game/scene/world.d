@@ -10,7 +10,7 @@ game.scene.player,
 game.scene.wall,
 game.scene.projectile,
 game.scene.enemy,
-game.rythm;
+game.scene.rythm;
 
 import game.script;
 
@@ -50,6 +50,10 @@ SolidArray getWorldSolids() {
     return _solids;
 }
 
+RythmHandler getRythmHandler() {
+    return _rythmHandler;
+}
+
 private void initWorld() {
     _actors       = new ActorArray;
     _solids       = new SolidArray;
@@ -65,7 +69,7 @@ private void initWorld() {
         throw new Exception(filePath ~ " do not exist.");
     loadScript(filePath);
 
-    _rythmHandler.start("beast_of_gevaudan", 160, 199f, 1f, 10f);
+    _rythmHandler.start("beast_of_gevaudan", 160, 206f, 1f, 10f);
 }
 
 private void updateWorld(Canvas canvas, float deltaTime) {
@@ -87,6 +91,8 @@ private void updateWorld(Canvas canvas, float deltaTime) {
 		}
 	}
 	_projectiles.sweepMarkedData();
+
+    _rythmHandler.update();
 
     canvas.size = screenSize;
     canvas.position = _player.getPosition2d();

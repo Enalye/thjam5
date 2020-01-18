@@ -1,24 +1,30 @@
-module game.rythm;
+module game.scene.rythm;
 
 import atelier;
-import std.datetime.stopwatch;
+import std.datetime.stopwatch, std.stdio;
 
 class RythmHandler {
     Music     _music;
+    Sound     _drum;
     StopWatch _clock;
 
     float _durationSec;
     float _secPerBeat;
     float _songPositionSec;
-    float _songPositionBeats;
     float _firstBeatOffset;
     float _loopOffset;
-    float _beatsPerLoop;
-    float _loopPositionBeats;
     float _loopPositionRatio;
 
     int _songBpm;
     int _completedLoops;
+    int _songPositionBeats;
+    int _loopPositionBeats;
+    int _beatsPerLoop;
+
+    @property {
+        float firstBeatOffset() { return _firstBeatOffset; }
+        int songPositionBeats() { return _songPositionBeats; }
+    }
 
     void start(string fileName,
                int    bpm,
@@ -26,26 +32,30 @@ class RythmHandler {
                float  firstBeatOffset,
                float  loopOffset) {
         _music           = fetch!Music(fileName);
+        _drum            = fetch!Sound("drum");
         _songBpm         = bpm;
         _durationSec     = durationSec;
         _secPerBeat      = 60f / _songBpm;
+
         _firstBeatOffset = firstBeatOffset;
         _loopOffset      = loopOffset;
-        _beatsPerLoop    = durationSec / _secPerBeat;
+        _beatsPerLoop    = cast(int)(durationSec / _secPerBeat);
 
         _songPositionSec   = 0;
         _songPositionBeats = 0;
 
-        _music.isLooped = true;
-        _music.play();
+        _music.volume   = 0.1f;
+        _drum.volume    = 0.5f;
+        _music.fadeIn(10f);
         _clock.start();
     }
 
     void update() {
-        _songPositionSec   = _clock.peek.total!"seconds" - _firstBeatOffset;
-        _songPositionBeats = _songPositionSec / _secPerBeat;
+        writeln(_clock.peek.total!"msecs" / 1000f);
+        _songPositionSec   = (_clock.peek.total!"msecs" / 1000f) - _firstBeatOffset;
+        _songPositionBeats = cast(int)(_songPositionSec / _secPerBeat);
 
-        const float nextLoopBeats = (_completedLoops + 1) * _beatsPerLoop;
+        const int nextLoopBeats = (_completedLoops + 1) * _beatsPerLoop;
 
         if(_songPositionBeats >= nextLoopBeats) {
             _loopPositionBeats = _songPositionBeats - nextLoopBeats;
@@ -54,5 +64,9 @@ class RythmHandler {
         }
 
         _loopPositionRatio = _loopPositionBeats / _beatsPerLoop;
+    }
+
+    void playDebugSound() {
+        _drum.play();
     }
 }

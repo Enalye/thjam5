@@ -1,9 +1,11 @@
 use "enemies.gr"
+use "rythm.gr"
 
 int CollisionHitbox = 0;
 int CollisionRadius = 1;
 
 main {
+    beatHandling();
     movingPlatformExample(-120, 60);
     movingPlatformExample(250, 90);
 

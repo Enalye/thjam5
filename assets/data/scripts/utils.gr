@@ -3,3 +3,16 @@ func wait(int n) {
 		yield;
 	}
 }
+
+func waitSeconds(float s) {
+	int t_o = time();
+	loop {
+		float t = (time() - t_o) / 1_000_000f;
+		print(t);
+		if(t >= s) {
+			return;
+		}
+
+		yield;
+	}
+}
