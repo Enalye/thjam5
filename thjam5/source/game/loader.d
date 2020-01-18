@@ -26,6 +26,8 @@ class LoaderGui: GuiElement {
         _callback = callback;
         loadTextures();
         loadFonts();
+        loadSound();
+        loadBgm();
         //Load completed
         removeRootGuis();
         callback();
