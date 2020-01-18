@@ -2,7 +2,13 @@ module game.scene.player;
 
 import std.stdio;
 import atelier;
-import game.scene.world, game.scene.actor, game.scene.solid, game.scene.wall;
+
+import
+game.scene.world,
+game.scene.actor,
+game.scene.solid,
+game.scene.wall,
+game.scene.haniwa;
 
 /// Player controlled actor.
 final class Player: Actor {
@@ -105,9 +111,9 @@ final class Player: Actor {
         }
 
         if(getButtonDown(KeyButton.x)) {
-            Vec2i wallSpawnPos = Vec2i(position.x + _facing * 50, position.y);
-            Wall wall = new Wall(wallSpawnPos, Vec2i(25, 10));
-            spawnSolid(wall);
+            Vec2i haniwaSpawnPos = Vec2i(position.x + _facing * 50, position.y);
+            Haniwa haniwa = new Haniwa(haniwaSpawnPos, Vec2i(25, 10), _facing);
+            spawnSolid(haniwa);
         }
 
         //-- Jump

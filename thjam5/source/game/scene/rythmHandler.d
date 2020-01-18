@@ -51,7 +51,6 @@ class RythmHandler {
     }
 
     void update() {
-        writeln(_clock.peek.total!"msecs" / 1000f);
         _songPositionSec   = (_clock.peek.total!"msecs" / 1000f) - _firstBeatOffset;
         _songPositionBeats = cast(int)(_songPositionSec / _secPerBeat);
 

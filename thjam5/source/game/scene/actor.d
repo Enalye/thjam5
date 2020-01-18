@@ -15,6 +15,11 @@ struct CollisionData {
     Vec2i direction;
 }
 
+/// Linear interpolation to approach a point
+float approach(float value, float target, float step) {
+    return value > target ? max(value - step, target) : min(value + step, target);
+}
+
 /// Any physical object.
 abstract class Actor {
     private {
@@ -138,11 +143,6 @@ abstract class Actor {
             getHitboxOrigin2d(),
             getHitboxSize2d(),
             Color.white);
-    }
-
-    /// Linear interpolation to approach a point
-    float approach(float value, float target, float step) {
-        return value > target ? max(value - step, target) : min(value + step, target);
     }
 
     /// Returns the sign of value (positive = 1, negative = -1, none = 0)

@@ -4,7 +4,7 @@ import atelier;
 import game.scene.solid;
 
 /// Basic wall, do nothing.
-final class Wall: Solid {
+class Wall: Solid {
     /// Ctor
     this(Vec2i position_, Vec2i hitbox_) {
         position = position_;
