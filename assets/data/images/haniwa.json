@@ -1,0 +1,28 @@
+{
+    "elements": [
+        {
+            "clip": {
+                "h": 80,
+                "w": 63,
+                "x": 0,
+                "y": 0
+            },
+            "columns": 4,
+            "duration": 0.200000002980232239,
+            "easing": "linear",
+            "flip": "none",
+            "lines": 1,
+            "margin": {
+                "x": 0,
+                "y": 0
+            },
+            "maxtiles": 0,
+            "mode": "once",
+            "name": "untitled",
+            "reverse": false,
+            "type": "animation"
+        }
+    ],
+    "texture": "..\/..\/..\/..\/..\/test-images\/haniwas.png",
+    "type": "spritesheet"
+}
