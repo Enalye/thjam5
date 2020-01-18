@@ -23,17 +23,18 @@ void startGame(string[] args) {
 	destroyApplication();
 }
 
-private {
-	GameInterface _gameInterface;
-}
 
 private void onLoadComplete() {
     setDefaultFont(fetch!TrueTypeFont("Cascadia"));
-	_gameInterface = new GameInterface;
 	onMainMenu();
 }
 
-private void onMainMenu() {
+void onMainMenu() {
 	removeRootGuis();
-	addRootGui(_gameInterface);
+	addRootGui(new MenuInterface);
+}
+
+void onStartGame() {
+	removeRootGuis();
+	addRootGui(new GameInterface);
 }
