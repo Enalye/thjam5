@@ -1,6 +1,6 @@
 module game.scene.world;
 
-import std.file, std.path, std.typecons, std.algorithm.comparison;
+import std.file, std.path, std.stdio, std.typecons, std.algorithm.comparison;
 import atelier;
 
 import

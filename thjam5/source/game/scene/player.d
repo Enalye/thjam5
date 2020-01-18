@@ -180,6 +180,5 @@ final class Player: Actor {
         // Squish means we got crushed between 2 solids.
         // We'll most likely respawn here.
         position = Vec2i(0, 1000);
-        writeln("squished");
     }
 }

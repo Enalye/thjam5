@@ -20,8 +20,7 @@ final class Enemy: Actor {
     }
 
     public {
-        Vec2f speed    = Vec2f.zero;
-        bool  toDelete = false;
+        Vec2f speed = Vec2f.zero;
     }
 
     // So far name unused
