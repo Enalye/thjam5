@@ -25,6 +25,9 @@ class Projectile {
 		ActionActor onActor;
     }
 
+	bool setForDeletion = false;
+	bool collidedThisFrame = false;
+
     this(Vec2i position_, Vec2i hitbox_, dstring eventSolid = "", dstring eventPlayer = "", dstring eventActor = "") {
 		GrType[] arr;
         position = position_;
@@ -143,26 +146,28 @@ class Projectile {
         _moveRemaining.x += x;
         int move = cast(int) round(_moveRemaining.x);
 
-        if(move != 0) {
+        if(move != 0 && !setForDeletion) {
             _moveRemaining.x -= x;
             int dir = move > 0 ? 1 : -1;
 
-            while(move) {
-                if(onPlayer) {
+            while(move && !setForDeletion) {
+                if(onPlayer && !collidedThisFrame) {
 					Player player = collidePlayerAt(_position + Vec2i(dir, 0), _hitbox);
 					if(player) {
 						onPlayer(this, player);
+						collidedThisFrame = true;
 					}
 				}
-                if(onActor) {
+                if(onActor && !collidedThisFrame) {
 				}
-                if(onSolid) {
+                if(onSolid && !collidedThisFrame) {
 					Solid solid = collideAt(_position + Vec2i(dir, 0), _hitbox);
 					if(solid) {
 						CollisionData data;
 						data.solid = solid;
 						data.direction = Vec2i(dir, 0);
 						onSolid(this, data);
+						collidedThisFrame = true;
 					}
                 }
                 _position.x += dir;
@@ -176,26 +181,28 @@ class Projectile {
         _moveRemaining.y += y;
         int move = cast(int) round(_moveRemaining.y);
 
-        if(move != 0) {
+        if(move != 0  && !setForDeletion) {
             _moveRemaining.y -= y;
             int dir = move > 0 ? 1 : -1;
 
-            while(move) {
-                if(onPlayer) {
+            while(move && !setForDeletion) {
+                if(onPlayer && !collidedThisFrame) {
 					Player player = collidePlayerAt(_position + Vec2i(0, dir), _hitbox);
 					if(player) {
 						onPlayer(this, player);
+						collidedThisFrame = true;
 					}
 				}
-                if(onActor) {
+                if(onActor && !collidedThisFrame) {
 				}
-                if(onSolid) {
+                if(onSolid && !collidedThisFrame) {
 					Solid solid = collideAt(_position + Vec2i(0, dir), _hitbox);
 					if(solid) {
 						CollisionData data;
 						data.solid = solid;
 						data.direction = Vec2i(0, dir);
 						onSolid(this, data);
+						collidedThisFrame = true;
 					}
                 }
                 _position.y += dir;

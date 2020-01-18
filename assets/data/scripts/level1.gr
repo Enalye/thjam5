@@ -48,4 +48,5 @@ task rotatingProjectile(float angle, int radius, int size, float speed) {
 
 event killPlayer(Projectile projectile, Player player) {
 	player::killp();
+	projectile::destroy();
 }

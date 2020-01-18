@@ -1,6 +1,6 @@
 module game.scene.world;
 
-import std.file, std.path;
+import std.file, std.path, std.typecons;
 import atelier;
 import game.scene.actor, game.scene.solid, game.scene.player, game.scene.wall, game.scene.projectile;
 import game.script;
@@ -61,6 +61,15 @@ private void updateWorld(Canvas canvas, float deltaTime) {
 
     foreach(Actor actor; _actors)
         actor.update(deltaTime);
+
+    foreach(Projectile proj, uint pos; _projectiles)
+    {
+		proj.collidedThisFrame = false;
+		if(proj.setForDeletion) {
+			_projectiles.markForRemoval(pos);
+		}
+	}
+	_projectiles.sweepMarkedData();
 
     canvas.size = screenSize;
     canvas.position = _player.getPosition2d();

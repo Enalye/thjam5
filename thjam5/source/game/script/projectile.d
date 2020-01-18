@@ -23,6 +23,9 @@ package void loadProjectile(GrData data) {
 
     data.addPrimitive(&_moveProjectile, "move", ["projectile", "x", "y"], [defProjectile, grFloat, grFloat]);
     data.addPrimitive(&_moveProjectileTo, "moveTo", ["projectile", "x", "y"], [defProjectile, grFloat, grFloat]);
+
+
+    data.addPrimitive(&_destroyProjectile, "destroy", ["projectile"], [defProjectile]);
 }
 
 GrType grProjectile;
@@ -82,6 +85,11 @@ private void _getWallHitboxY(GrCall call) {
 private void _moveProjectile(GrCall call) {
     Projectile projectile = call.getUserData!Projectile("projectile");
     projectile.move(Vec2f(call.getFloat("x"), call.getFloat("y")));
+}
+
+private void _destroyProjectile(GrCall call) {
+    Projectile projectile = call.getUserData!Projectile("projectile");
+	projectile.setForDeletion = true;
 }
 
 private void _moveProjectileTo(GrCall call) {
