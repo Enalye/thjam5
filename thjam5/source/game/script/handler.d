@@ -43,7 +43,6 @@ void loadScript(string filePath) {
         printError(_error);
         throw new Exception("Compilation aborted...");
     }
-    writeln(grDump(_data, _bytecode));
     _engine = new GrEngine;
     _engine.load(_data, _bytecode);
     _engine.spawn();
