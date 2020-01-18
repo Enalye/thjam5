@@ -19,6 +19,10 @@ final class Enemy: Actor {
         bool  _onGround    = false;
     }
 
+    @property {
+        bool onGround() { return _onGround; }
+    }
+
     public {
         Vec2f speed = Vec2f.zero;
     }

@@ -5,7 +5,7 @@ int CollisionRadius = 1;
 
 main {
     movingPlatformExample(-120, 60);
-    //movingPlatformExample(250, 90);
+    movingPlatformExample(250, 90);
 
 	for(i, [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330])
 	{
@@ -17,8 +17,9 @@ main {
 }
 
 task movingPlatformExample(int x, int y) {
-    let wall = createWall(x, y, 60, 60);
-    enemyOnPlatform(x, y + 60 + 16);
+    let wall  = createWall(x, y, 60, 60);
+    let enemy = enemyOnPlatform(x, y + 60 + 16);
+    jumpTowards(enemy, 60, 10f, 5f);
 
     int t = 0;
     loop {
@@ -29,8 +30,9 @@ task movingPlatformExample(int x, int y) {
     }
 }
 
-task enemyOnPlatform(int x, int y) {
+func enemyOnPlatform(int x, int y) Enemy {
     let enemy = spawnEnemy("", x, y);
+    return enemy;
 }
 
 task rotatingPlatform(float angle, int radius, int size, float speed) {
@@ -45,7 +47,7 @@ task rotatingPlatform(float angle, int radius, int size, float speed) {
 }
 
 task rotatingProjectile(float angle, int radius, int size, float speed) {
-    let wall = createProjectile(((radius as float)*cos(angle)-size/2) as int, ((radius as float)*cos(angle)-size/2) as int, size, size, CollisionHitbox,"killPlayer");
+    let wall = createProjectile(((radius as float)*cos(angle)-size/2) as int, ((radius as float)*cos(angle)-size/2) as int, size, size, CollisionHitbox, "killPlayer");
 
 	int t_o = time();
     loop {

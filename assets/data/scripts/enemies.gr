@@ -1,8 +1,21 @@
 use "utils.gr"
 
-task jumpTowards(Enemy enemy, Player player, float delay, float speedX, float speedY) {
-    wait(delay);
-    bool targetRight = (enemy::getPositionX() - player::getPositionX()) > 0;
-    enemy::setSpeed(speedX, speedY);
+task jumpTowards(Enemy enemy, int delay, float speedX, float speedY) {
+    loop {
+        wait(delay);
+        bool canJump     = enemy::isGrounded();
+        bool targetRight = (enemy::getPositionX() - getPlayer()::getPositionX()) > 0;
+        bool targetLeft  = (enemy::getPositionX() - getPlayer()::getPositionX()) < 0;
+
+        if(canJump) {
+            if(targetRight) {
+                enemy::setSpeed(-speedX, speedY);
+            } else if(targetLeft) {
+                enemy::setSpeed(speedX, speedY);
+            }
+        }
+
+        yield;
+    }
 }
 

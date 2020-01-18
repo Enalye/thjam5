@@ -20,6 +20,7 @@ package void loadEnemy(GrData data) {
     data.addPrimitive(&_getEnemyHitbox, "getHitbox", ["enemy"], [defEnemy], [grInt, grInt]);
     data.addPrimitive(&_getEnemyHitboxX, "getHitboxX", ["enemy"], [defEnemy], [grInt]);
     data.addPrimitive(&_getEnemyHitboxY, "getHitboxY", ["enemy"], [defEnemy], [grInt]);
+    data.addPrimitive(&_isEnemyGrounded, "isGrounded", ["enemy"], [defEnemy], [grBool]);
     data.addPrimitive(&_KillEnemy, "killp", ["enemy"], [defEnemy]);
     data.addPrimitive(&_DamageEnemy, "damage", ["enemy", "amount"], [defEnemy, grFloat]);
 }
@@ -81,6 +82,11 @@ private void _getEnemyHitboxX(GrCall call) {
 private void _getEnemyHitboxY(GrCall call) {
     Enemy enemy = call.getUserData!Enemy("enemy");
     call.setInt(enemy.hitbox.y);
+}
+
+private void _isEnemyGrounded(GrCall call) {
+    Enemy enemy = call.getUserData!Enemy("enemy");
+    call.setBool(enemy.onGround);
 }
 
 private void _KillEnemy(GrCall call) {
