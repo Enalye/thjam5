@@ -1,0 +1,50 @@
+{
+    "elements": [
+        {
+            "clip": {
+                "h": 80,
+                "w": 80,
+                "x": 0,
+                "y": 0
+            },
+            "columns": 2,
+            "duration": 1,
+            "easing": "linear",
+            "flip": "none",
+            "lines": 1,
+            "margin": {
+                "x": 0,
+                "y": 0
+            },
+            "maxtiles": 0,
+            "mode": "once",
+            "name": "black wulf",
+            "reverse": false,
+            "type": "animation"
+        },
+        {
+            "clip": {
+                "h": 80,
+                "w": 80,
+                "x": 161,
+                "y": 1
+            },
+            "columns": 2,
+            "duration": 1,
+            "easing": "linear",
+            "flip": "none",
+            "lines": 1,
+            "margin": {
+                "x": 0,
+                "y": 0
+            },
+            "maxtiles": 0,
+            "mode": "once",
+            "name": "untitled",
+            "reverse": false,
+            "type": "animation"
+        }
+    ],
+    "texture": "..\/..\/..\/..\/..\/test-images\/wolf.png",
+    "type": "spritesheet"
+}
