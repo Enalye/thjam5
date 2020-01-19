@@ -57,7 +57,6 @@ class Haniwa: Solid {
 
     /// Render the actor.
     override void draw() {
-        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.black);
         animation.draw(getPosition2d());                   
     }
 

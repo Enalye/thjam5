@@ -1,12 +1,15 @@
 module game.script.wall;
 
 import atelier, grimoire;
+import std.conv;
 import game.scene;
 
 package void loadWall(GrData data) {
     auto defWall = data.addUserType("Wall");
 
-    data.addPrimitive(&_createWall, "createWall", ["x", "y", "hx", "hy"], [grInt, grInt, grInt, grInt], [defWall]);
+    data.addPrimitive(&_createWall, "createWall",
+                      ["fileName", "x", "y", "hx", "hy"],
+                      [grString, grInt, grInt, grInt, grInt], [defWall]);
     
     data.addPrimitive(&_setWallPosition, "setPosition", ["wall", "x", "y"], [defWall, grInt, grInt]);
     data.addPrimitive(&_getWallPosition, "getPosition", ["wall"], [defWall], [grInt, grInt]);
@@ -20,11 +23,14 @@ package void loadWall(GrData data) {
 
     data.addPrimitive(&_moveWall, "move", ["wall", "x", "y"], [defWall, grFloat, grFloat]);
     data.addPrimitive(&_moveWallTo, "moveTo", ["wall", "x", "y"], [defWall, grFloat, grFloat]);
-
 }
 
 private void _createWall(GrCall call) {
-    auto wall = new Wall(Vec2i(call.getInt("x"), call.getInt("y")), Vec2i(call.getInt("hx"), call.getInt("hy")));
+    auto wall = new Wall(to!string(call.getString("fileName")),
+                         Vec2i(call.getInt("x"),
+                               call.getInt("y")),
+                         Vec2i(call.getInt("hx"),
+                               call.getInt("hy")));
     spawnSolid(wall);
     call.setUserData!Wall(wall);
 }

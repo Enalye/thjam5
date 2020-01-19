@@ -12,9 +12,7 @@ int uspb = 375_000;
 main {
     beatHandling();
 	spawnJumper(-230, 15);
-    //movingPlatformExample(-120, 60);
-    //movingPlatformExample(250, 90);
-	let floor = createWall(0, -760, 500, 750);
+	let floor = createWall("floor", 0, -760, 581, 279);
 
 	for(i, [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330])
 	{
@@ -181,7 +179,7 @@ task claws(int spawn, int active, int ground, int out) {
 
 task spawnJumper(int x, int y) {
 	let enemy = spawnEnemy("jumper", x, y);
-	enemy::jumpTowards(60, 10f, 5f);
+	enemy::jumpTowards(1_500_000, 10f, 5f);
 }
 
 task managePlatforms() {
@@ -289,26 +287,12 @@ task managePlatforms() {
 				flag01 = true;
 				for(i, [0, 60, 120, 180, 240, 300])
 				{
-					rotatingPlatform(i as float*3.1415f/180f, 360, 15, 0.7f);
+					rotatingPlatform(i as float*3.1415f/180f, 750, 32, 0.7f);
 				}	
 			}
 		}
 		yield;
 	}
-}
-
-task movingPlatformExample(int x, int y) {
-    let wall  = createWall(x, y, 60, 60);
-    let enemy = enemyOnPlatform(x, y + 60 + 16);
-    jumpTowards(enemy, 60, 10f, 5f);
-
-    int t = 0;
-    loop {
-        let f = sin(t / 100f);
-        wall::move(f, f);
-        t ++;
-        yield
-    }
 }
 
 func enemyOnPlatform(int x, int y) Enemy {
@@ -317,7 +301,7 @@ func enemyOnPlatform(int x, int y) Enemy {
 }
 
 task rotatingPlatform(float angle, int radius, int size, float speed) {
-    let wall = createWall(((radius+away)*cos(angle)-size/2) as int, ((radius+away)*sin(angle)-size/2) as int, size, size);
+    let wall = createWall("platform", ((radius+away)*cos(angle)-size/2) as int, ((radius+away)*sin(angle)-size/2) as int, size * 2, size);
 
 	int t_o = time();
     loop {
