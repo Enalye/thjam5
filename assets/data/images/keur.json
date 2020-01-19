@@ -23,6 +23,6 @@
             "type": "sprite"
         }
     ],
-    "texture": "lovelove.png",
+    "texture": "..\/..\/media\/gui\/lovelove.png",
     "type": "spritesheet"
 }

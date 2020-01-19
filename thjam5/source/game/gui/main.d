@@ -6,6 +6,8 @@ import atelier;
 import game.scene;
 import game.menu;
 
+
+private GameInterface _gameInterface;
 /// Global interface that displays informations and render the world.
 final class GameInterface: GuiElement {
     private {
@@ -16,14 +18,13 @@ final class GameInterface: GuiElement {
 
     /// Ctor
     this() {
+        _gameInterface = this;
         size(screenSize);
 
         _world = new World;
-        addChildGui(_world);
 
         _timerLabel = new Label("Time: 0");
-        _timerLabel.position(Vec2f(10f, 10f));
-        addChildGui(_timerLabel);
+        setLife(5);
 
         _clock = StopWatch(AutoStart.yes);
     }
@@ -31,6 +32,39 @@ final class GameInterface: GuiElement {
     override void update(float deltaTime) {
         _timerLabel.text = "Time: " ~ to!string(_clock.peek.total!"seconds");
     }
+
+    void setLife(int life) {
+        removeChildrenGuis();
+        addChildGui(_world);
+
+        _timerLabel.position(Vec2f(10f, 50f));
+        addChildGui(_timerLabel);
+
+        auto sp = fetch!Sprite("vie");
+        auto b = new HContainer;
+        b.position = Vec2f(10f, 10f);
+        b.spacing = Vec2f(20f, 0f);
+        addChildGui(b);
+        for(int i = 0; i < life; ++ i) {
+            b.addChildGui(new Heart(sp));
+        }
+    }
+}
+
+final class Heart: GuiElement {
+    private Sprite _sp;
+    this(Sprite sp) {
+        _sp = sp;
+        size(_sp.size);
+    }
+
+    override void draw() {
+        _sp.draw(center);
+    }
+}
+
+void setLifeGui(int life) {
+    _gameInterface.setLife(life);
 }
 
 final class IntroGui1: GuiElement {
