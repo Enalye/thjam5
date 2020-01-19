@@ -181,7 +181,7 @@ task claws(int spawn, int active, int ground, int out) {
 
 task spawnJumper(int x, int y) {
 	let enemy = spawnEnemy("jumper", x, y);
-	enemy::jumpTowards(60, 10f, 5f);
+	enemy::jumpTowards(1_500_000, 10f, 5f);
 }
 
 task managePlatforms() {
@@ -289,7 +289,7 @@ task managePlatforms() {
 				flag01 = true;
 				for(i, [0, 60, 120, 180, 240, 300])
 				{
-					rotatingPlatform(i as float*3.1415f/180f, 360, 15, 0.7f);
+					rotatingPlatform(i as float*3.1415f/180f, 750, 32, 0.7f);
 				}	
 			}
 		}

@@ -21,6 +21,7 @@ package void loadProjectile(GrData data) {
     data.addPrimitive(&_getWallHitboxY, "getHitboxY", ["wall"], [defWall], [grInt]);
 	*/
 
+    data.addPrimitive(&_setProjectilePosition, "setPosition", ["p", "x", "y"], [defProjectile, grInt, grInt]);
     data.addPrimitive(&_moveProjectile, "move", ["projectile", "x", "y"], [defProjectile, grFloat, grFloat]);
     data.addPrimitive(&_moveProjectileTo, "moveTo", ["projectile", "x", "y"], [defProjectile, grFloat, grFloat]);
 
@@ -40,12 +41,12 @@ private void _createProjectile(GrCall call) {
     spawnProjectile(proj);
     call.setUserData!Projectile(proj);
 }
-/*
-private void _setWallPosition(GrCall call) {
-    Wall wall = call.getUserData!Wall("wall");
+
+private void _setProjectilePosition(GrCall call) {
+    Projectile wall = call.getUserData!Projectile("p");
     wall.position = Vec2i(call.getInt("x"), call.getInt("y"));
 }
-
+/**
 private void _getWallPosition(GrCall call) {
     Wall wall = call.getUserData!Wall("wall");
     call.setInt(wall.position.x);
