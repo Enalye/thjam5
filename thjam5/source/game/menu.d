@@ -7,7 +7,7 @@ import game.loader, game.gui;
 
 /// Game startup
 void startGame(string[] args) {
-	createApplication(Vec2u(1280u, 720u), "thjam5");
+	createApplication(Vec2u(1280u, 720u), "Haniwaface");
 
 	setWindowMinSize(Vec2u(1280u, 720u));
 	setWindowMaxSize(Vec2u(1280u, 720u));
@@ -31,7 +31,7 @@ private void onLoadComplete() {
 
 void onMainMenu() {
 	removeRootGuis();
-	addRootGui(new MenuInterface);
+	addRootGui(new IntroGui1);
 }
 
 void onStartGame() {

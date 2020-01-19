@@ -8,10 +8,10 @@
                 "y": 0
             },
             "flip": "none",
-            "name": "ui.bg",
+            "name": "ui.intro2",
             "type": "sprite"
         }
     ],
-    "texture": "..\/..\/media\/gui\/bg.png",
+    "texture": "..\/..\/media\/gui\/intro2.png",
     "type": "spritesheet"
 }
