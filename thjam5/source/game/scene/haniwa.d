@@ -51,6 +51,7 @@ class Haniwa: Solid {
 
         if(isOutsideScreen(position)) {
             toDelete = true;
+            ++getPlayer().nbHaniwas;
         }
     }
 
@@ -62,6 +63,9 @@ class Haniwa: Solid {
 
     /// We touch a wall left or right.
     void onHitWall(CollisionData data) {
-        _speed = 0f;
+        const Solid solid = data.solid;
+        if(solid != this) {   
+            _speed = 0f;
+        }
     }
 }

@@ -11,6 +11,7 @@ game.scene.player,
 game.scene.wall,
 game.scene.projectile,
 game.scene.enemy,
+game.scene.haniwa,
 game.scene.rythm;
 
 import game.script;
@@ -80,7 +81,7 @@ private void updateWorld(Canvas canvas, float deltaTime) {
     foreach(Actor actor, uint actorIdx; _actors) {
         actor.update(deltaTime);
         if(actor.toDelete) {
-            _actors.markForRemoval(actorIdx);
+            _actors.markInternalForRemoval(actorIdx);
         }
     }
     _actors.sweepMarkedData();
@@ -88,7 +89,7 @@ private void updateWorld(Canvas canvas, float deltaTime) {
     foreach(Projectile proj, uint pos; _projectiles) {
 		proj.collidedThisFrame = false;
 		if(proj.toDelete) {
-			_projectiles.markForRemoval(pos);
+			_projectiles.markInternalForRemoval(pos);
 		}
 	}
 	_projectiles.sweepMarkedData();
@@ -111,9 +112,7 @@ private void drawWorld() {
         solid.draw();
 
     foreach(Projectile projectile; _projectiles)
-        projectile.draw();
-
-		
+        projectile.draw();	
 
     /*foreach(Solid solid; _solids)
         solid.drawHitbox();
@@ -166,6 +165,11 @@ Solid collideAt(Vec2i point, int radius) {
     foreach(Solid solid; _solids) {
         if(intersect(point, radius, solid.position, solid.hitbox))
             return solid;
+    }
+
+    foreach(Haniwa haniwa; getPlayer().haniwas) {
+        if(intersect(point, radius, haniwa.position, haniwa.hitbox))
+            return haniwa;
     }
     return null;
 }

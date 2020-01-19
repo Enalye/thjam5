@@ -35,8 +35,6 @@ final class Player: Actor {
         bool _isWallGrabbing = false;
 
         Solid       _solidRiding;
-        HaniwaArray _haniwas;
-
         Animation _currentAnimation;
         Animation _animationIdle;
         Animation _animationRun;
@@ -45,13 +43,17 @@ final class Player: Actor {
         Timer _jumpTimer, _grabTimer;
     }
 
+    int nbHaniwas = 3;
+
+    HaniwaArray haniwas;
+
     /// Ctor
     this() {
         isPlayer = true;
         position = Vec2i(0, 30);
         hitbox = Vec2i(25, 38);
 
-        _haniwas = new HaniwaArray();
+        haniwas = new HaniwaArray();
 
         _animationIdle = fetch!Animation("keiki.idle");
         _animationRun  = fetch!Animation("keiki.run");
@@ -134,10 +136,11 @@ final class Player: Actor {
             }
         }
 
-        if(_haniwas.length < (_haniwas.capacity - 1) && getButtonDown(KeyButton.x)) {
+        if((nbHaniwas > 0) && getButtonDown(KeyButton.x)) {
             Vec2i haniwaSpawnPos = Vec2i(position.x + _facing * 75, position.y);
             Haniwa haniwa = new Haniwa(haniwaSpawnPos, Vec2i(30, 16), _facing);
-            _haniwas.push(haniwa);
+            haniwas.push(haniwa);
+            --nbHaniwas;
         }
 
         //-- Jump
@@ -166,13 +169,13 @@ final class Player: Actor {
         else
             moveY(_speed.y, null);
 
-        foreach(Haniwa haniwa, uint actorIdx; _haniwas) {
+        foreach(Haniwa haniwa, uint actorIdx; haniwas) {
             haniwa.update(deltaTime);
             if(haniwa.toDelete) {
-                _haniwas.markForRemoval(actorIdx);
+                haniwas.markInternalForRemoval(actorIdx);
             }
-            _haniwas.sweepMarkedData();
         }
+        haniwas.sweepMarkedData();
 
         _animationIdle.update(deltaTime);
     }
@@ -226,7 +229,7 @@ final class Player: Actor {
     }
 
     override void draw() {
-        foreach(Haniwa haniwa; _haniwas) {
+        foreach(Haniwa haniwa; haniwas) {
             haniwa.draw();
         }
 
