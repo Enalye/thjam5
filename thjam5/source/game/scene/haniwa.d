@@ -13,6 +13,7 @@ class Haniwa: Solid {
 
         enum acceleration = 0.2f;
         enum maxSpeed     = 5f;
+        Animation animation;
     }
 
     bool toDelete = false;
@@ -21,11 +22,19 @@ class Haniwa: Solid {
         position = position_;
         hitbox   = hitbox_;  
         _facing  = facing;
+
+        animation = fetch!Animation("haniwa");
+        if(_facing == -1) {
+            animation.flip = Flip.horizontal;
+        }
+
+        animation.start();
     }
 
     override void update(float deltaTime) {
         _speed = approach(_speed, maxSpeed * _facing, acceleration);
         handleMovement(_speed, &onHitWall);
+        animation.update(deltaTime);
     }
 
     final void handleMovement(float x, Action onCollide) {
@@ -47,6 +56,7 @@ class Haniwa: Solid {
     /// Render the actor.
     override void draw() {
         drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.black);
+        animation.draw(getHitboxOrigin2d());                   
     }
 
     /// We touch a wall left or right.
