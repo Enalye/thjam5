@@ -28,11 +28,10 @@ package void loadEnemy(GrData data) {
 GrType grEnemy;
 
 private void _grSpawnEnemy(GrCall call) {
-	string name = "";//to!string(call.getString("name"));
 	const int x = call.getInt("x");
 	const int y = call.getInt("y");
 
-	Enemy enemy = new Enemy(name, Vec2i(x, y));
+	Enemy enemy = new Enemy(Vec2i(x, y));
     spawnActor(enemy);
 	call.setUserData!Enemy(enemy);
 }

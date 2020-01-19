@@ -229,8 +229,7 @@ final class Player: Actor {
             haniwa.draw();
         }
 
-        Vec2f drawPosition = getHitboxOrigin2d();
-        drawFilledRect(drawPosition, getHitboxSize2d(), Color.green);
+        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.green);
 
         if(_facing == -1) {
             _currentAnimation.flip = Flip.horizontal;
@@ -238,7 +237,7 @@ final class Player: Actor {
             _currentAnimation.flip = Flip.none;
         }
         
-        _currentAnimation.draw(drawPosition + Vec2f(_currentAnimation.size.x / 2f, 0));
+        _currentAnimation.draw(getPosition2d());
     }
 
     override void squish(CollisionData data) {
