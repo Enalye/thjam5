@@ -29,11 +29,12 @@ final class Player: Actor {
     }
 
     private {
-        int _direction = 0, _facingWall = 0, _facing = 0;
+        int _direction = 0, _facingWall = 0, _facing = 1;
         Vec2f _speed = Vec2f.zero;
         bool _onGround = false, _canDoubleJump = true;
         bool _isWallGrabbing = false;
         Solid _solidRiding;
+        HaniwaArray _haniwas;
 
         Timer _jumpTimer, _grabTimer;
     }
@@ -42,6 +43,8 @@ final class Player: Actor {
     this() {
         position = Vec2i(0, 20);
         hitbox = Vec2i(10, 16);
+
+        _haniwas = new HaniwaArray();
     }
 
     override void update(float deltaTime) {
@@ -110,10 +113,10 @@ final class Player: Actor {
             }
         }
 
-        if(getButtonDown(KeyButton.x)) {
-            Vec2i haniwaSpawnPos = Vec2i(position.x + _facing * 50, position.y);
+        if(_haniwas.length < (_haniwas.capacity - 1) && getButtonDown(KeyButton.x)) {
+            Vec2i haniwaSpawnPos = Vec2i(position.x + _facing * 75, position.y);
             Haniwa haniwa = new Haniwa(haniwaSpawnPos, Vec2i(25, 10), _facing);
-            spawnSolid(haniwa);
+            _haniwas.push(haniwa);
         }
 
         //-- Jump
@@ -136,6 +139,14 @@ final class Player: Actor {
             moveY(_speed.y, &onHitGround);
         else
             moveY(_speed.y, null);
+
+        foreach(Haniwa haniwa, uint actorIdx; _haniwas) {
+            haniwa.update(deltaTime);
+            if(haniwa.toDelete) {
+                _haniwas.markForRemoval(actorIdx);
+            }
+            _haniwas.sweepMarkedData();
+        }
     }
 
     /// We touch a wall left or right.
@@ -187,6 +198,10 @@ final class Player: Actor {
     }
 
     override void draw() {
+        foreach(Haniwa haniwa; _haniwas) {
+            haniwa.draw();
+        }
+
         drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.green);
     }
 

@@ -109,14 +109,15 @@ private void drawWorld() {
         }
         i ++;
     }
+
     drawRect(Vec2f.zero - centerScreen, Vec2f(x, y), Color.black);
     drawRect(-Vec2f.one - centerScreen, Vec2f(x, y) + 2f, Color.black);
 
-    foreach(Solid solid; _solids)
-        solid.draw();
-
     foreach(Actor actor; _actors)
         actor.draw();
+
+    foreach(Solid solid; _solids)
+        solid.draw();
 
     foreach(Projectile projectile; _projectiles)
         projectile.draw();
@@ -163,6 +164,11 @@ private bool intersect(Vec2i center, int radius, Vec2i pos, Vec2i halfSize) {
 	return (deltaX * deltaX + deltaY * deltaY) < (radius * radius);
 }
 
+bool isOutsideScreen(Vec2i position) {
+    return abs(_player.position.x - position.x) > 750 ||
+           abs(_player.position.y - position.y) > 500;
+}
+
 Solid collideAt(Vec2i point, int radius) {
     foreach(Solid solid; _solids) {
         if(intersect(point, radius, solid.position, solid.hitbox))
@@ -170,6 +176,7 @@ Solid collideAt(Vec2i point, int radius) {
     }
     return null;
 }
+
 Player collidePlayerAt(Vec2i point, int radius) {
     if(intersect(point, radius, _player.position, _player.hitbox))
       	return _player;

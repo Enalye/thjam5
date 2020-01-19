@@ -2,7 +2,9 @@ module game.scene.haniwa;
 
 import atelier;
 import std.stdio;
-import game.scene.actor, game.scene.solid;
+import game.scene.actor, game.scene.solid, game.scene.world;
+
+alias HaniwaArray = IndexedArray!(Haniwa, 500u);
 
 class Haniwa: Solid {
     private {
@@ -13,6 +15,8 @@ class Haniwa: Solid {
         enum maxSpeed     = 5f;
     }
 
+    bool toDelete = false;
+
     this(Vec2i position_, Vec2i hitbox_, int facing) {
         position = position_;
         hitbox   = hitbox_;  
@@ -21,7 +25,23 @@ class Haniwa: Solid {
 
     override void update(float deltaTime) {
         _speed = approach(_speed, maxSpeed * _facing, acceleration);
-        moveX(_speed);
+        handleMovement(_speed, &onHitWall);
+    }
+
+    final void handleMovement(float x, Action onCollide) {
+        moveX(x);
+
+        Solid solid = collideAt(position + Vec2i(_facing, 0), hitbox);
+        if(solid && onCollide) {
+            CollisionData data;
+            data.solid     = solid;
+            data.direction = Vec2i(_facing, 0);
+            onCollide(data);
+        }
+
+        if(isOutsideScreen(position)) {
+            toDelete = true;
+        }
     }
 
     /// Render the actor.
