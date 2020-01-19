@@ -1,5 +1,7 @@
 module game.gui.main;
 
+import std.datetime.stopwatch: StopWatch, AutoStart;
+import std.conv: to;
 import atelier;
 import game.scene;
 import game.menu;
@@ -8,6 +10,8 @@ import game.menu;
 final class GameInterface: GuiElement {
     private {
         World _world;
+        Label _timerLabel;
+        StopWatch _clock;
     }
 
     /// Ctor
@@ -16,6 +20,16 @@ final class GameInterface: GuiElement {
 
         _world = new World;
         addChildGui(_world);
+
+        _timerLabel = new Label("Time: 0");
+        _timerLabel.position(Vec2f(10f, 10f));
+        addChildGui(_timerLabel);
+
+        _clock = StopWatch(AutoStart.yes);
+    }
+
+    override void update(float deltaTime) {
+        _timerLabel.text = "Time: " ~ to!string(_clock.peek.total!"seconds");
     }
 }
 
@@ -29,7 +43,7 @@ final class MenuInterface: GuiElement {
     this() {
         size(screenSize);
         _music = fetch!Music("the_idolmaster");
-        _music.volume = 0.1f;
+        _music.volume = 0.3f;
         _music.isLooped = true;
         _music.play();
 
