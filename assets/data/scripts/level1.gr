@@ -96,6 +96,7 @@ task bulletSniper(int spawn, int x, int y, float speed, int interval, int shots)
 task moon(int spawn, int x, int y, float v_x, float v_y) {
 	waitUntil(spawn);
 	let proj = createProjectile("bullet", x, y, 24, 24, CollisionRadius, "killPlayerNoCancel");
+	redGradient(proj, 100f);
 	let t_last = time();
 	loop {
 		let t_l = time();
@@ -123,6 +124,8 @@ task claws(int spawn, int active, int ground, int out) {
 	waitUntil(spawn);
 	let left  = createProjectile("bullet", -150, 130, 32, 32, CollisionHitbox, "killPlayerNoCancel");
 	let right = createProjectile("bullet", 150, 130, 32, 32, CollisionHitbox, "killPlayerNoCancel");
+	redGradient(left, 100f);
+	redGradient(right, 100f);
 	loop {
 		if(time()<active)
 		{
@@ -151,6 +154,8 @@ task claws(int spawn, int active, int ground, int out) {
 	right::destroy();
 	left = createProjectile("bullet", -150, 30, 32, 32, CollisionHitbox, "killPlayerNoCancel");
 	right = createProjectile("bullet", 150, 30, 32, 32, CollisionHitbox, "killPlayerNoCancel");
+	redGradient(left, 100f);
+	redGradient(right, 100f);
 	loop {
 		t_o = time();
 		if(t_o<out)

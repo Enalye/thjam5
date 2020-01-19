@@ -65,6 +65,28 @@
             "name": "keiki.jump",
             "reverse": false,
             "type": "animation"
+        },
+        {
+            "clip": {
+                "h": 80,
+                "w": 68,
+                "x": 660,
+                "y": 0
+            },
+            "columns": 2,
+            "duration": 1,
+            "easing": "linear",
+            "flip": "none",
+            "lines": 1,
+            "margin": {
+                "x": 0,
+                "y": 0
+            },
+            "maxtiles": 0,
+            "mode": "once",
+            "name": "keiki.death",
+            "reverse": false,
+            "type": "animation"
         }
     ],
     "texture": "..\/..\/media\/characters\/keiki.png",
