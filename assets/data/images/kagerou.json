@@ -1,0 +1,17 @@
+{
+    "elements": [
+        {
+            "clip": {
+                "h": 959,
+                "w": 1280,
+                "x": 0,
+                "y": 0
+            },
+            "flip": "none",
+            "name": "kagerou",
+            "type": "sprite"
+        }
+    ],
+    "texture": "..\/..\/media\/characters\/kagerou.jpg",
+    "type": "spritesheet"
+}

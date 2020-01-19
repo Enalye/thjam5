@@ -4,6 +4,7 @@ import std.file, std.path, std.stdio, std.typecons, std.algorithm.comparison;
 import atelier;
 
 import
+game.scene.background,
 game.scene.actor,
 game.scene.solid,
 game.scene.player,
@@ -35,6 +36,7 @@ final class World: GuiElementCanvas {
 }
 
 private {
+    Background      _background;
     ActorArray      _actors;
     SolidArray      _solids;
     ProjectileArray _projectiles;
@@ -55,6 +57,7 @@ RythmHandler getRythmHandler() {
 }
 
 private void initWorld() {
+    _background   = new Background("kagerou");
     _actors       = new ActorArray;
     _solids       = new SolidArray;
     _projectiles  = new ProjectileArray;
@@ -68,7 +71,6 @@ private void initWorld() {
     loadScript(filePath);
 
     _rythmHandler.start("beast_of_gevaudan", 160, 206f, 1f, 10f);
-	
 }
 
 private void updateWorld(Canvas canvas, float deltaTime) {
@@ -100,19 +102,7 @@ private void updateWorld(Canvas canvas, float deltaTime) {
 }
 
 private void drawWorld() {
-    const Color c1 = Color(0.74f, 0.74f, 0.74f);
-    const Color c2 = Color(0.49f, 0.49f, 0.49f);
-    int x, y, i;
-    for(y = 0; y < screenHeight; y += 32) {
-        for(x = 0; x < screenWidth; x += 32) {
-            drawFilledRect(Vec2f(x, y) - centerScreen, Vec2f.one * 32f, i % 2 > 0 ? c1 : c2);
-            i ++;
-        }
-        i ++;
-    }
-
-    drawRect(Vec2f.zero - centerScreen, Vec2f(x, y), Color.black);
-    drawRect(-Vec2f.one - centerScreen, Vec2f(x, y) + 2f, Color.black);
+    _background.draw();
 
     foreach(Actor actor; _actors)
         actor.draw();
