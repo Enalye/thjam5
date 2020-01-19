@@ -194,7 +194,7 @@ task managePlatforms() {
 
 	// Time based attacks
 
-	bulletSniper(t_o+8*second,0, 400, 250f, uspb+2, 22);
+	bulletSniper(t_o+8*second,0, 400, 250f, uspb*2, 22);
 	moon(t_o+8*second         ,  -32, 360, -  0f, 400f);
 	moon(t_o+8*second+1*uspb/2,  -52, 360, - 50f, 350f);
 	moon(t_o+8*second+2*uspb/2,  -72, 360, -100f, 300f);
@@ -223,6 +223,7 @@ task managePlatforms() {
 	moon(t_o+16*second+6*uspb/2, -152, 360, -300f/2, 100f*2);
 	moon(t_o+16*second+7*uspb/2, -132, 360, -350f/2,  50f*2);
 	moon(t_o+16*second+8*uspb/2, -152, 360, -400f/2,   0f*2);
+	bulletSniper(t_o+37*second,0, 400, 250f, uspb*4, 44);
 	claws(t_o+97*second, t_o+97*second+400_000, t_o+97*second+750_000, t_o+98*second+140_000);
 
 
@@ -239,7 +240,7 @@ task managePlatforms() {
 		}
 		if(now > 65*second and !flag03) {
 			flag03 = true;
-			jumperWave(22*second, 900_000);
+			jumperWave(22*second, 1_200_000);
 		}
 		if(between(t_o, 88*second, 97*second)) {
 			away = lerp(500.0, 0.0, (now-88*second)/(second*(9f)) );
@@ -253,7 +254,7 @@ task managePlatforms() {
 		}
 		if(now > 123*second and !flag05) {
 			flag05 = true;
-			jumperWave(22*second, 800_000);
+			jumperWave(22*second, 1_100_000);
 		}
 		if(between(t_o, 133*second+100_000, 142*second+100_000)) {
 			away = lerp(500.0, 0.0, (now-133*second-100_000)/(second*(9f)) );
