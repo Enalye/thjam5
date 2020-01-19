@@ -33,43 +33,14 @@ final class GameInterface: GuiElement {
     }
 }
 
-final class MenuInterface: GuiElement {
-    private {
-        Sprite _bgSprite;
-        Animation _spaceAnim;
-    }
-
-    this() {
-        size(screenSize);
-        _bgSprite = fetch!Sprite("ui.bg");
-        _spaceAnim = fetch!Animation("ui.space");
-    }
-
-    override void update(float deltaTime) {
-        if(getButtonDown(KeyButton.space)) {
-            removeRootGuis();
-            fetch!Music("the_idolmaster").stop();
-            onStartGame();
-        }
-        _spaceAnim.update(deltaTime);
-    }
-
-    override void draw() {
-        _bgSprite.draw(center);
-        _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
-    }
-}
-
 final class IntroGui1: GuiElement {
     private {
         Sprite _bgSprite, _introSprite;
-        Animation _spaceAnim;
         Music _music;
     }
 
     this() {
         _bgSprite = fetch!Sprite("ui.bg");
-        _spaceAnim = fetch!Animation("ui.space");
         _introSprite = fetch!Sprite("ui.intro1");
         size(screenSize);
 
@@ -77,10 +48,20 @@ final class IntroGui1: GuiElement {
         _music.volume = 0.2f;
         _music.isLooped = true;
         _music.play();
+
+        {
+            auto b = new HContainer;
+            b.position = Vec2f(20f, 10f);
+            b.setAlign(GuiAlignX.right, GuiAlignY.bottom);
+            addChildGui(b);
+
+            b.addChildGui(new Label("Press "));
+            b.addChildGui(new IconAnim("ui.space"));
+            b.addChildGui(new Label(" to continue (1/3)."));
+        }
     }
 
     override void update(float deltaTime) {
-        _spaceAnim.update(deltaTime);
         if(getButtonDown(KeyButton.space)) {
             removeRootGuis();
             addRootGui(new IntroGui2);
@@ -90,25 +71,32 @@ final class IntroGui1: GuiElement {
     override void draw() {
         _bgSprite.draw(center);
         _introSprite.draw(center);
-        _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
     }
 }
 
 final class IntroGui2: GuiElement {
     private {
         Sprite _bgSprite, _introSprite;
-        Animation _spaceAnim;
     }
 
     this() {
         _bgSprite = fetch!Sprite("ui.bg");
-        _spaceAnim = fetch!Animation("ui.space");
         _introSprite = fetch!Sprite("ui.intro2");
         size(screenSize);
+
+        {
+            auto b = new HContainer;
+            b.position = Vec2f(20f, 10f);
+            b.setAlign(GuiAlignX.right, GuiAlignY.bottom);
+            addChildGui(b);
+
+            b.addChildGui(new Label("Press "));
+            b.addChildGui(new IconAnim("ui.space"));
+            b.addChildGui(new Label(" to continue (2/3)."));
+        }
     }
 
     override void update(float deltaTime) {
-        _spaceAnim.update(deltaTime);
         if(getButtonDown(KeyButton.space)) {
             removeRootGuis();
             addRootGui(new IntroGui3);
@@ -118,25 +106,32 @@ final class IntroGui2: GuiElement {
     override void draw() {
         _bgSprite.draw(center);
         _introSprite.draw(center);
-        _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
     }
 }
 
 final class IntroGui3: GuiElement {
     private {
         Sprite _bgSprite, _introSprite;
-        Animation _spaceAnim;
     }
 
     this() {
         _bgSprite = fetch!Sprite("ui.bg");
-        _spaceAnim = fetch!Animation("ui.space");
         _introSprite = fetch!Sprite("ui.intro3");
         size(screenSize);
+
+        {
+            auto b = new HContainer;
+            b.position = Vec2f(20f, 10f);
+            b.setAlign(GuiAlignX.right, GuiAlignY.bottom);
+            addChildGui(b);
+
+            b.addChildGui(new Label("Press "));
+            b.addChildGui(new IconAnim("ui.space"));
+            b.addChildGui(new Label(" to continue (3/3)."));
+        }
     }
 
     override void update(float deltaTime) {
-        _spaceAnim.update(deltaTime);
         if(getButtonDown(KeyButton.space)) {
             removeRootGuis();
             addRootGui(new IntroGui4);
@@ -146,7 +141,6 @@ final class IntroGui3: GuiElement {
     override void draw() {
         _bgSprite.draw(center);
         _introSprite.draw(center);
-        _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
     }
 }
 
@@ -173,13 +167,22 @@ final class IconAnim: GuiElement {
 final class IntroGui4: GuiElement {
     private {
         Sprite _bgSprite;
-        Animation _spaceAnim;
     }
 
     this() {
         _bgSprite = fetch!Sprite("ui.bg");
-        _spaceAnim = fetch!Animation("ui.space");
         size(screenSize);
+
+        {
+            auto b = new HContainer;
+            b.position = Vec2f(20f, 10f);
+            b.setAlign(GuiAlignX.right, GuiAlignY.bottom);
+            addChildGui(b);
+
+            b.addChildGui(new Label("Press "));
+            b.addChildGui(new IconAnim("ui.space"));
+            b.addChildGui(new Label(" to start."));
+        }
 
         auto box = new VContainer;
         box.position = Vec2f(100f, 50f);
@@ -217,21 +220,20 @@ final class IntroGui4: GuiElement {
 
             b.addChildGui(new Label("Press "));
             b.addChildGui(new IconAnim("ui.c"));
-            b.addChildGui(new Label(" to jump."));
+            b.addChildGui(new Label(" to jump/double jump/wall jump."));
         }
     }
 
     override void update(float deltaTime) {
-        _spaceAnim.update(deltaTime);
         if(getButtonDown(KeyButton.space)) {
             removeRootGuis();
-            addRootGui(new MenuInterface);
+            fetch!Music("the_idolmaster").stop();
+            onStartGame();
         }
     }
 
     override void draw() {
         _bgSprite.draw(center);
-        _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
     }
 }
 /*
