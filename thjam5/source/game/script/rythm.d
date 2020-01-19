@@ -2,6 +2,7 @@ module game.script.rythm;
 
 import atelier, grimoire;
 
+import std.conv;
 import game.scene.rythm;
 import game.scene.world;
 
@@ -9,6 +10,12 @@ package void loadRythm(GrData data) {
     data.addPrimitive(&_getFirstBeatOffset, "getFirstBeatOffset", [], [], [grFloat]);
     data.addPrimitive(&_getSongPositionBeats, "getSongPositionBeats", [], [], [grInt]);
     data.addPrimitive(&_playDrum, "playDrum", [], [], []);
+    data.addPrimitive(&_loadMusic, "loadMusic", ["name"], [grString]);
+}
+
+private void _loadMusic(GrCall call) {
+    RythmHandler rythmHandler = getRythmHandler();
+    rythmHandler.load(to!string(call.getString("name")));
 }
 
 private void _getFirstBeatOffset(GrCall call) {

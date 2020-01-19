@@ -12,7 +12,8 @@ game.scene.wall,
 game.scene.projectile,
 game.scene.enemy,
 game.scene.haniwa,
-game.scene.rythm;
+game.scene.rythm,
+game.menu;
 
 import game.script;
 
@@ -45,6 +46,8 @@ private {
     RythmHandler    _rythmHandler;
 }
 
+int currentLevel = 0;
+
 ActorArray getWorldActors() {
     return _actors;
 }
@@ -74,8 +77,22 @@ private void initWorld() {
     if(!exists(filePath))
         throw new Exception(filePath ~ " do not exist.");
     loadScript(filePath);
+}
 
-    _rythmHandler.start("beast_of_gevaudan", 160, 206f, 1f, 10f);
+void goToNextLevel() {
+    _solids.reset();
+    _background.reset();
+    _projectiles.reset();
+
+    if(currentLevel == 0) {
+        const string filePath = buildNormalizedPath("assets", "data", "scripts", levelsName[1]);
+        if(!exists(filePath))
+            throw new Exception(filePath ~ " do not exist.");
+        loadScript(filePath);
+        ++currentLevel;
+    } else {
+        onMainMenu();
+    }
 }
 
 private void updateWorld(Canvas canvas, float deltaTime) {

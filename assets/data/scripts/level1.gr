@@ -10,6 +10,7 @@ int uspb = 375_000;
 
 
 main {
+	loadMusic("beast_of_gevaudan");
     beatHandling();
 	loadBackground("background", "kagerou", "sekibanki");
 	spawnJumper(-230, 15);

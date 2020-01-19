@@ -2,6 +2,7 @@ module game.scene.rythm;
 
 import atelier;
 import std.datetime.stopwatch, std.stdio;
+import game.scene.world;
 
 class RythmHandler {
     Music     _music;
@@ -24,6 +25,10 @@ class RythmHandler {
     @property {
         float firstBeatOffset() { return _firstBeatOffset; }
         int songPositionBeats() { return _songPositionBeats; }
+    }
+
+    void load(string fileName) {
+        start(fileName, 160, 206f, 1f, 10f);
     }
 
     void start(string fileName,
@@ -49,6 +54,10 @@ class RythmHandler {
     }
 
     void update() {
+        if(_music is null) {
+            return;
+        }
+
         _songPositionSec   = (_clock.peek.total!"msecs" / 1000f) - _firstBeatOffset;
         _songPositionBeats = cast(int)(_songPositionSec / _secPerBeat);
 
@@ -61,6 +70,10 @@ class RythmHandler {
         }
 
         _loopPositionRatio = _loopPositionBeats / _beatsPerLoop;
+
+        if(_songPositionSec >= _durationSec) {
+            goToNextLevel();
+        }
     }
 
     void playDebugSound() {

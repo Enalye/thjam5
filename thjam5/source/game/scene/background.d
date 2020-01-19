@@ -21,8 +21,14 @@ class Background {
         _background.size *= 1.75f;
     }
 
+    void reset() {
+        _background = null;
+        _boss1      = null;
+        _boss2      = null;
+    }
+
     void draw() {
-        if(_background !is null) {
+        if(_background) {
             _background.draw(Vec2f.zero);
         }
 
