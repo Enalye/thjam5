@@ -5,7 +5,7 @@ import std.math, std.algorithm.comparison;
 import atelier;
 import game.scene.world, game.scene.actor, game.scene.solid;
 
-final class Enemy: Actor {
+class Enemy: Actor {
     private {
         enum gravity  = .9f;
         enum maxFall  = -16f;
@@ -27,8 +27,7 @@ final class Enemy: Actor {
         Vec2f speed = Vec2f.zero;
     }
 
-    // So far name unused
-    this(string name, Vec2i pos) {
+    this(Vec2i pos) {
         position = pos;
         hitbox   = Vec2i(10, 16);
     }
