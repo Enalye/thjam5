@@ -224,8 +224,33 @@ task managePlatforms() {
 	moon(t_o+16*second+6*uspb/2, -152, 360, -300f/2, 100f*2);
 	moon(t_o+16*second+7*uspb/2, -132, 360, -350f/2,  50f*2);
 	moon(t_o+16*second+8*uspb/2, -152, 360, -400f/2,   0f*2);
-	bulletSniper(t_o+37*second,0, 400, 250f, uspb*4, 44);
-	claws(t_o+97*second, t_o+97*second+400_000, t_o+97*second+750_000, t_o+98*second+140_000);
+	bulletSniper(t_o+37*second       , 0, 400, 250f, uspb*4, 44);
+	bulletSniper(t_o+37*second+uspb/6, 0, 400, 250f, uspb*4, 44);
+	bulletSniper(t_o+37*second+uspb/6+uspb/6, 0, 400, 250f, uspb*4, 44);
+	bulletSniper(t_o+64*second       , 0, 400, 250f, uspb*4, 44);
+	bulletSniper(t_o+64*second+uspb/6, 0, 400, 250f, uspb*4, 44);
+	bulletSniper(t_o+64*second+uspb/6+uspb/6, 0, 400, 250f, uspb*4, 44);
+	bulletSniper(t_o+64*second+uspb/6+uspb/6+uspb/6, 0, 400, 250f, uspb*4, 44);
+	claws(t_o+96*second, t_o+97*second+400_000, t_o+97*second+750_000, t_o+98*second+140_000);
+	moon(t_o+97*second         ,  32, 360,   0f, 400f);
+	moon(t_o+97*second+1*uspb/2,  52, 360,  50f, 350f);
+	moon(t_o+97*second+2*uspb/2,  72, 360, 100f, 300f);
+	moon(t_o+97*second+3*uspb/2,  92, 360, 150f, 250f);
+	moon(t_o+97*second+4*uspb/2, 112, 360, 200f, 200f);
+	moon(t_o+97*second+5*uspb/2, 132, 360, 250f, 150f);
+	moon(t_o+97*second+6*uspb/2, 152, 360, 300f, 100f);
+	moon(t_o+97*second+7*uspb/2, 132, 360, 350f,  50f);
+	moon(t_o+97*second+8*uspb/2, 152, 360, 400f,   0f);
+	bulletSniper(t_o+100*second, 0, 400, 250f, uspb*4, 44);
+	moon(t_o+105*second         ,  -32, 360, -  0f/2, 400f*2);
+	moon(t_o+105*second+1*uspb/2,  -52, 360, - 50f/2, 350f*2);
+	moon(t_o+105*second+2*uspb/2,  -72, 360, -100f/2, 300f*2);
+	moon(t_o+105*second+3*uspb/2,  -92, 360, -150f/2, 250f*2);
+	moon(t_o+105*second+4*uspb/2, -112, 360, -200f/2, 200f*2);
+	moon(t_o+105*second+5*uspb/2, -132, 360, -250f/2, 150f*2);
+	moon(t_o+105*second+6*uspb/2, -152, 360, -300f/2, 100f*2);
+	moon(t_o+105*second+7*uspb/2, -132, 360, -350f/2,  50f*2);
+	moon(t_o+105*second+8*uspb/2, -152, 360, -400f/2,   0f*2);
 
 
 	// Phase controls and waves
