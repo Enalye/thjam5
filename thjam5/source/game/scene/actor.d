@@ -26,6 +26,8 @@ abstract class Actor {
         Vec2f _moveRemaining = Vec2f.zero;
         Vec2i _position = Vec2i.zero, _hitbox = Vec2i.zero;
     }
+    
+    bool isPlayer = false;
 
     @property {
         /// Left (x-axis) bound of the actor's hitbox.

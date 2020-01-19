@@ -15,6 +15,9 @@ abstract class Solid {
         bool _isCollidable = true;
     }
 
+    /// See the name.
+    bool disableXCollisionForHaniwasWithPlayerBecauseItsBadAndIDontLikeIt = false;
+
     @property {
         /// Left (x-axis) bound of the solid's hitbox.
         int left() const { return _position.x - _hitbox.x; }
@@ -80,6 +83,12 @@ abstract class Solid {
 
                 if(moveX > 0) {
                     foreach(Actor actor; getWorldActors()) {
+                        if(disableXCollisionForHaniwasWithPlayerBecauseItsBadAndIDontLikeIt && actor.isPlayer) {
+                            if(ridingActors.canFind(actor)) {
+                                actor.moveX(moveX, null);
+                            }
+                            continue;
+                        }
                         if(overlapWith(actor)) {
                             actor.moveX(right - actor.left, &actor.squish);
                         }
@@ -90,6 +99,12 @@ abstract class Solid {
                 }
                 else {
                     foreach(Actor actor; getWorldActors()) {
+                        if(disableXCollisionForHaniwasWithPlayerBecauseItsBadAndIDontLikeIt && actor.isPlayer) {
+                            if(ridingActors.canFind(actor)) {
+                                actor.moveX(moveX, null);
+                            }
+                            continue;
+                        }
                         if(overlapWith(actor)) {
                             actor.moveX(left - actor.right, &actor.squish);
                         }

@@ -47,6 +47,7 @@ final class Player: Actor {
 
     /// Ctor
     this() {
+        isPlayer = true;
         position = Vec2i(0, 30);
         hitbox = Vec2i(25, 38);
 

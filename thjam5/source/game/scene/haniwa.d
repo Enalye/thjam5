@@ -19,6 +19,7 @@ class Haniwa: Solid {
     bool toDelete = false;
 
     this(Vec2i position_, Vec2i hitbox_, int facing) {
+        disableXCollisionForHaniwasWithPlayerBecauseItsBadAndIDontLikeIt = true;
         position = position_;
         hitbox   = hitbox_;  
         _facing  = facing;
