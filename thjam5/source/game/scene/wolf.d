@@ -2,6 +2,7 @@ module game.scene.wolf;
 
 import atelier;
 import game.scene.enemy;
+import game.scene.world;
 
 class Wolf: Enemy {
     private {
@@ -21,6 +22,10 @@ class Wolf: Enemy {
         hitbox = Vec2i(cast(int)(_currentSprite.size.x / 2f), cast(int)(_currentSprite.size.y / 2f));
         super.update(deltaTime);
 
+        if(collidePlayerAt(position + Vec2i(0, _direction), hitbox)) {
+            getPlayer().hit();
+        }
+
         if(onGround) {
             _currentSprite = _idleSprite;
         } else {
@@ -29,6 +34,12 @@ class Wolf: Enemy {
     }
 
     override void draw() {
+        if(position.x - getPlayer().position.x > 0) {
+            _currentSprite.flip = Flip.horizontal;
+        } else {
+            _currentSprite.flip = Flip.none;
+        }
+        
         _currentSprite.draw(getPosition2d());
     }
 }

@@ -17,7 +17,7 @@ game.scene.rythm;
 import game.script;
 
 /// Levels
-immutable string[] levelsName = ["level1.gr"];
+immutable string[] levelsName = ["level1.gr", "level2.gr"];
 
 /// The entire world.
 final class World: GuiElementCanvas {
