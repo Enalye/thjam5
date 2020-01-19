@@ -37,6 +37,7 @@ final class Player: Actor {
         Solid       _solidRiding;
         HaniwaArray _haniwas;
 
+        Animation _currentAnimation;
         Animation _animationIdle;
         Animation _animationRun;
         Animation _animationJump;
@@ -52,7 +53,12 @@ final class Player: Actor {
         _haniwas = new HaniwaArray();
 
         _animationIdle = fetch!Animation("keiki.idle");
+        _animationRun  = fetch!Animation("keiki.run");
+        _animationJump = fetch!Animation("keiki.jump");
         _animationIdle.start();
+        _animationRun.start();
+
+        _currentAnimation = _animationIdle;
     }
 
     override void update(float deltaTime) {
@@ -76,6 +82,12 @@ final class Player: Actor {
         if(isButtonDown(KeyButton.right)) {
             _direction++;
             _facing = 1;
+        }
+
+        if(_direction != 0) {
+            _currentAnimation = _animationRun;
+        } else {
+            _currentAnimation = _animationIdle;
         }
 
         if(!_isWallGrabbing) {
@@ -135,6 +147,11 @@ final class Player: Actor {
                 jump();
             else if(_canDoubleJump)
                 doubleJump();
+        }
+
+        if(_jumpTimer.isRunning) {
+            _animationJump.start();
+            _currentAnimation = _animationJump;
         }
 
         if(!_onGround && !_isWallGrabbing) {
@@ -216,12 +233,12 @@ final class Player: Actor {
         drawFilledRect(drawPosition, getHitboxSize2d(), Color.green);
 
         if(_facing == -1) {
-            _animationIdle.flip = Flip.horizontal;
+            _currentAnimation.flip = Flip.horizontal;
         } else {
-            _animationIdle.flip = Flip.none;
+            _currentAnimation.flip = Flip.none;
         }
         
-        _animationIdle.draw(drawPosition + Vec2f(_animationIdle.size.x / 2f, 0));
+        _currentAnimation.draw(drawPosition + Vec2f(_currentAnimation.size.x / 2f, 0));
     }
 
     override void squish(CollisionData data) {
