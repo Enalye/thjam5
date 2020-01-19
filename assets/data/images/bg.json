@@ -1,0 +1,17 @@
+{
+    "elements": [
+        {
+            "clip": {
+                "h": 959,
+                "w": 1280,
+                "x": 0,
+                "y": 0
+            },
+            "flip": "none",
+            "name": "ui.bg",
+            "type": "sprite"
+        }
+    ],
+    "texture": "..\/..\/media\/gui\/bg.png",
+    "type": "spritesheet"
+}

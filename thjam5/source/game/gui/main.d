@@ -53,8 +53,8 @@ final class MenuInterface: GuiElement {
 
     override void update(float deltaTime) {
         if(getButtonDown(KeyButton.space)) {
-            _music.stop();
-            onStartGame();
+            removeRootGuis();
+            addRootGui(new IntroGui1);
         }
         _spaceAnim.update(deltaTime);
     }
@@ -64,3 +64,194 @@ final class MenuInterface: GuiElement {
         _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
     }
 }
+
+final class IntroGui1: GuiElement {
+    private {
+        Sprite _sprite;
+        Animation _spaceAnim;
+    }
+
+    this() {
+        _sprite = fetch!Sprite("ui.bg");
+        _spaceAnim = fetch!Animation("ui.space");
+        size(screenSize);
+    }
+
+    override void update(float deltaTime) {
+        _spaceAnim.update(deltaTime);
+        if(getButtonDown(KeyButton.space)) {
+            removeRootGuis();
+            addRootGui(new IntroGui2);
+        }
+    }
+
+    override void draw() {
+        _sprite.draw(center);
+        _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
+    }
+}
+
+final class IntroGui2: GuiElement {
+    private {
+        Sprite _sprite;
+        Animation _spaceAnim;
+    }
+
+    this() {
+        _sprite = fetch!Sprite("ui.bg");
+        _spaceAnim = fetch!Animation("ui.space");
+        size(screenSize);
+    }
+
+    override void update(float deltaTime) {
+        _spaceAnim.update(deltaTime);
+        if(getButtonDown(KeyButton.space)) {
+            removeRootGuis();
+            addRootGui(new IntroGui3);
+        }
+    }
+
+    override void draw() {
+        _sprite.draw(center);
+        _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
+    }
+}
+
+final class IntroGui3: GuiElement {
+    private {
+        Sprite _sprite;
+        Animation _spaceAnim;
+    }
+
+    this() {
+        _sprite = fetch!Sprite("ui.bg");
+        size(screenSize);
+        _spaceAnim = fetch!Animation("ui.space");
+    }
+
+    override void update(float deltaTime) {
+        _spaceAnim.update(deltaTime);
+        if(getButtonDown(KeyButton.space)) {
+            removeRootGuis();
+            addRootGui(new IntroGui4);
+        }
+    }
+
+    override void draw() {
+        _sprite.draw(center);
+        _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
+    }
+}
+
+final class IconAnim: GuiElement {
+    private {
+        Animation _anim;
+    }
+
+    this(string name) {
+        _anim = fetch!Animation(name);
+        _anim.size /= 2f;
+        size(_anim.size);
+    }
+
+    override void update(float deltaTime) {
+        _anim.update(deltaTime);
+    }
+
+    override void draw() {
+        _anim.draw(center);
+    }
+}
+
+final class IntroGui4: GuiElement {
+    private {
+        Sprite _sprite;
+        Animation _spaceAnim;
+    }
+
+    this() {
+        _sprite = fetch!Sprite("ui.bg");
+        _spaceAnim = fetch!Animation("ui.space");
+        size(screenSize);
+
+        auto box = new VContainer;
+        box.position = Vec2f(100f, 50f);
+        box.setChildAlign(GuiAlignX.left);
+        addChildGui(box);
+        {
+            auto b = new HContainer;
+            box.addChildGui(b);
+
+            b.addChildGui(new Label("Press "));
+            b.addChildGui(new IconAnim("ui.left"));
+            b.addChildGui(new Label(" and "));
+            b.addChildGui(new IconAnim("ui.right"));
+            b.addChildGui(new Label(" to move."));
+        }
+        {
+            auto b = new HContainer;
+            box.addChildGui(b);
+
+            b.addChildGui(new Label("Press "));
+            b.addChildGui(new IconAnim("ui.w"));
+            b.addChildGui(new Label(" to grab platforms."));
+        }
+        {
+            auto b = new HContainer;
+            box.addChildGui(b);
+
+            b.addChildGui(new Label("Press "));
+            b.addChildGui(new IconAnim("ui.x"));
+            b.addChildGui(new Label(" to shoot an haniwa (up to 3)."));
+        }
+        {
+            auto b = new HContainer;
+            box.addChildGui(b);
+
+            b.addChildGui(new Label("Press "));
+            b.addChildGui(new IconAnim("ui.c"));
+            b.addChildGui(new Label(" to jump."));
+        }
+    }
+
+    override void update(float deltaTime) {
+        _spaceAnim.update(deltaTime);
+        if(getButtonDown(KeyButton.space)) {
+            /*removeRootGuis();
+            addRootGui(new SelectionScreen);*/
+            fetch!Music("the_idolmaster").stop();
+            onStartGame();
+        }
+    }
+
+    override void draw() {
+        _sprite.draw(center);
+        _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
+    }
+}
+/*
+final class SelectionScreen: GuiElement {
+    private {
+        Sprite _sprite;
+        Animation _spaceAnim;
+    }
+
+    this() {
+        _sprite = fetch!Sprite("ui.bg");
+        _spaceAnim = fetch!Animation("ui.space");
+        size(screenSize);
+    }
+
+    override void update(float deltaTime) {
+        _spaceAnim.update(deltaTime);
+        if(getButtonDown(KeyButton.space)) {
+            fetch!Music("the_idolmaster").stop();
+            onStartGame();
+        }
+    }
+
+    override void draw() {
+        _sprite.draw(center);
+        _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
+    }
+}*/
