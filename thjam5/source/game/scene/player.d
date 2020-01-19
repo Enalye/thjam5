@@ -142,11 +142,11 @@ final class Player: Actor {
         //-- Jump
         if(getButtonDown(KeyButton.c) && !_jumpTimer.isRunning) {
             if(_isWallGrabbing && _canDoubleJump)
-                wallJump();
+                wallJump(deltaTime);
             else if(_onGround)
-                jump();
+                jump(deltaTime);
             else if(_canDoubleJump)
-                doubleJump();
+                doubleJump(deltaTime);
         }
 
         if(_jumpTimer.isRunning) {
@@ -189,16 +189,16 @@ final class Player: Actor {
         _speed.y = 0f;
     }
 
-    void wallJump() {
+    void wallJump(float deltaTime) {
         if(isButtonDown(KeyButton.up)) {
             if((isButtonDown(KeyButton.right) && _facingWall != 1) ||
                 (isButtonDown(KeyButton.left) && _facingWall != -1))
-                _speed += Vec2f(-_facingWall * wallJumpSpeed, wallJumpSpeed);
+                _speed += Vec2f(-_facingWall * wallJumpSpeed, wallJumpSpeed) * deltaTime;
             else
-                _speed += Vec2f(0, wallJumpSpeed);
+                _speed += Vec2f(0, wallJumpSpeed) * deltaTime;
         }
         else
-            _speed += Vec2f(-_facingWall * wallJumpSpeed, wallJumpSpeed);
+            _speed += Vec2f(-_facingWall * wallJumpSpeed, wallJumpSpeed) * deltaTime;
         _isWallGrabbing = false;
         _onGround = false;
         _canDoubleJump = false;
@@ -206,15 +206,15 @@ final class Player: Actor {
         _grabTimer.start(grabTime);
     }
 
-    void jump() {
-        _speed.y = jumpSpeed;
+    void jump(float deltaTime) {
+        _speed.y = jumpSpeed * deltaTime;
         _onGround = false;
         _jumpTimer.start(jumpTime);
     }
 
-    void doubleJump() {
+    void doubleJump(float deltaTime) {
         _canDoubleJump = false;
-        _speed.y = doubleJumpSpeed;
+        _speed.y = doubleJumpSpeed * deltaTime;
         _jumpTimer.start(jumpTime);
     }
 
