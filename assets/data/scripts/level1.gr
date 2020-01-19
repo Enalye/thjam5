@@ -14,10 +14,11 @@ main {
 	spawnJumper(-230, 15);
 	let floor = createWall("floor", 0, -760, 581, 279);
 
-	for(i, [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330])
-	{
+	for(i, [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]) {
 		rotatingPlatform(i as float*3.1415f/180f, 560, 32, 4f);
-		rotatingPlatform((i+20) as float*3.1415f / 180f, 380, 32, -2f);
+		if(i % 60 == 0) {
+			rotatingPlatform((i+20) as float*3.1415f / 180f, 300, 32, -2f);
+		}
 		//rotatingProjectile((i+40) as float*3.1415f/180f, 320, 10, -5f);
 		int size = 10;
 	}
