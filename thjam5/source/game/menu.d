@@ -11,7 +11,7 @@ void startGame(string[] args) {
 
 	setWindowMinSize(Vec2u(1280u, 720u));
 	setWindowMaxSize(Vec2u(1280u, 720u));
-	setWindowClearColor(Color.white);
+	setWindowClearColor(Color.black);
 
 	const string iconPath = buildNormalizedPath("assets", "media", "gui", "logo.png");
 	if(exists(iconPath))

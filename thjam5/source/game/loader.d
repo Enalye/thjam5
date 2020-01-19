@@ -225,7 +225,7 @@ void loadFonts() {
         return;
     auto files = dirEntries(buildNormalizedPath("assets", "media", "font"), "{*.ttf}", SpanMode.depth);
     foreach(file; files) {
-        fontCache.set(new TrueTypeFont(file, 12u), baseName(file, ".ttf"));
+        fontCache.set(new TrueTypeFont(file, 20u), baseName(file, ".ttf"));
     }
 }
 
