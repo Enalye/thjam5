@@ -8,7 +8,7 @@
                 "y": 0
             },
             "flip": "none",
-            "name": "ui.bg",
+            "name": "ui.test",
             "type": "sprite"
         },
         {
@@ -19,7 +19,7 @@
                 "y": 739
             },
             "columns": 2,
-            "duration": 1,
+            "duration": 0.300000011920928955,
             "easing": "linear",
             "flip": "none",
             "lines": 1,
@@ -41,7 +41,7 @@
                 "y": 743
             },
             "columns": 2,
-            "duration": 1,
+            "duration": 0.300000011920928955,
             "easing": "linear",
             "flip": "none",
             "lines": 1,
@@ -63,7 +63,7 @@
                 "y": 758
             },
             "columns": 2,
-            "duration": 1,
+            "duration": 0.300000011920928955,
             "easing": "linear",
             "flip": "none",
             "lines": 1,
@@ -85,7 +85,7 @@
                 "y": 917
             },
             "columns": 2,
-            "duration": 1,
+            "duration": 0.300000011920928955,
             "easing": "linear",
             "flip": "none",
             "lines": 1,
@@ -107,7 +107,7 @@
                 "y": 915
             },
             "columns": 2,
-            "duration": 1,
+            "duration": 0.300000011920928955,
             "easing": "linear",
             "flip": "none",
             "lines": 1,
@@ -129,7 +129,7 @@
                 "y": 926
             },
             "columns": 1,
-            "duration": 1,
+            "duration": 0.300000011920928955,
             "easing": "linear",
             "flip": "none",
             "lines": 2,
