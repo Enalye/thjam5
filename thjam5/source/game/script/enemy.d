@@ -21,7 +21,7 @@ package void loadEnemy(GrData data) {
     data.addPrimitive(&_getEnemyHitboxX, "getHitboxX", ["enemy"], [defEnemy], [grInt]);
     data.addPrimitive(&_getEnemyHitboxY, "getHitboxY", ["enemy"], [defEnemy], [grInt]);
     data.addPrimitive(&_isEnemyGrounded, "isGrounded", ["enemy"], [defEnemy], [grBool]);
-    data.addPrimitive(&_killEnemy, "kill", ["enemy"], [defEnemy]);
+    data.addPrimitive(&_killEnemy, "killp", ["enemy"], [defEnemy]);
     data.addPrimitive(&_damageEnemy, "damage", ["enemy", "amount"], [defEnemy, grFloat]);
 }
 

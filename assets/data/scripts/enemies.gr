@@ -16,6 +16,7 @@ task jumpTowards(Enemy enemy, int delay, float speedXb, float speedYb) {
                 enemy::setSpeed(speedX, speedY);
             }
         }
+		if(enemy::getPositionY()<(-600)) enemy::killp();
 
         yield;
     }

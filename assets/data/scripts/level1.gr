@@ -5,6 +5,8 @@ int CollisionHitbox = 0;
 int CollisionRadius = 1;
 float away = 0;
 int bias = 0;
+float sqr_away = 360000;
+int uspb = 375_000;
 
 
 main {
@@ -15,9 +17,9 @@ main {
 
 	for(i, [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330])
 	{
-		rotatingPlatform(i as float*3.1415f/180f, 150, 15, 4f);
-		rotatingPlatform((i+20) as float*3.1415f / 180f, 280, 15, -2f);
-		rotatingProjectile((i+40) as float*3.1415f/180f, 320, 15, -5f);
+		rotatingPlatform(i as float*3.1415f/180f, 165, 16, 4f);
+		rotatingPlatform((i+20) as float*3.1415f / 190f, 280, 16, -2f);
+		//rotatingProjectile((i+40) as float*3.1415f/180f, 320, 10, -5f);
 		int size = 10;
 	}
 	managePlatforms();
@@ -25,9 +27,6 @@ main {
 
 func between(int ref, int begin, int end) bool {
 	int now = time()-ref;
-	/*print(begin);print("<");
-	print(now);print("<");
-	printl(end);*/
 	return (begin < now) and (now < end);
 }
 
@@ -40,6 +39,143 @@ task jumperWave(int duration, int interval) {
 		waitUSeconds(interval);
 		if(time()>t_e) return;
 	}
+}
+
+
+object SniperBullet {
+	Projectile p;
+	float speedX;
+	float speedY;
+}
+	
+func createSniperBullet(int x, int y, float speed) SniperBullet {
+	SniperBullet ret = new SniperBullet;
+	ret.p = createProjectile(x,y, 10, 10, CollisionRadius, "killPlayerNoCancel");
+	Player p= getPlayer();
+	float sx = p::getPositionX()-x;
+	float sy = p::getPositionY()-y;
+	float dist = sqrt(sx*sx+sy*sy);
+	sx=speed*sx/dist;
+	sy=speed*sy/dist;
+	ret.speedX = -sx;
+	ret.speedY = -sy;
+	return ret;
+}
+
+task bulletSniper(int spawn, int x, int y, float speed, int interval, int shots) {
+	waitUntil(spawn);
+	array(SniperBullet) arr = array(SniperBullet)[];
+	arr ~= createSniperBullet(x,y,speed);
+	spawn+=interval;
+	let t_last = time();
+	loop {
+		let t_l = time();
+		float second_fragment = (t_last-t_l)/1_000_000f;
+		if(shots < -100) break;
+		if(time()>spawn)
+		{
+			if(shots > 0)
+			{
+				arr ~= createSniperBullet(x,y,speed);
+			}
+			spawn+=interval;
+			shots--;
+		}
+		for(elem, arr) {
+			elem.p::move(elem.speedX*second_fragment, elem.speedY*second_fragment);
+		}
+		t_last = t_l;
+		yield;
+	}
+	for(elem, arr) {
+		elem.p::destroy();
+	}
+}
+
+task moon(int spawn, int x, int y, float v_x, float v_y) {
+	waitUntil(spawn);
+	let proj = createProjectile(x, y, 24, 24, CollisionRadius, "killPlayerNoCancel");
+	let t_last = time();
+	loop {
+		let t_l = time();
+		if(t_l<spawn+12_000_000)
+		{
+			float second_fragment = (t_last-t_l)/1_000_000f;
+			v_y = v_y-300f*second_fragment;
+			if(v_y < -1800f)
+			{
+				v_y = -1800.0;
+			}
+			proj::move(v_x*second_fragment, v_y*second_fragment);
+			t_last = t_l;
+			yield;
+		}
+		else
+		{
+			break;
+		}
+	}
+	proj::destroy();
+}
+
+task claws(int spawn, int active, int ground, int out) {
+	waitUntil(spawn);
+	let left = createProjectile(-150, 130, 32, 32, CollisionHitbox, "killPlayerNoCancel");
+	let right = createProjectile(150, 130, 32, 32, CollisionHitbox, "killPlayerNoCancel");
+	loop {
+		if(time()<active)
+		{
+			yield;
+		}
+		else
+		{
+			break;
+		}
+	}
+	int t_o = 0;
+	loop {
+		t_o = time();
+		if(t_o<ground)
+		{
+			left::moveTo(-150f, lerp(130f,30f,(t_o-active)/(ground-active) as float));
+			right::moveTo(150f, lerp(130f,30f,(t_o-active)/(ground-active) as float));
+			yield;
+		}
+		else
+		{
+			break;
+		}
+	}
+	left::destroy();
+	right::destroy();
+	left = createProjectile(-150, 30, 32, 32, CollisionHitbox, "killPlayerNoCancel");
+	right = createProjectile(150, 30, 32, 32, CollisionHitbox, "killPlayerNoCancel");
+	loop {
+		t_o = time();
+		if(t_o<out)
+		{
+			left::moveTo(-lerp(150f, 450f,(t_o-ground)/(out-ground) as float),30f);
+			right::moveTo(lerp(150f, 450f,(t_o-ground)/(out-ground) as float),30f);
+			yield;
+		}
+		else
+		{
+			break;
+		}
+	}
+	loop {
+		t_o = time();
+		if(t_o<out-500_000)
+		{
+			yield;
+		}
+		else
+		{
+			break;
+		}
+	}
+	left::destroy();
+	right::destroy();
 }
 
 task spawnJumper(int x, int y) {
@@ -55,18 +191,55 @@ task managePlatforms() {
 	bool flag03 = false;
 	bool flag04 = false;
 	bool flag05 = false;
+
+	// Time based attacks
+
+	bulletSniper(t_o+8*second,0, 400, 250f, uspb+2, 22);
+	moon(t_o+8*second         ,  -32, 360, -  0f, 400f);
+	moon(t_o+8*second+1*uspb/2,  -52, 360, - 50f, 350f);
+	moon(t_o+8*second+2*uspb/2,  -72, 360, -100f, 300f);
+	moon(t_o+8*second+3*uspb/2,  -92, 360, -150f, 250f);
+	moon(t_o+8*second+4*uspb/2, -112, 360, -200f, 200f);
+	moon(t_o+8*second+5*uspb/2, -132, 360, -250f, 150f);
+	moon(t_o+8*second+6*uspb/2, -152, 360, -300f, 100f);
+	moon(t_o+8*second+7*uspb/2, -132, 360, -350f,  50f);
+	moon(t_o+8*second+8*uspb/2, -152, 360, -400f,   0f);
+	claws(t_o+10*second, t_o+10*second+600_000, t_o+11*second+120_000, t_o+11*second+500_000);
+	moon(t_o+12*second         ,  32, 360,   0f, 400f);
+	moon(t_o+12*second+1*uspb/2,  52, 360,  50f, 350f);
+	moon(t_o+12*second+2*uspb/2,  72, 360, 100f, 300f);
+	moon(t_o+12*second+3*uspb/2,  92, 360, 150f, 250f);
+	moon(t_o+12*second+4*uspb/2, 112, 360, 200f, 200f);
+	moon(t_o+12*second+5*uspb/2, 132, 360, 250f, 150f);
+	moon(t_o+12*second+6*uspb/2, 152, 360, 300f, 100f);
+	moon(t_o+12*second+7*uspb/2, 132, 360, 350f,  50f);
+	moon(t_o+12*second+8*uspb/2, 152, 360, 400f,   0f);
+	moon(t_o+16*second         ,  -32, 360, -  0f/2, 400f*2);
+	moon(t_o+16*second+1*uspb/2,  -52, 360, - 50f/2, 350f*2);
+	moon(t_o+16*second+2*uspb/2,  -72, 360, -100f/2, 300f*2);
+	moon(t_o+16*second+3*uspb/2,  -92, 360, -150f/2, 250f*2);
+	moon(t_o+16*second+4*uspb/2, -112, 360, -200f/2, 200f*2);
+	moon(t_o+16*second+5*uspb/2, -132, 360, -250f/2, 150f*2);
+	moon(t_o+16*second+6*uspb/2, -152, 360, -300f/2, 100f*2);
+	moon(t_o+16*second+7*uspb/2, -132, 360, -350f/2,  50f*2);
+	moon(t_o+16*second+8*uspb/2, -152, 360, -400f/2,   0f*2);
+	claws(t_o+97*second, t_o+97*second+400_000, t_o+97*second+750_000, t_o+98*second+140_000);
+
+
+	// Phase controls and waves
 	loop {
 		int now = time()-t_o;
+		//claws(t_o+10*second, t_o+10*second+600_000, t_o+11*second+120_000, t_o+11*second+500_000);
 		if(between(t_o, 37*second, 46*second)) {
 			away = lerp(0.0, 500.0, (now-37*second)/(second*(9f)) );
 		}
 		if(now > 42*second and !flag02) {
 			flag02 = true;
-			jumperWave(22*second, 1_500_000);
+			jumperWave(22*second, 2_300_000);
 		}
 		if(now > 65*second and !flag03) {
 			flag03 = true;
-			jumperWave(22*second, 500_000);
+			jumperWave(22*second, 900_000);
 		}
 		if(between(t_o, 88*second, 97*second)) {
 			away = lerp(500.0, 0.0, (now-88*second)/(second*(9f)) );
@@ -76,11 +249,11 @@ task managePlatforms() {
 		}
 		if(now > 110*second and !flag04) {
 			flag04 = true;
-			jumperWave(12*second, 1_200_000);
+			jumperWave(12*second, 1_800_000);
 		}
 		if(now > 123*second and !flag05) {
 			flag05 = true;
-			jumperWave(22*second, 500_000);
+			jumperWave(22*second, 800_000);
 		}
 		if(between(t_o, 133*second+100_000, 142*second+100_000)) {
 			away = lerp(500.0, 0.0, (now-133*second-100_000)/(second*(9f)) );
@@ -141,4 +314,8 @@ task rotatingProjectile(float angle, int radius, int size, float speed) {
 event killPlayer(Projectile projectile, Player player) {
 	player::killp();
 	projectile::destroy();
+}
+
+event killPlayerNoCancel(Projectile projectile, Player player) {
+	player::killp();
 }

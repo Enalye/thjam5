@@ -68,6 +68,7 @@ private void initWorld() {
     loadScript(filePath);
 
     _rythmHandler.start("beast_of_gevaudan", 160, 206f, 1f, 10f);
+	
 }
 
 private void updateWorld(Canvas canvas, float deltaTime) {
@@ -121,6 +122,8 @@ private void drawWorld() {
 
     foreach(Projectile projectile; _projectiles)
         projectile.draw();
+
+		
 
     /*foreach(Solid solid; _solids)
         solid.drawHitbox();

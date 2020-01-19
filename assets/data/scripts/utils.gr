@@ -13,6 +13,19 @@ func wait(int n) {
 	}
 }
 
+func waitUntil(int moment) {
+	loop {
+		if(time()<moment)
+		{
+			yield;
+		}
+		else
+		{
+			break;
+		}
+	}
+}
+
 func waitSeconds(float s) {
 	int t_o = time();
 	loop {
