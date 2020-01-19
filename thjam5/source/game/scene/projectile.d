@@ -173,8 +173,8 @@ class Projectile {
 				}
                 if(onSolid && !collidedThisFrame) {
 					Solid solid = 
-						collisionMode == CollisionModel.Hitbox ? collideAt(_position + Vec2i(dir, 0), _hitbox) :
-						collisionMode == CollisionModel.Radius ? collideAt(_position + Vec2i(dir, 0), _hitbox.x) :
+						collisionMode == CollisionModel.Hitbox ? collideProjectileAt(_position + Vec2i(dir, 0), _hitbox) :
+						collisionMode == CollisionModel.Radius ? collideProjectileAt(_position + Vec2i(dir, 0), _hitbox.x) :
 						null
 					;
 					if(solid) {
@@ -216,8 +216,8 @@ class Projectile {
 				}
                 if(onSolid && !collidedThisFrame) {
 					Solid solid = 
-						collisionMode == CollisionModel.Hitbox ? collideAt(_position + Vec2i(0, dir), _hitbox) :
-						collisionMode == CollisionModel.Radius ? collideAt(_position + Vec2i(0, dir), _hitbox.x) :
+						collisionMode == CollisionModel.Hitbox ? collideProjectileAt(_position + Vec2i(0, dir), _hitbox) :
+						collisionMode == CollisionModel.Radius ? collideProjectileAt(_position + Vec2i(0, dir), _hitbox.x) :
 						null
 					;
 					if(solid) {

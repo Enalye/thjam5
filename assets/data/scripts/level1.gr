@@ -12,9 +12,7 @@ int uspb = 375_000;
 main {
     beatHandling();
 	spawnJumper(-230, 15);
-    //movingPlatformExample(-120, 60);
-    //movingPlatformExample(250, 90);
-	let floor = createWall(0, -760, 500, 750);
+	let floor = createWall("floor", 0, -760, 581, 279);
 
 	for(i, [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330])
 	{
@@ -297,27 +295,13 @@ task managePlatforms() {
 	}
 }
 
-task movingPlatformExample(int x, int y) {
-    let wall  = createWall(x, y, 60, 60);
-    let enemy = enemyOnPlatform(x, y + 60 + 16);
-    jumpTowards(enemy, 60, 10f, 5f);
-
-    int t = 0;
-    loop {
-        let f = sin(t / 100f);
-        wall::move(f, f);
-        t ++;
-        yield
-    }
-}
-
 func enemyOnPlatform(int x, int y) Enemy {
     let enemy = spawnEnemy("", x, y);
     return enemy;
 }
 
 task rotatingPlatform(float angle, int radius, int size, float speed) {
-    let wall = createWall(((radius+away)*cos(angle)-size/2) as int, ((radius+away)*sin(angle)-size/2) as int, size, size);
+    let wall = createWall("platform", ((radius+away)*cos(angle)-size/2) as int, ((radius+away)*sin(angle)-size/2) as int, size * 2, size);
 
 	int t_o = time();
     loop {

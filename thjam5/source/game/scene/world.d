@@ -139,8 +139,23 @@ Solid collideAt(Vec2i point, Vec2i halfSize) {
         if(solid.collideWith(point, halfSize))
             return solid;
     }
+
+    foreach(Haniwa haniwa; getPlayer().haniwas) {
+        if(haniwa.collideWith(point, halfSize))
+            return haniwa;
+    }
     return null;
 }
+
+Solid collideProjectileAt(Vec2i point, Vec2i halfSize) {
+    foreach(Solid solid; _solids) {
+        if(solid.collideWith(point, halfSize))
+            return solid;
+    }
+
+    return null;
+}
+
 Player collidePlayerAt(Vec2i point, Vec2i halfSize) {
     if((_player.left < (point.x + halfSize.x)) && (_player.down < (point.y + halfSize.y)) &&
         (_player.right > (point.x - halfSize.x)) && (_player.up > (point.y - halfSize.y)))
@@ -162,6 +177,19 @@ bool isOutsideScreen(Vec2i position) {
 }
 
 Solid collideAt(Vec2i point, int radius) {
+    foreach(Solid solid; _solids) {
+        if(intersect(point, radius, solid.position, solid.hitbox))
+            return solid;
+    }
+
+    foreach(Haniwa haniwa; getPlayer().haniwas) {
+        if(intersect(point, radius, haniwa.position, haniwa.hitbox))
+            return haniwa;
+    }
+    return null;
+}
+
+Solid collideProjectileAt(Vec2i point, int radius) {
     foreach(Solid solid; _solids) {
         if(intersect(point, radius, solid.position, solid.hitbox))
             return solid;

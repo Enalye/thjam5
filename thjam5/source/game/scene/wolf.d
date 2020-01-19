@@ -20,10 +20,15 @@ class Wolf: Enemy {
     override void update(float deltaTime) {    
         hitbox = Vec2i(cast(int)(_currentSprite.size.x / 2f), cast(int)(_currentSprite.size.y / 2f));
         super.update(deltaTime);
+
+        if(onGround) {
+            _currentSprite = _idleSprite;
+        } else {
+            _currentSprite = _jumpSprite;
+        }
     }
 
     override void draw() {
-        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.red);
-        _idleSprite.draw(getPosition2d());
+        _currentSprite.draw(getPosition2d());
     }
 }

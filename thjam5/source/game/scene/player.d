@@ -232,9 +232,7 @@ final class Player: Actor {
         foreach(Haniwa haniwa; haniwas) {
             haniwa.draw();
         }
-
-        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.green);
-
+        
         if(_facing == -1) {
             _currentAnimation.flip = Flip.horizontal;
         } else {
