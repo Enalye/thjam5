@@ -7,7 +7,7 @@ import game.loader, game.gui;
 
 /// Game startup
 void startGame(string[] args) {
-	createApplication(Vec2u(1280u, 720u), "Haniwaface");
+	createApplication(Vec2u(1280u, 720u), "Haniwa Face");
 
 	setWindowMinSize(Vec2u(1280u, 720u));
 	setWindowMaxSize(Vec2u(1280u, 720u));

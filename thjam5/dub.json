@@ -1,7 +1,7 @@
 {
-	"name": "thjam5",
+	"name": "haniwaface",
 	"description": "Touhou Fan GameJam 5",
-	"copyright": "Copyright © 2020, Enalye JonathKane Automn Archivist",
+	"copyright": "Copyright © 2020, Enalye JonathKane Automne Archivist",
 	"authors": ["Enalye", "JonathKane", "Automn", "Archivist"],
 	"dependencies": {
 		"grimoire": {
@@ -13,7 +13,7 @@
             "path": "../atelier"
 		}
 	},
-	"targetName": "thjam5",
+	"targetName": "haniwaface",
 	"targetType": "executable",
 	"workingDirectory": "..",
 	"buildTypes": {
