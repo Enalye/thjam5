@@ -135,7 +135,7 @@ final class Player: Actor {
 
         if(_haniwas.length < (_haniwas.capacity - 1) && getButtonDown(KeyButton.x)) {
             Vec2i haniwaSpawnPos = Vec2i(position.x + _facing * 75, position.y);
-            Haniwa haniwa = new Haniwa(haniwaSpawnPos, Vec2i(26, 12), _facing);
+            Haniwa haniwa = new Haniwa(haniwaSpawnPos, Vec2i(30, 16), _facing);
             _haniwas.push(haniwa);
         }
 
