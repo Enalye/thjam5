@@ -11,6 +11,7 @@ int uspb = 375_000;
 
 main {
     beatHandling();
+	spawnJumper(-230, 15);
     //movingPlatformExample(-120, 60);
     //movingPlatformExample(250, 90);
 	let floor = createWall(0, -760, 500, 750);

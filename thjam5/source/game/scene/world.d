@@ -57,7 +57,7 @@ RythmHandler getRythmHandler() {
 }
 
 private void initWorld() {
-    _background   = new Background("kagerou");
+    _background   = new Background("background");
     _actors       = new ActorArray;
     _solids       = new SolidArray;
     _projectiles  = new ProjectileArray;
