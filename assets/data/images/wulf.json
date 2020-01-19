@@ -18,7 +18,7 @@
             },
             "maxtiles": 0,
             "mode": "once",
-            "name": "black wulf",
+            "name": "wulf.black",
             "reverse": false,
             "type": "animation"
         },
@@ -40,11 +40,11 @@
             },
             "maxtiles": 0,
             "mode": "once",
-            "name": "untitled",
+            "name": "wulf.white",
             "reverse": false,
             "type": "animation"
         }
     ],
-    "texture": "..\/..\/..\/..\/..\/test-images\/wolf.png",
+    "texture": "..\/..\/media\/characters\/wolf.png",
     "type": "spritesheet"
 }

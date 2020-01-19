@@ -17,7 +17,7 @@
                 "y": 0
             },
             "maxtiles": 0,
-            "mode": "once",
+            "mode": "loop",
             "name": "idle",
             "reverse": false,
             "type": "animation"
@@ -39,7 +39,7 @@
                 "y": 0
             },
             "maxtiles": 0,
-            "mode": "once",
+            "mode": "loop",
             "name": "run",
             "reverse": false,
             "type": "animation"
@@ -67,6 +67,6 @@
             "type": "animation"
         }
     ],
-    "texture": "..\/..\/..\/..\/..\/test-images\/test.png",
+    "texture": "..\/..\/media\/characters\/test.png",
     "type": "spritesheet"
 }

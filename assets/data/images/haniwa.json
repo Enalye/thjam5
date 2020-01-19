@@ -17,12 +17,12 @@
                 "y": 0
             },
             "maxtiles": 0,
-            "mode": "once",
-            "name": "untitled",
+            "mode": "loop",
+            "name": "haniwa",
             "reverse": false,
             "type": "animation"
         }
     ],
-    "texture": "..\/..\/..\/..\/..\/test-images\/haniwas.png",
+    "texture": "..\/..\/media\/characters\/haniwas.png",
     "type": "spritesheet"
 }
