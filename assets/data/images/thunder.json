@@ -1,0 +1,17 @@
+{
+    "elements": [
+        {
+            "clip": {
+                "h": 959,
+                "w": 1277,
+                "x": 3,
+                "y": 0
+            },
+            "flip": "none",
+            "name": "thunder",
+            "type": "sprite"
+        }
+    ],
+    "texture": "..\/..\/media\/characters\/thunder.png",
+    "type": "spritesheet"
+}

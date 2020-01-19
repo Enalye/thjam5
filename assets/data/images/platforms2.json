@@ -1,0 +1,39 @@
+{
+    "elements": [
+        {
+            "clip": {
+                "h": 621,
+                "w": 149,
+                "x": 73,
+                "y": 230
+            },
+            "flip": "none",
+            "name": "column",
+            "type": "sprite"
+        },
+        {
+            "clip": {
+                "h": 265,
+                "w": 656,
+                "x": 290,
+                "y": 675
+            },
+            "flip": "none",
+            "name": "floor2",
+            "type": "sprite"
+        },
+        {
+            "clip": {
+                "h": 111,
+                "w": 156,
+                "x": 262,
+                "y": 346
+            },
+            "flip": "none",
+            "name": "platform2",
+            "type": "sprite"
+        }
+    ],
+    "texture": "..\/..\/media\/characters\/platforms2.png",
+    "type": "spritesheet"
+}

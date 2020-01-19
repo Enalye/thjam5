@@ -144,6 +144,7 @@ final class Player: Actor {
             Haniwa haniwa = new Haniwa(haniwaSpawnPos, Vec2i(30, 16), _facing);
             haniwas.push(haniwa);
             --nbHaniwas;
+            getRythmHandler().playDebugSound();
         }
 
         //-- Jump

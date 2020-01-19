@@ -7,7 +7,6 @@ task beatHandling() {
         int currentBeats = getSongPositionBeats();
 
         if(currentBeats != previousBeats) {
-            playDrum(); // to add here instead: events ?
             previousBeats = currentBeats;    
         }
         yield;
