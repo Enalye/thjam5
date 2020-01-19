@@ -57,8 +57,12 @@ RythmHandler getRythmHandler() {
     return _rythmHandler;
 }
 
+Background getBackground() {
+    return _background;
+}
+
 private void initWorld() {
-    _background   = new Background("background", "kagerou", "sekibanki");
+    _background   = new Background();
     _actors       = new ActorArray;
     _solids       = new SolidArray;
     _projectiles  = new ProjectileArray;

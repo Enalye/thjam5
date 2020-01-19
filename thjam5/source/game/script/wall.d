@@ -3,9 +3,15 @@ module game.script.wall;
 import atelier, grimoire;
 import std.conv;
 import game.scene;
+import game.scene.background;
 
 package void loadWall(GrData data) {
     auto defWall = data.addUserType("Wall");
+
+    data.addPrimitive(&_loadBackground,
+                      "loadBackground",
+                      ["background", "boss1", "boss2"],
+                      [grString, grString, grString]);
 
     data.addPrimitive(&_createWall, "createWall",
                       ["fileName", "x", "y", "hx", "hy"],
@@ -23,6 +29,13 @@ package void loadWall(GrData data) {
 
     data.addPrimitive(&_moveWall, "move", ["wall", "x", "y"], [defWall, grFloat, grFloat]);
     data.addPrimitive(&_moveWallTo, "moveTo", ["wall", "x", "y"], [defWall, grFloat, grFloat]);
+}
+
+private void _loadBackground(GrCall call) {
+    Background background = getBackground();
+    background.load(to!string(call.getString("background")),
+                    to!string(call.getString("boss1")),
+                    to!string(call.getString("boss2")));
 }
 
 private void _createWall(GrCall call) {

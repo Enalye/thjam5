@@ -11,9 +11,9 @@ int uspb = 375_000;
 
 main {
     beatHandling();
-	//loadBackground("background", "kagerou", "sekibanki");
+    loadBackground("background2", "raiko", "");
 	spawnJumper(-230, 15);
-	let floor = createWall("floor", 0, -760, 581, 279);
+	let floor = createWall("floor2", 0, -760, 581, 279);
 
 	for(i, [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]) {
 		rotatingPlatform(i as float*3.1415f/180f, 560, 32, 4f);
@@ -309,7 +309,7 @@ func enemyOnPlatform(int x, int y) Enemy {
 }
 
 task rotatingPlatform(float angle, int radius, int size, float speed) {
-    let wall = createWall("platform", ((radius+away)*cos(angle)-size/2) as int, ((radius+away)*sin(angle)-size/2) as int, size * 2, size);
+    let wall = createWall("platform2", ((radius+away)*cos(angle)-size/2) as int, ((radius+away)*sin(angle)-size/2) as int, size * 2, size);
 
 	int t_o = time();
     loop {
