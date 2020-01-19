@@ -1,0 +1,94 @@
+{
+    "elements": [
+        {
+            "clip": {
+                "h": 80,
+                "w": 64,
+                "x": 0,
+                "y": 0
+            },
+            "columns": 2,
+            "duration": 0.300000011920928955,
+            "easing": "linear",
+            "flip": "none",
+            "lines": 1,
+            "margin": {
+                "x": 0,
+                "y": 0
+            },
+            "maxtiles": 0,
+            "mode": "loop",
+            "name": "keiki.idle",
+            "reverse": false,
+            "type": "animation"
+        },
+        {
+            "clip": {
+                "h": 80,
+                "w": 64,
+                "x": 124,
+                "y": 2
+            },
+            "columns": 5,
+            "duration": 0.300000011920928955,
+            "easing": "linear",
+            "flip": "none",
+            "lines": 1,
+            "margin": {
+                "x": 0,
+                "y": 0
+            },
+            "maxtiles": 0,
+            "mode": "loop",
+            "name": "keiki.run",
+            "reverse": false,
+            "type": "animation"
+        },
+        {
+            "clip": {
+                "h": 80,
+                "w": 64,
+                "x": 454,
+                "y": 2
+            },
+            "columns": 3,
+            "duration": 0.200000002980232239,
+            "easing": "linear",
+            "flip": "none",
+            "lines": 1,
+            "margin": {
+                "x": 0,
+                "y": 0
+            },
+            "maxtiles": 0,
+            "mode": "once",
+            "name": "keiki.jump",
+            "reverse": false,
+            "type": "animation"
+        },
+        {
+            "clip": {
+                "h": 80,
+                "w": 80,
+                "x": 654,
+                "y": 0
+            },
+            "columns": 2,
+            "duration": 0.200000002980232239,
+            "easing": "linear",
+            "flip": "none",
+            "lines": 1,
+            "margin": {
+                "x": 0,
+                "y": 0
+            },
+            "maxtiles": 0,
+            "mode": "once",
+            "name": "untitled",
+            "reverse": false,
+            "type": "animation"
+        }
+    ],
+    "texture": "..\/..\/media\/characters\/keiki.png",
+    "type": "spritesheet"
+}
