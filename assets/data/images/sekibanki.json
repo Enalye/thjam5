@@ -1,0 +1,17 @@
+{
+    "elements": [
+        {
+            "clip": {
+                "h": 401,
+                "w": 291,
+                "x": 986,
+                "y": 330
+            },
+            "flip": "none",
+            "name": "sekibanki",
+            "type": "sprite"
+        }
+    ],
+    "texture": "..\/..\/media\/characters\/sekibanki.png",
+    "type": "spritesheet"
+}
