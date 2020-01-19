@@ -39,8 +39,9 @@ final class Player: Actor {
         Animation _animationIdle;
         Animation _animationRun;
         Animation _animationJump;
+        Sound     _hitSound;
 
-        Timer _jumpTimer, _grabTimer;
+        Timer _jumpTimer, _grabTimer, _invicibilityTimer;
     }
 
     int nbHaniwas = 3;
@@ -61,12 +62,14 @@ final class Player: Actor {
         _animationIdle.start();
         _animationRun.start();
 
+        _hitSound         = fetch!Sound("hit");
         _currentAnimation = _animationIdle;
     }
 
     override void update(float deltaTime) {
         _jumpTimer.update(deltaTime);
         _grabTimer.update(deltaTime);
+        _invicibilityTimer.update(deltaTime);
         
         if(position.y < -1000)
             position = Vec2i(position.x, 1000);
@@ -229,6 +232,12 @@ final class Player: Actor {
     }
 
     override void draw() {
+        if(_invicibilityTimer.isRunning) {
+            _currentAnimation.color = Color(1f, 1f, 1f, 0.8f);
+        } else {
+            _currentAnimation.color = Color(1f, 1f, 1f, 1f);
+        }
+
         foreach(Haniwa haniwa; haniwas) {
             haniwa.draw();
         }
@@ -243,8 +252,13 @@ final class Player: Actor {
     }
 
     override void squish(CollisionData data) {
-        // Squish means we got crushed between 2 solids.
-        // We'll most likely respawn here.
-        position = Vec2i(0, 1000);
+        hit();
+    }
+
+    void hit() {
+        if(!_invicibilityTimer.isRunning) {
+            _hitSound.play();
+            _invicibilityTimer.start(1f);
+        }
     }
 }

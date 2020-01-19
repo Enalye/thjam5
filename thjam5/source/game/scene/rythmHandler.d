@@ -44,8 +44,6 @@ class RythmHandler {
         _songPositionSec   = 0;
         _songPositionBeats = 0;
 
-        _music.volume   = 0.1f;
-        _drum.volume    = 0.5f;
         _music.fadeIn(10f);
         _clock.start();
     }

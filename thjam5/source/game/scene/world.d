@@ -99,6 +99,9 @@ private void updateWorld(Canvas canvas, float deltaTime) {
     canvas.size = screenSize;
     canvas.position = _player.getPosition2d();
 
+    canvas.position = canvas.position.clamp(-_background._background.size / 2f,
+                                             _background._background.size / 2f);
+
     runScript();
 }
 

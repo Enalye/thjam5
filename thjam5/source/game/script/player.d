@@ -72,7 +72,7 @@ private void _getPlayerHitboxY(GrCall call) {
 
 private void _KillPlayer(GrCall call) {
     Player player = call.getUserData!Player("player");
-	writeln("Player killed");
+    player.hit();
 }
 
 private void _DamagePlayer(GrCall call) {
