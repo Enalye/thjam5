@@ -37,16 +37,10 @@ final class MenuInterface: GuiElement {
     private {
         Sprite _bgSprite;
         Animation _spaceAnim;
-        Music _music;
     }
 
     this() {
         size(screenSize);
-        _music = fetch!Music("the_idolmaster");
-        _music.volume = 0.3f;
-        _music.isLooped = true;
-        _music.play();
-
         _bgSprite = fetch!Sprite("ui.bg");
         _spaceAnim = fetch!Animation("ui.space");
     }
@@ -54,7 +48,8 @@ final class MenuInterface: GuiElement {
     override void update(float deltaTime) {
         if(getButtonDown(KeyButton.space)) {
             removeRootGuis();
-            addRootGui(new IntroGui1);
+            fetch!Music("the_idolmaster").stop();
+            onStartGame();
         }
         _spaceAnim.update(deltaTime);
     }
@@ -69,6 +64,7 @@ final class IntroGui1: GuiElement {
     private {
         Sprite _bgSprite, _introSprite;
         Animation _spaceAnim;
+        Music _music;
     }
 
     this() {
@@ -76,6 +72,11 @@ final class IntroGui1: GuiElement {
         _spaceAnim = fetch!Animation("ui.space");
         _introSprite = fetch!Sprite("ui.intro1");
         size(screenSize);
+
+        _music = fetch!Music("the_idolmaster");
+        _music.volume = 0.2f;
+        _music.isLooped = true;
+        _music.play();
     }
 
     override void update(float deltaTime) {
@@ -223,10 +224,8 @@ final class IntroGui4: GuiElement {
     override void update(float deltaTime) {
         _spaceAnim.update(deltaTime);
         if(getButtonDown(KeyButton.space)) {
-            /*removeRootGuis();
-            addRootGui(new SelectionScreen);*/
-            fetch!Music("the_idolmaster").stop();
-            onStartGame();
+            removeRootGuis();
+            addRootGui(new MenuInterface);
         }
     }
 

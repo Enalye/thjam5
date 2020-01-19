@@ -31,7 +31,7 @@ private void onLoadComplete() {
 
 void onMainMenu() {
 	removeRootGuis();
-	addRootGui(new MenuInterface);
+	addRootGui(new IntroGui1);
 }
 
 void onStartGame() {
