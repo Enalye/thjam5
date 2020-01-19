@@ -11,7 +11,7 @@ int uspb = 375_000;
 
 main {
     beatHandling();
-	//loadBackground("background", "kagerou", "sekibanki");
+	loadBackground("background", "kagerou", "sekibanki");
 	spawnJumper(-230, 15);
 	let floor = createWall("floor", 0, -760, 581, 279);
 
