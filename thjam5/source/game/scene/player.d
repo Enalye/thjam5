@@ -256,10 +256,18 @@ final class Player: Actor {
         hit();
     }
 
+    int life = 5;
     void hit() {
         if(!_invicibilityTimer.isRunning) {
             _hitSound.play();
             _invicibilityTimer.start(1f);
+            life --;
+            import game.gui;
+            setLifeGui(life);
+            if(life < 0) {
+                import game.menu;
+                onMainMenu();
+            }
         }
     }
 }
