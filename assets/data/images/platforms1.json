@@ -1,0 +1,28 @@
+{
+    "elements": [
+        {
+            "clip": {
+                "h": 114,
+                "w": 229,
+                "x": 138,
+                "y": 106
+            },
+            "flip": "none",
+            "name": "platform",
+            "type": "sprite"
+        },
+        {
+            "clip": {
+                "h": 279,
+                "w": 1144,
+                "x": 45,
+                "y": 581
+            },
+            "flip": "none",
+            "name": "floor",
+            "type": "sprite"
+        }
+    ],
+    "texture": "..\/..\/media\/characters\/platforms1.png",
+    "type": "spritesheet"
+}
