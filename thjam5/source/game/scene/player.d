@@ -47,8 +47,8 @@ final class Player: Actor {
 
     /// Ctor
     this() {
-        position = Vec2i(0, 20);
-        hitbox = Vec2i(10, 16);
+        position = Vec2i(0, 30);
+        hitbox = Vec2i(25, 38);
 
         _haniwas = new HaniwaArray();
 
@@ -135,7 +135,7 @@ final class Player: Actor {
 
         if(_haniwas.length < (_haniwas.capacity - 1) && getButtonDown(KeyButton.x)) {
             Vec2i haniwaSpawnPos = Vec2i(position.x + _facing * 75, position.y);
-            Haniwa haniwa = new Haniwa(haniwaSpawnPos, Vec2i(25, 10), _facing);
+            Haniwa haniwa = new Haniwa(haniwaSpawnPos, Vec2i(26, 12), _facing);
             _haniwas.push(haniwa);
         }
 
