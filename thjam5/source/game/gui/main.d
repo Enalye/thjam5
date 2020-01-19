@@ -24,7 +24,7 @@ final class GameInterface: GuiElement {
         _world = new World;
 
         _timerLabel = new Label("Time: 0");
-        setLife(5);
+        setUi();
 
         _clock = StopWatch(AutoStart.yes);
     }
@@ -33,25 +33,50 @@ final class GameInterface: GuiElement {
         _timerLabel.text = "Time: " ~ to!string(_clock.peek.total!"seconds");
     }
 
+    private int _life = 5;
     void setLife(int life) {
+        _life = life;
+        setUi();
+    }
+
+    private int _bombs = 3;
+    void setBombs(int bombs) {
+        _bombs = bombs;
+        setUi();
+    }
+
+    void setUi() {
         removeChildrenGuis();
         addChildGui(_world);
 
-        _timerLabel.position(Vec2f(10f, 50f));
+        _timerLabel.position(Vec2f(10f, 100f));
         addChildGui(_timerLabel);
 
-        auto sp = fetch!Sprite("vie");
-        auto b = new HContainer;
-        b.position = Vec2f(10f, 10f);
-        b.spacing = Vec2f(20f, 0f);
-        addChildGui(b);
-        for(int i = 0; i < life; ++ i) {
-            b.addChildGui(new Heart(sp));
+        {
+            auto sp = fetch!Sprite("vie");
+            auto b = new HContainer;
+            b.position = Vec2f(10f, 10f);
+            b.spacing = Vec2f(20f, 0f);
+            addChildGui(b);
+            for(int i = 0; i < _life; ++ i) {
+                b.addChildGui(new IconSprite(sp));
+            }
+        }
+
+        {
+            auto sp = fetch!Sprite("bombes");
+            auto b = new HContainer;
+            b.position = Vec2f(10f, 50f);
+            b.spacing = Vec2f(20f, 0f);
+            addChildGui(b);
+            for(int i = 0; i < _bombs; ++ i) {
+                b.addChildGui(new IconSprite(sp));
+            }
         }
     }
 }
 
-final class Heart: GuiElement {
+final class IconSprite: GuiElement {
     private Sprite _sp;
     this(Sprite sp) {
         _sp = sp;
@@ -65,6 +90,10 @@ final class Heart: GuiElement {
 
 void setLifeGui(int life) {
     _gameInterface.setLife(life);
+}
+
+void setBombsGui(int bombs) {
+    _gameInterface.setBombs(bombs);
 }
 
 final class IntroGui1: GuiElement {

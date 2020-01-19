@@ -184,7 +184,15 @@ final class Player: Actor {
         haniwas.sweepMarkedData();
 
         _currentAnimation.update(deltaTime);
+
+
+        if(currentHaniwas != haniwas.length) {
+            currentHaniwas = haniwas.length;
+            import game.gui;
+            setBombsGui(3 - currentHaniwas);
+        }
     }
+    int currentHaniwas = 3;
 
     /// We touch a wall left or right.
     void onHitWall(CollisionData data) {
