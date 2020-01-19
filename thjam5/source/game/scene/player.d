@@ -26,6 +26,8 @@ final class Player: Actor {
         enum runDeccel = .4f;
 
         enum grabTime = .2f;
+
+        enum knockbackSpeed = 12f;
     }
 
     private {
@@ -225,6 +227,18 @@ final class Player: Actor {
         _jumpTimer.start(jumpTime);
     }
 
+    void knockback() {
+        if(_direction != 0)
+            _speed += Vec2f(-_direction, 1) *  knockbackSpeed;
+        else
+            _speed += Vec2f.one *  knockbackSpeed;
+
+        _isWallGrabbing = false;
+        _canDoubleJump = false;
+        _onGround = false;
+        _jumpTimer.start(jumpTime);
+    }
+
     override bool isRiding(Solid solid) {
         if(_isWallGrabbing)
             return solid == _solidRiding;
@@ -233,7 +247,7 @@ final class Player: Actor {
 
     override void draw() {
         if(_invicibilityTimer.isRunning) {
-            _currentAnimation.color = Color(1f, 1f, 1f, 0.8f);
+            _currentAnimation.color = Color(1f, 0.5f, 0.5f, 0.8f);
         } else {
             _currentAnimation.color = Color(1f, 1f, 1f, 1f);
         }
@@ -261,6 +275,7 @@ final class Player: Actor {
             _hitSound.play();
             _invicibilityTimer.start(1f);
             life --;
+            knockback();
             import game.gui;
             setLifeGui(life);
             if(life < 0) {
