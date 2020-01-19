@@ -18,7 +18,7 @@
             },
             "maxtiles": 0,
             "mode": "loop",
-            "name": "idle",
+            "name": "keiki.idle",
             "reverse": false,
             "type": "animation"
         },
@@ -40,7 +40,7 @@
             },
             "maxtiles": 0,
             "mode": "loop",
-            "name": "run",
+            "name": "keiki.run",
             "reverse": false,
             "type": "animation"
         },
@@ -62,11 +62,11 @@
             },
             "maxtiles": 0,
             "mode": "once",
-            "name": "jump",
+            "name": "keiki.jump",
             "reverse": false,
             "type": "animation"
         }
     ],
-    "texture": "..\/..\/media\/characters\/test.png",
+    "texture": "..\/..\/media\/characters\/keiki.png",
     "type": "spritesheet"
 }

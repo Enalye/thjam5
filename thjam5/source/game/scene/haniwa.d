@@ -55,8 +55,9 @@ class Haniwa: Solid {
 
     /// Render the actor.
     override void draw() {
-        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.black);
-        animation.draw(getHitboxOrigin2d());                   
+        Vec2f drawPosition = getHitboxOrigin2d();
+        //drawFilledRect(drawPosition, getHitboxSize2d(), Color.black);
+        animation.draw(drawPosition + Vec2f(animation.size.x / 2f, 0));                   
     }
 
     /// We touch a wall left or right.

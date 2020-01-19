@@ -33,8 +33,13 @@ final class Player: Actor {
         Vec2f _speed = Vec2f.zero;
         bool _onGround = false, _canDoubleJump = true;
         bool _isWallGrabbing = false;
-        Solid _solidRiding;
+
+        Solid       _solidRiding;
         HaniwaArray _haniwas;
+
+        Animation _animationIdle;
+        Animation _animationRun;
+        Animation _animationJump;
 
         Timer _jumpTimer, _grabTimer;
     }
@@ -45,6 +50,9 @@ final class Player: Actor {
         hitbox = Vec2i(10, 16);
 
         _haniwas = new HaniwaArray();
+
+        _animationIdle = fetch!Animation("keiki.idle");
+        _animationIdle.start();
     }
 
     override void update(float deltaTime) {
@@ -147,6 +155,8 @@ final class Player: Actor {
             }
             _haniwas.sweepMarkedData();
         }
+
+        _animationIdle.update(deltaTime);
     }
 
     /// We touch a wall left or right.
@@ -202,7 +212,16 @@ final class Player: Actor {
             haniwa.draw();
         }
 
-        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.green);
+        Vec2f drawPosition = getHitboxOrigin2d();
+        drawFilledRect(drawPosition, getHitboxSize2d(), Color.green);
+
+        if(_facing == -1) {
+            _animationIdle.flip = Flip.horizontal;
+        } else {
+            _animationIdle.flip = Flip.none;
+        }
+        
+        _animationIdle.draw(drawPosition + Vec2f(_animationIdle.size.x / 2f, 0));
     }
 
     override void squish(CollisionData data) {
