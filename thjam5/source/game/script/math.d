@@ -13,7 +13,8 @@ package void loadMath(GrData data) {
     data.addPrimitive(&_sin, "sin", ["v"], [grFloat], [grFloat]);
     data.addPrimitive(&_sqrt, "sqrt", ["v"], [grFloat], [grFloat]);
     data.addPrimitive(&_lerp, "lerp", ["a", "b", "t"], [grFloat, grFloat, grFloat], [grFloat]);
-    data.addPrimitive(&_rlerp, "rlerp", ["a", "b", "v"], [grFloat, grFloat, grFloat], [grFloat]);
+    data.addPrimitive(&_rlerp, "rlerp", ["a", "b", "v"], [grFloat, grFloat, grFloat], [grFloat]);  
+	data.addPrimitive(&_posSin, "psin", ["value"], [grFloat], [grFloat]);
 }
 
 private void _clamp(GrCall call) {
@@ -50,4 +51,8 @@ private void _lerp(GrCall call) {
 
 private void _rlerp(GrCall call) {
     call.setFloat(rlerp(call.getFloat("a"), call.getFloat("b"), call.getFloat("v")));
+}
+
+private void _posSin(GrCall call) {
+	call.setFloat((sin(call.getFloat("value")) + 1f) * 0.5f);
 }

@@ -3,7 +3,7 @@ use "utils.gr"
 task jumpTowards(Enemy enemy, int delay, float speedXb, float speedYb) {
 	float speedX = speedXb+lcg()%6;
 	float speedY = speedYb+lcg()%3;
-	Projectile damage_dealer = createProjectile(-150_000, -150_000, enemy::getHitboxX(), enemy::getHitboxY(), CollisionHitbox, "killPlayerNoCancel");
+	Projectile damage_dealer = createProjectile("", -150_000, -150_000, enemy::getHitboxX(), enemy::getHitboxY(), CollisionHitbox, "killPlayerNoCancel");
 	bool dd_exists = false;
     loop {
 

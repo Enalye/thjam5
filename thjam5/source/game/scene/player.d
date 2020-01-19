@@ -177,7 +177,7 @@ final class Player: Actor {
         }
         haniwas.sweepMarkedData();
 
-        _animationIdle.update(deltaTime);
+        _currentAnimation.update(deltaTime);
     }
 
     /// We touch a wall left or right.

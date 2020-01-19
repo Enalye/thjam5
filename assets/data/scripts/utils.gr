@@ -49,3 +49,15 @@ func waitUSeconds(int s) {
 		yield;
 	}
 }
+
+task redGradient(Projectile projectile, float frequency) {
+    let r, g, b, i = 0f;
+    loop {
+        r = psin(frequency * i);
+        g = 0.5f;//psin(frequency * i + 2f);
+        b = 0.5f;//psin(frequency * i + 4f);
+        setProjectileColor(projectile, r, g, b);
+        i++;
+        yield;
+    }
+}

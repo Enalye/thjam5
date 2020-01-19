@@ -1,0 +1,17 @@
+{
+    "elements": [
+        {
+            "clip": {
+                "h": 57,
+                "w": 64,
+                "x": 173,
+                "y": 17
+            },
+            "flip": "none",
+            "name": "bullet",
+            "type": "sprite"
+        }
+    ],
+    "texture": "..\/..\/media\/characters\/bullets.png",
+    "type": "spritesheet"
+}

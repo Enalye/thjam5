@@ -3,12 +3,13 @@ module game.script.projectile;
 import game.scene.projectile;
 import game.scene.world;
 import atelier, grimoire;
+import std.conv;
 import game.scene;
 
 package void loadProjectile(GrData data) {
     auto defProjectile = data.addUserType("Projectile");
 	grProjectile = defProjectile;
-    data.addPrimitive(&_createProjectile, "createProjectile", ["x", "y", "hx", "hy", "colmode","evPlayer"], [grInt, grInt, grInt, grInt, grInt, grString], [defProjectile]);
+    data.addPrimitive(&_createProjectile, "createProjectile", ["name", "x", "y", "hx", "hy", "colmode","evPlayer"], [grString, grInt, grInt, grInt, grInt, grInt, grString], [defProjectile]);
     /*
     data.addPrimitive(&_setWallPosition, "setPosition", ["wall", "x", "y"], [defWall, grInt, grInt]);
     data.addPrimitive(&_getWallPosition, "getPosition", ["wall"], [defWall], [grInt, grInt]);
@@ -25,6 +26,10 @@ package void loadProjectile(GrData data) {
     data.addPrimitive(&_moveProjectile, "move", ["projectile", "x", "y"], [defProjectile, grFloat, grFloat]);
     data.addPrimitive(&_moveProjectileTo, "moveTo", ["projectile", "x", "y"], [defProjectile, grFloat, grFloat]);
 
+    data.addPrimitive(&_setProjectileColor, "setProjectileColor",
+                      ["p", "r", "g", "b"],
+                      [defProjectile, grFloat, grFloat, grFloat]);
+
 
     data.addPrimitive(&_destroyProjectile, "destroy", ["projectile"], [defProjectile]);
 }
@@ -33,6 +38,7 @@ GrType grProjectile;
 
 private void _createProjectile(GrCall call) {
     auto proj = new Projectile(
+        to!string(call.getString("name")),
 		Vec2i(call.getInt("x"), call.getInt("y")), 
 		Vec2i(call.getInt("hx"), call.getInt("hy")),
 		call.getInt("colmode") == 0 ? CollisionModel.Hitbox: CollisionModel.Radius,
@@ -46,6 +52,12 @@ private void _setProjectilePosition(GrCall call) {
     Projectile wall = call.getUserData!Projectile("p");
     wall.position = Vec2i(call.getInt("x"), call.getInt("y"));
 }
+
+private void _setProjectileColor(GrCall call) {
+    Projectile proj   = call.getUserData!Projectile("p");
+    proj.sprite.color = Color(call.getFloat("r"), call.getFloat("g"), call.getFloat("b"));
+}
+
 /**
 private void _getWallPosition(GrCall call) {
     Wall wall = call.getUserData!Wall("wall");

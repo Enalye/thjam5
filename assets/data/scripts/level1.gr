@@ -50,7 +50,8 @@ object SniperBullet {
 	
 func createSniperBullet(int x, int y, float speed) SniperBullet {
 	SniperBullet ret = new SniperBullet;
-	ret.p = createProjectile(x,y, 10, 10, CollisionRadius, "killPlayerNoCancel");
+	ret.p = createProjectile("bullet", x, y, 10, 10, CollisionRadius, "killPlayerNoCancel");
+	redGradient(ret.p, 100f);
 	Player p= getPlayer();
 	float sx = p::getPositionX()-x;
 	float sy = p::getPositionY()-y;
@@ -94,7 +95,7 @@ task bulletSniper(int spawn, int x, int y, float speed, int interval, int shots)
 
 task moon(int spawn, int x, int y, float v_x, float v_y) {
 	waitUntil(spawn);
-	let proj = createProjectile(x, y, 24, 24, CollisionRadius, "killPlayerNoCancel");
+	let proj = createProjectile("bullet", x, y, 24, 24, CollisionRadius, "killPlayerNoCancel");
 	let t_last = time();
 	loop {
 		let t_l = time();
@@ -120,8 +121,8 @@ task moon(int spawn, int x, int y, float v_x, float v_y) {
 
 task claws(int spawn, int active, int ground, int out) {
 	waitUntil(spawn);
-	let left = createProjectile(-150, 130, 32, 32, CollisionHitbox, "killPlayerNoCancel");
-	let right = createProjectile(150, 130, 32, 32, CollisionHitbox, "killPlayerNoCancel");
+	let left  = createProjectile("bullet", -150, 130, 32, 32, CollisionHitbox, "killPlayerNoCancel");
+	let right = createProjectile("bullet", 150, 130, 32, 32, CollisionHitbox, "killPlayerNoCancel");
 	loop {
 		if(time()<active)
 		{
@@ -148,8 +149,8 @@ task claws(int spawn, int active, int ground, int out) {
 	}
 	left::destroy();
 	right::destroy();
-	left = createProjectile(-150, 30, 32, 32, CollisionHitbox, "killPlayerNoCancel");
-	right = createProjectile(150, 30, 32, 32, CollisionHitbox, "killPlayerNoCancel");
+	left = createProjectile("bullet", -150, 30, 32, 32, CollisionHitbox, "killPlayerNoCancel");
+	right = createProjectile("bullet", 150, 30, 32, 32, CollisionHitbox, "killPlayerNoCancel");
 	loop {
 		t_o = time();
 		if(t_o<out)
@@ -313,7 +314,7 @@ task rotatingPlatform(float angle, int radius, int size, float speed) {
 }
 
 task rotatingProjectile(float angle, int radius, int size, float speed) {
-    let wall = createProjectile(((radius as float)*cos(angle)-size/2) as int, ((radius as float)*cos(angle)-size/2) as int, size, size, CollisionHitbox, "killPlayer");
+    let wall = createProjectile("bullet", ((radius as float)*cos(angle)-size/2) as int, ((radius as float)*cos(angle)-size/2) as int, size, size, CollisionHitbox, "killPlayer");
 
 	int t_o = time();
     loop {

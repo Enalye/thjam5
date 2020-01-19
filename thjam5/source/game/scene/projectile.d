@@ -31,10 +31,12 @@ class Projectile {
 		CollisionModel collisionMode;
     }
 
+	Sprite sprite;
+
 	bool toDelete = false;
 	bool collidedThisFrame = false;
 
-    this(Vec2i position_, Vec2i hitbox_, CollisionModel mode = CollisionModel.Hitbox, dstring eventSolid = "", dstring eventPlayer = "", dstring eventActor = "") {
+    this(string fileName, Vec2i position_, Vec2i hitbox_, CollisionModel mode = CollisionModel.Hitbox, dstring eventSolid = "", dstring eventPlayer = "", dstring eventActor = "") {
 		GrType[] arr;
         position = position_;
         hitbox = hitbox_;
@@ -74,6 +76,10 @@ class Projectile {
 			
 		}
 		onActor = delegate (Projectile, Actor) {};
+
+		if(fileName != "") {
+			sprite = fetch!Sprite(fileName);
+		}
     }
 
     @property {
@@ -124,25 +130,23 @@ class Projectile {
 		const auto len = direction.length;
 		const auto scale = _hitbox.length;
 
-		if(len<scale)
-		{
+		if(len<scale) {
 			moveX(direction.x,  onCollideSolid,  onCollidePlayer,  onCollideAction);
 			moveY(direction.y,  onCollideSolid,  onCollidePlayer,  onCollideAction);
 		}
-		else
-		{
+		else {
 			auto rescale = direction/scale;
 			auto steps = len/scale - 1;
 			moveX(rescale.x/2, onCollideSolid,  onCollidePlayer,  onCollideAction);
 			moveY(rescale.y/2, onCollideSolid,  onCollidePlayer,  onCollideAction);
 			direction -= rescale/2;
-			while(steps > 0)
-			{
+			while(steps > 0) {
 				moveX(rescale.x,onCollideSolid,  onCollidePlayer,  onCollideAction);
 				moveY(rescale.y,onCollideSolid,  onCollidePlayer,  onCollideAction);
 				direction -= rescale;
 				steps--;
 			}
+
 			moveX(direction.x, onCollideSolid,  onCollidePlayer,  onCollideAction);
 			moveY(direction.y, onCollideSolid,  onCollidePlayer,  onCollideAction);
 		}
@@ -239,6 +243,9 @@ class Projectile {
     }
 
     void draw() {
-        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.magenta);
+		if(sprite) {
+			sprite.size = getHitboxSize2d();
+			sprite.draw(getPosition2d());
+		}
     }
 }
