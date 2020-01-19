@@ -29,7 +29,6 @@ class Enemy: Actor {
 
     this(Vec2i pos) {
         position = pos;
-        hitbox   = Vec2i(10, 16);
     }
 
     override void update(float deltaTime) {
@@ -53,11 +52,10 @@ class Enemy: Actor {
     }
 
     override void draw() {
-        drawFilledRect(getHitboxOrigin2d(), getHitboxSize2d(), Color.red);
     }
 
     override void squish(CollisionData data) {
-        toDelete = true;
+        //toDelete = true;
     }
 
     void onHitWall(CollisionData data) {

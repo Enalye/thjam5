@@ -4,6 +4,7 @@ import atelier, grimoire;
 import std.format; import std.stdio;
 import game.scene;
 import game.scene.enemy;
+import game.scene.wolf;
 import game.scene.world;
 
 package void loadEnemy(GrData data) {
@@ -31,7 +32,7 @@ private void _grSpawnEnemy(GrCall call) {
 	const int x = call.getInt("x");
 	const int y = call.getInt("y");
 
-	Enemy enemy = new Enemy(Vec2i(x, y));
+	Enemy enemy = new Wolf(Vec2i(x, y));
     spawnActor(enemy);
 	call.setUserData!Enemy(enemy);
 }

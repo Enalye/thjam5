@@ -8,10 +8,10 @@
                 "y": 0
             },
             "flip": "none",
-            "name": "kagerou",
+            "name": "background",
             "type": "sprite"
         }
     ],
-    "texture": "..\/..\/media\/characters\/kagerou.jpg",
+    "texture": "..\/..\/media\/characters\/background.png",
     "type": "spritesheet"
 }

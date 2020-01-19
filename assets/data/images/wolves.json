@@ -1,0 +1,50 @@
+{
+    "elements": [
+        {
+            "clip": {
+                "h": 80,
+                "w": 80,
+                "x": 0,
+                "y": 0
+            },
+            "flip": "none",
+            "name": "wolf.black.idle",
+            "type": "sprite"
+        },
+        {
+            "clip": {
+                "h": 80,
+                "w": 80,
+                "x": 80,
+                "y": 0
+            },
+            "flip": "none",
+            "name": "wolf.black.jump",
+            "type": "sprite"
+        },
+        {
+            "clip": {
+                "h": 80,
+                "w": 80,
+                "x": 160,
+                "y": 0
+            },
+            "flip": "none",
+            "name": "wolf.white.idle",
+            "type": "sprite"
+        },
+        {
+            "clip": {
+                "h": 80,
+                "w": 80,
+                "x": 240,
+                "y": 0
+            },
+            "flip": "none",
+            "name": "wolf.white.jump",
+            "type": "sprite"
+        }
+    ],
+    "texture": "..\/..\/media\/characters\/wolf.png",
+    "type": "spritesheet"
+}
