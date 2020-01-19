@@ -67,13 +67,14 @@ final class MenuInterface: GuiElement {
 
 final class IntroGui1: GuiElement {
     private {
-        Sprite _sprite;
+        Sprite _bgSprite, _introSprite;
         Animation _spaceAnim;
     }
 
     this() {
-        _sprite = fetch!Sprite("ui.bg");
+        _bgSprite = fetch!Sprite("ui.bg");
         _spaceAnim = fetch!Animation("ui.space");
+        _introSprite = fetch!Sprite("ui.intro1");
         size(screenSize);
     }
 
@@ -86,20 +87,22 @@ final class IntroGui1: GuiElement {
     }
 
     override void draw() {
-        _sprite.draw(center);
+        _bgSprite.draw(center);
+        _introSprite.draw(center);
         _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
     }
 }
 
 final class IntroGui2: GuiElement {
     private {
-        Sprite _sprite;
+        Sprite _bgSprite, _introSprite;
         Animation _spaceAnim;
     }
 
     this() {
-        _sprite = fetch!Sprite("ui.bg");
+        _bgSprite = fetch!Sprite("ui.bg");
         _spaceAnim = fetch!Animation("ui.space");
+        _introSprite = fetch!Sprite("ui.intro2");
         size(screenSize);
     }
 
@@ -112,21 +115,23 @@ final class IntroGui2: GuiElement {
     }
 
     override void draw() {
-        _sprite.draw(center);
+        _bgSprite.draw(center);
+        _introSprite.draw(center);
         _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
     }
 }
 
 final class IntroGui3: GuiElement {
     private {
-        Sprite _sprite;
+        Sprite _bgSprite, _introSprite;
         Animation _spaceAnim;
     }
 
     this() {
-        _sprite = fetch!Sprite("ui.bg");
-        size(screenSize);
+        _bgSprite = fetch!Sprite("ui.bg");
         _spaceAnim = fetch!Animation("ui.space");
+        _introSprite = fetch!Sprite("ui.intro3");
+        size(screenSize);
     }
 
     override void update(float deltaTime) {
@@ -138,7 +143,8 @@ final class IntroGui3: GuiElement {
     }
 
     override void draw() {
-        _sprite.draw(center);
+        _bgSprite.draw(center);
+        _introSprite.draw(center);
         _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
     }
 }
@@ -165,12 +171,12 @@ final class IconAnim: GuiElement {
 
 final class IntroGui4: GuiElement {
     private {
-        Sprite _sprite;
+        Sprite _bgSprite;
         Animation _spaceAnim;
     }
 
     this() {
-        _sprite = fetch!Sprite("ui.bg");
+        _bgSprite = fetch!Sprite("ui.bg");
         _spaceAnim = fetch!Animation("ui.space");
         size(screenSize);
 
@@ -225,19 +231,19 @@ final class IntroGui4: GuiElement {
     }
 
     override void draw() {
-        _sprite.draw(center);
+        _bgSprite.draw(center);
         _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
     }
 }
 /*
 final class SelectionScreen: GuiElement {
     private {
-        Sprite _sprite;
+        Sprite _bgSprite;
         Animation _spaceAnim;
     }
 
     this() {
-        _sprite = fetch!Sprite("ui.bg");
+        _bgSprite = fetch!Sprite("ui.bg");
         _spaceAnim = fetch!Animation("ui.space");
         size(screenSize);
     }
@@ -251,7 +257,7 @@ final class SelectionScreen: GuiElement {
     }
 
     override void draw() {
-        _sprite.draw(center);
+        _bgSprite.draw(center);
         _spaceAnim.draw(Vec2f(center.x, origin.y + size.y - 100f));
     }
 }*/

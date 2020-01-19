@@ -1,0 +1,17 @@
+{
+    "elements": [
+        {
+            "clip": {
+                "h": 959,
+                "w": 1280,
+                "x": 0,
+                "y": 0
+            },
+            "flip": "none",
+            "name": "ui.intro3",
+            "type": "sprite"
+        }
+    ],
+    "texture": "..\/..\/media\/gui\/intro3.png",
+    "type": "spritesheet"
+}
