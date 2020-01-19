@@ -10,7 +10,7 @@ int uspb = 375_000;
 
 
 main {
-	loadMusic("unfinished_primordial_beat");
+	loadMusic("unfinished_primordial_beat", 139);
     beatHandling();
     loadBackground("background2", "raiko", "");
 	spawnJumper(-230, 15);

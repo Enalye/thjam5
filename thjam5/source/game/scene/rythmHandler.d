@@ -27,8 +27,8 @@ class RythmHandler {
         int songPositionBeats() { return _songPositionBeats; }
     }
 
-    void load(string fileName) {
-        start(fileName, 160, 206f, 1f, 10f);
+    void load(string fileName, int secs) {
+        start(fileName, 160, secs, 1f, 10f);
     }
 
     void start(string fileName,
