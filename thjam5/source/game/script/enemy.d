@@ -91,7 +91,6 @@ private void _isEnemyGrounded(GrCall call) {
 
 private void _killEnemy(GrCall call) {
     Enemy enemy = call.getUserData!Enemy("enemy");
-	writeln("Enemy killed");
 }
 
 private void _damageEnemy(GrCall call) {
