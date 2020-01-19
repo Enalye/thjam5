@@ -6,7 +6,7 @@ import atelier;
 import game.scene.world, game.scene.actor, game.scene.solid;
 
 class Enemy: Actor {
-    private {
+    protected {
         enum gravity  = .9f;
         enum maxFall  = -16f;
         enum maxRun   = 5f;

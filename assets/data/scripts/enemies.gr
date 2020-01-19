@@ -1,34 +1,8 @@
 use "utils.gr"
 
-task jumpTowards(Enemy enemy, int delay, float speedXb, float speedYb) {
-	float speedX = speedXb+lcg()%6;
-	float speedY = speedYb+lcg()%3;
-	Projectile damage_dealer = createProjectile("", -150_000, -150_000, enemy::getHitboxX(), enemy::getHitboxY(), CollisionHitbox, "killPlayerNoCancel");
-	bool dd_exists = false;
+task jumpTowards(Enemy enemy, int delay, float speedX, float speedY) {
     loop {
-
-		int t_o = time();
-		loop {
-			int t = time() - t_o;
-
-			if(dd_exists)
-			{
-				if(enemy::isGrounded())
-				{
-					damage_dealer::setPosition(-150000,-150000);
-					dd_exists = false;
-				}
-				else
-				{
-					damage_dealer::moveTo(enemy::getPositionX() as float, enemy::getPositionY() as float);
-				}
-			}
-			if(t >= delay) {
-				break;
-			}
-			yield;
-		}
-
+        wait(delay);
         bool canJump     = enemy::isGrounded();
         bool targetRight = (enemy::getPositionX() - getPlayer()::getPositionX()) > 0;
         bool targetLeft  = (enemy::getPositionX() - getPlayer()::getPositionX()) < 0;
@@ -39,16 +13,8 @@ task jumpTowards(Enemy enemy, int delay, float speedXb, float speedYb) {
             } else if(targetLeft) {
                 enemy::setSpeed(speedX, speedY);
             }
-			damage_dealer::setPosition(enemy::getPositionX(),enemy::getPositionY());
-			dd_exists = true;
         }
-		if(enemy::getPositionY()<(-600))
-		{
-			enemy::killp();
-			damage_dealer::destroy();
-		}
 
         yield;
     }
 }
-

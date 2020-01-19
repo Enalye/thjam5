@@ -13,7 +13,7 @@ main {
     beatHandling();
 	loadBackground("background", "kagerou", "sekibanki");
 	spawnJumper(-230, 15);
-	let floor = createWall("floor", 0, -760, 581, 279);
+	let floor = createWall("floor", 0, -760, 580, 200);
 
 	for(i, [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]) {
 		rotatingPlatform(i as float*3.1415f/180f, 560, 32, 4f);
@@ -187,7 +187,7 @@ task claws(int spawn, int active, int ground, int out) {
 
 task spawnJumper(int x, int y) {
 	let enemy = spawnEnemy("jumper", x, y);
-	enemy::jumpTowards(1_500_000, 10f, 5f);
+	jumpTowards(enemy, 60, 10f, 5f);
 }
 
 task managePlatforms() {
